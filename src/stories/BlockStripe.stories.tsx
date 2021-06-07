@@ -14,7 +14,8 @@ export default {
       default: 'black',
       values: [
         { name: 'black', value: '#202020' },
-        { name: 'white', value: '#ffffff' },
+        { name: 'white', value: '#FFFFFF' },
+        { name: 'gray', value: '#ECECEC' },
       ],
     },
   },
