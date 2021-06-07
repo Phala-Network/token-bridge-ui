@@ -1,6 +1,10 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import BlockStripe from '../components/BlockStripe'
+import { Provider as StyletronProvider } from 'styletron-react'
+import { Client as Styletron } from 'styletron-engine-atomic'
+
+const engine = new Styletron()
 
 export default {
   title: 'BlockStripe',
@@ -19,6 +23,13 @@ export default {
       ],
     },
   },
+  decorators: [
+    (Story) => (
+      <StyletronProvider value={engine} debugAfterHydration>
+        <Story />
+      </StyletronProvider>
+    ),
+  ],
 } as Meta
 
 const Template: Story<React.ComponentProps<typeof BlockStripe>> = (args) => (

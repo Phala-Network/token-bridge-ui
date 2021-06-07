@@ -1,5 +1,6 @@
 import { Property } from 'csstype'
 import React, { ComponentProps, useMemo } from 'react'
+import { useStyletron } from 'styletron-react'
 
 export type BlockStripeProps = {
   color?: Property.BackgroundColor
@@ -13,6 +14,7 @@ export type BlockStripeProps = {
 } & ComponentProps<'div'>
 
 const BlockStripe: React.FC<BlockStripeProps> = (props) => {
+  const [css] = useStyletron()
   const {
     row = 8,
     column = 8,
@@ -21,8 +23,6 @@ const BlockStripe: React.FC<BlockStripeProps> = (props) => {
     random = 0.6,
     colorCheck = (status) => status > random,
     size = 10,
-    style = {},
-    blockStyle = {},
     ...others
   } = props
 
@@ -33,26 +33,24 @@ const BlockStripe: React.FC<BlockStripeProps> = (props) => {
 
   return (
     <div
-      style={{
-        width: size * column,
-        height: size * row,
+      className={css({
+        width: `${size * column}px`,
+        height: `${size * row}px`,
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: column > row ? 'column' : 'row',
-        ...style,
-      }}
+      })}
       {...others}>
       {data.map((item, index) => {
         return (
           <div
-            style={{
-              width: size,
-              height: size,
+            className={css({
+              width: `${size}px`,
+              height: `${size}px`,
               backgroundColor: colorCheck(item, index)
                 ? color
                 : backgroundColor,
-              ...blockStyle,
-            }}
+            })}
           />
         )
       })}
