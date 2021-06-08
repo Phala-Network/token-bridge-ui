@@ -31,7 +31,7 @@ export const Normal = Template.bind({})
 Normal.args = {
   color: '#03ffff',
   backgroundColor: '#202020',
-  size: 12,
+  blockSize: 12,
   column: 40,
   row: 40,
 }
@@ -41,7 +41,7 @@ export const Primary = Template.bind({})
 Primary.args = {
   color: '#ECECEC',
   backgroundColor: '#202020',
-  size: 4,
+  blockSize: 4,
   column: 4,
   row: 40,
 }
@@ -54,7 +54,7 @@ colorCheck.args = {
   colorCheck(status, index) {
     return index < 30 ? true : status > 0.6
   },
-  size: 4,
+  blockSize: 4,
   column: 40,
   row: 4,
 }
