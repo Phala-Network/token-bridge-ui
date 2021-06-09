@@ -1,6 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createPortal } from 'react-dom'
 import styled from 'styled-components'
+import usePortal from '../hooks/usePortal'
 import Backdrop from './Backdrop'
 
 type Props = {
@@ -41,8 +42,11 @@ const Title = styled.div`
 
 const Modal: React.FC<Props> = (props) => {
   const { children, title, visible = false, onClose } = props
+  const portal = usePortal('modal')
 
-  return ReactDOM.createPortal(
+  if (!portal) return null
+
+  return createPortal(
     <Backdrop onClick={onClose} visible={visible}>
       <Wrap>
         <Content>
@@ -51,7 +55,7 @@ const Modal: React.FC<Props> = (props) => {
         </Content>
       </Wrap>
     </Backdrop>,
-    document.body
+    portal
   )
 }
 
