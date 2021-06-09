@@ -43,11 +43,11 @@ const InputWrapper = styled.div<{
 `
 
 const Before = styled.span`
-  margin-right: 2px;
+  margin-right: 6px;
 `
 
 const After = styled.span`
-  margin-left: 2px;
+  margin-left: 6px;
 `
 
 const InputNumber: React.FC<Props> = (props) => {
