@@ -1,11 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-type Props = {
+type ButtonProps = {
   type?: 'normal' | 'primary'
-} & React.ComponentProps<typeof ButtonWrap>
+  shape?: 'round' | 'circle'
+}
 
-const ButtonWrap = styled.button`
+type Props = ButtonProps & React.ComponentProps<typeof ButtonWrap>
+
+const ButtonWrap = styled.button<ButtonProps>`
   align-items: center;
   border: none;
   display: flex;
@@ -25,6 +28,7 @@ const ButtonWrap = styled.button`
   border-style: solid;
   border-color: transparent;
   cursor: pointer;
+  border-radius: ${(props) => (props.shape === 'round' ? 56 : 0)}px;
 
   &.primary {
     background: #d1ff52;
@@ -56,9 +60,9 @@ const ButtonWrap = styled.button`
 `
 
 const Button: React.FC<Props> = (props) => {
-  const { children, type = 'normal', ...others } = props
+  const { children, type = 'normal', shape, ...others } = props
   return (
-    <ButtonWrap className={type} {...others}>
+    <ButtonWrap shape={shape} className={type} {...others}>
       {children}
     </ButtonWrap>
   )

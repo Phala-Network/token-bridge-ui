@@ -35,3 +35,11 @@ Normal.args = {
   children: 'Normal Button',
   type: 'normal',
 }
+
+export const Round = Template.bind({})
+
+Round.args = {
+  children: 'Round Button',
+  type: 'primary',
+  shape: 'round',
+}
