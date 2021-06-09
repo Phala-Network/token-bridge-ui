@@ -26,6 +26,11 @@ const Content = styled.div`
   background: #ffffff;
   box-shadow: 24px 24px 0px #000000;
   padding: 32px;
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    box-shadow: 20px 20px 0px #000000;
+  }
 `
 
 const Title = styled.div`
