@@ -11,8 +11,8 @@ export default {
   },
   parameters: {
     backgrounds: {
-      default: 'gray',
-      values: [{ name: 'gray', value: '#ECECEC' }],
+      default: 'white',
+      values: [{ name: 'white', value: '#ffffff' }],
     },
   },
   decorators: [(Story) => <Story />],
@@ -26,4 +26,12 @@ export const primary = Template.bind({})
 
 primary.args = {
   children: 'Button',
+  type: 'primary',
+}
+
+export const Normal = Template.bind({})
+
+Normal.args = {
+  children: 'Button',
+  type: 'normal',
 }

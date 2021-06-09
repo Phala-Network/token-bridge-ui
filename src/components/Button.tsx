@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
-type Props = {}
+type Props = {
+  type?: 'normal' | 'primary'
+} & React.ComponentProps<typeof ButtonWrap>
 
 const ButtonWrap = styled.button`
   align-items: center;
-  background: #d1ff52;
   border: none;
-  color: #494949;
   display: flex;
   font-family: Lato;
   font-size: 16px;
@@ -21,22 +21,47 @@ const ButtonWrap = styled.button`
   order: 1;
   padding: 10px 24px 11px;
   text-align: center;
-  border-width: 2px;
+  border-width: 3px;
   border-style: solid;
   border-color: transparent;
   cursor: pointer;
 
-  &:hover {
-    border-color: #494949;
+  &.primary {
+    background: #d1ff52;
+    color: #494949;
+
+    &:hover {
+      border-color: #494949;
+    }
+
+    &:active {
+      background: #ececec;
+      border-color: transparent;
+    }
   }
 
-  &:active {
+  &.normal {
     background: #ececec;
+    color: #494949;
+
+    &:hover {
+      border-color: #494949;
+    }
+
+    &:active {
+      background: #ececec;
+      border-color: transparent;
+    }
   }
 `
 
 const Button: React.FC<Props> = (props) => {
-  return <ButtonWrap>Button</ButtonWrap>
+  const { children, type = 'normal', ...others } = props
+  return (
+    <ButtonWrap className={type} {...others}>
+      {children}
+    </ButtonWrap>
+  )
 }
 
 export default Button
