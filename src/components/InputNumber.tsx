@@ -39,6 +39,10 @@ const InputWrapper = styled.div<{
     text-align: ${(props) => props.textAlign};
     margin: 0;
     width: 100%;
+
+    &::placeholder {
+      color: #bbbbbb;
+    }
   }
 `
 
