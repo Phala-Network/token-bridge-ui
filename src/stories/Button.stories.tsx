@@ -25,13 +25,13 @@ const Template: Story<React.ComponentProps<typeof Button>> = (args) => (
 export const primary = Template.bind({})
 
 primary.args = {
-  children: 'Button',
+  children: 'Primary Button',
   type: 'primary',
 }
 
 export const Normal = Template.bind({})
 
 Normal.args = {
-  children: 'Button',
+  children: 'Normal Button',
   type: 'normal',
 }

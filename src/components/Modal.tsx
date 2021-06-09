@@ -6,6 +6,7 @@ import Backdrop from './Backdrop'
 type Props = {
   visible: boolean
   onClose: () => void
+  title?: React.ReactNode
 }
 
 const Wrap = styled.div`
@@ -21,18 +22,33 @@ const Wrap = styled.div`
 
 const Content = styled.div`
   width: 480px;
-  height: 485px;
   background: #ffffff;
   box-shadow: 24px 24px 0px #000000;
+  padding: 32px;
+`
+
+const Title = styled.div`
+  height: 48px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: #202020;
 `
 
 const Modal: React.FC<Props> = (props) => {
-  const { children, visible = false, onClose } = props
+  const { children, title, visible = false, onClose } = props
 
   return ReactDOM.createPortal(
     <Backdrop onClick={onClose} visible={visible}>
       <Wrap>
-        <Content>{children}</Content>
+        <Content>
+          {title && <Title>{title}</Title>}
+          {children}
+        </Content>
       </Wrap>
     </Backdrop>,
     document.body

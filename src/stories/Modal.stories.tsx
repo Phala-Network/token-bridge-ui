@@ -26,4 +26,5 @@ export const active = Template.bind({})
 
 active.args = {
   visible: true,
+  title: 'Modal Title',
 }
