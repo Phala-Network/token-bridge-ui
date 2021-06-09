@@ -1,6 +1,7 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import InputNumber from '../components/InputNumber'
+import InputAction from '../components/InputAction'
 
 export default {
   title: 'InputNumber',
@@ -11,8 +12,12 @@ export default {
   },
   parameters: {
     backgrounds: {
-      default: 'white',
-      values: [{ name: 'white', value: '#ffffff' }],
+      default: 'black',
+      values: [
+        { name: 'black', value: '#202020' },
+        { name: 'white', value: '#FFFFFF' },
+        { name: 'gray', value: '#ECECEC' },
+      ],
     },
   },
   decorators: [(Story) => <Story />],
@@ -27,4 +32,5 @@ export const primary = Template.bind({})
 primary.args = {
   inputSize: 'big',
   placeholder: 'InputNumber',
+  after: <InputAction>Max</InputAction>,
 }

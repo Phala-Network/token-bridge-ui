@@ -11,12 +11,12 @@ type Props = InputNumberProps & {
 }
 
 const Wrapper = styled.div<{ height: number; fontSize: number }>`
-  background: rgba(0, 0, 0, 0.2);
+  background: white;
   border-radius: 0;
-  color: rgba(255, 255, 255, 0.9);
+  color: black;
   display: flex;
   align-items: center;
-  padding: 0 6px;
+  padding: 0 12px;
   line-height: ${(props) => props.height}px;
   height: ${(props) => props.height}px;
   font-size: ${(props) => props.fontSize}px;
@@ -33,8 +33,6 @@ const InputWrapper = styled.div<{
   & input {
     font-size: 16px;
     font-weight: 600;
-    line-height: ${(props) => props.height}px;
-    height: ${(props) => props.height}px;
     background: transparent;
     border: none;
     outline: none;
