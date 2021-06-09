@@ -13,10 +13,10 @@ const Root = styled.div`
   height: 200px;
   background: #202020;
   position: relative;
+  color: #ececec;
 `
 
 const No = styled.div`
-  color: #ececec;
   font-weight: 700;
   text-align: right;
   font-size: 10px;
