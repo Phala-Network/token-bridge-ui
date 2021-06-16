@@ -12,7 +12,7 @@ export default {
   },
   parameters: {
     backgrounds: {
-      default: 'black',
+      default: 'white',
       values: [
         { name: 'black', value: '#202020' },
         { name: 'white', value: '#FFFFFF' },
