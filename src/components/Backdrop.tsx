@@ -14,38 +14,38 @@ const Wrap = styled.div`
   box-sizing: border-box;
   text-align: center;
 
-  .content {
-    position: relative;
-    z-index: 1001;
-    outline: none;
-    width: 100%;
-    margin: 20px auto;
-    vertical-align: middle;
-    display: inline-block;
-  }
-
-  .backdrop:before {
+  &:before {
     display: inline-block;
     width: 0;
     height: 100%;
     vertical-align: middle;
     content: '';
   }
+`
 
-  .layer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.6;
-    background-color: black;
-    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-    z-index: 1000;
-  }
+const Layer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+  background-color: black;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 1000;
+`
+
+const Content = styled.div`
+  position: relative;
+  z-index: 1001;
+  outline: none;
+  width: 100%;
+  margin: 20px auto;
+  vertical-align: middle;
+  display: inline-block;
 `
 
 type Props = {
@@ -85,13 +85,13 @@ const Backdrop2: React.FC<Props> = ({
       onClick={clickHandler}
       onMouseUp={mouseUpHandler}
       {...props}>
-      <div className='layer' />
-      <div
+      <Layer></Layer>
+      <Content
         onClick={childrenClickHandler}
         className='content'
         onMouseDown={() => setIsContentMouseDown(true)}>
         {children}
-      </div>
+      </Content>
     </Wrap>
   )
 }
