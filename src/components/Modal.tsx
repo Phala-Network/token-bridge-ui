@@ -8,6 +8,7 @@ type Props = {
   visible: boolean
   onClose: () => void
   title?: React.ReactNode
+  bodyStyle?: React.CSSProperties
 }
 
 const Wrap = styled.div`
@@ -24,12 +25,12 @@ const Wrap = styled.div`
 const Content = styled.div`
   width: 480px;
   background: #ffffff;
-  box-shadow: 24px 24px 0px #000000;
+  box-shadow: 16px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 32px;
   transition: all 0.1s ease-in-out;
 
   &:hover {
-    box-shadow: 20px 20px 0px #000000;
+    box-shadow: 16px 16px 0px rgba(0, 0, 0, 0.3);
   }
 `
 
@@ -46,7 +47,7 @@ const Title = styled.div`
 `
 
 const Modal: React.FC<Props> = (props) => {
-  const { children, title, visible = false, onClose } = props
+  const { children, title, visible = false, onClose, bodyStyle } = props
   const portal = usePortal('modal')
 
   if (!portal) return null
@@ -54,7 +55,7 @@ const Modal: React.FC<Props> = (props) => {
   return createPortal(
     <Backdrop onClick={onClose} visible={visible}>
       <Wrap>
-        <Content>
+        <Content style={bodyStyle}>
           {title && <Title>{title}</Title>}
           {children}
         </Content>
