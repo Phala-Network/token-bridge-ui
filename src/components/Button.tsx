@@ -20,7 +20,6 @@ const ButtonWrap = styled.button<ButtonProps>`
   justify-content: center;
   left: 111px;
   line-height: 19px;
-  margin: 0px 7px;
   order: 1;
   padding: 10px 24px 11px;
   text-align: center;

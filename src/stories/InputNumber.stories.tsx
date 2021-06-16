@@ -25,7 +25,6 @@ const Template: Story<React.ComponentProps<typeof InputNumber>> = (args) => (
 export const primary = Template.bind({})
 
 primary.args = {
-  inputSize: 'big',
   placeholder: 'InputNumber',
   after: <InputAction>Max</InputAction>,
 }

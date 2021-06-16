@@ -6,9 +6,10 @@ import Backdrop from './Backdrop'
 
 type Props = {
   visible: boolean
-  onClose: () => void
+  onClose?: () => void
   title?: React.ReactNode
   bodyStyle?: React.CSSProperties
+  actions?: React.ReactNode[]
 }
 
 const Wrap = styled.div`
@@ -46,8 +47,26 @@ const Title = styled.div`
   color: #202020;
 `
 
+const Action = styled.div`
+  margin-left: 7px;
+`
+
+const Actions = styled.div`
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`
+
 const Modal: React.FC<Props> = (props) => {
-  const { children, title, visible = false, onClose, bodyStyle } = props
+  const {
+    children,
+    title,
+    visible = false,
+    onClose,
+    bodyStyle,
+    actions,
+  } = props
   const portal = usePortal('modal')
 
   if (!portal) return null
@@ -58,6 +77,14 @@ const Modal: React.FC<Props> = (props) => {
         <Content style={bodyStyle}>
           {title && <Title>{title}</Title>}
           {children}
+
+          {actions && actions?.length > 0 && (
+            <Actions>
+              {actions?.map((item) => {
+                return <Action>{item}</Action>
+              })}
+            </Actions>
+          )}
         </Content>
       </Wrap>
     </Backdrop>,

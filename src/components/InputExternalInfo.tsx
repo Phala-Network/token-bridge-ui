@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import styled from 'styled-components'
 import toFixed from '../utils/toFixed'
 
@@ -35,13 +35,13 @@ type Props = {
   label?: string
   value?: number
   type?: string
-}
+} & ComponentProps<'div'>
 
 const InputExternalInfo: React.FC<Props> = (props) => {
-  const { label, value, type } = props
+  const { label, value, type, ...others } = props
 
   return (
-    <div>
+    <div {...others}>
       {label && <Label>{label}:</Label>}
       {value && <Value>{toFixed(value)}</Value>}
       {type && <Type>{type}</Type>}
