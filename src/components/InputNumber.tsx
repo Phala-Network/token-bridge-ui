@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import RcInputNumber, { InputNumberProps } from 'rc-input-number'
+import useClickAway from '../hooks/useClickAway'
 
 type Props = InputNumberProps & {
   inputSize?: 'default' | 'big'
@@ -10,7 +11,11 @@ type Props = InputNumberProps & {
   width?: number
 }
 
-const Wrapper = styled.div<{ height: number; fontSize: number }>`
+const Wrapper = styled.div<{
+  height: number
+  fontSize: number
+  active: boolean
+}>`
   background: white;
   border-radius: 0;
   color: #494949;
@@ -23,7 +28,14 @@ const Wrapper = styled.div<{ height: number; fontSize: number }>`
   line-height: ${(props) => props.height}px;
   height: ${(props) => props.height}px;
   font-size: ${(props) => props.fontSize}px;
-  border: 3px solid #494949;
+  background: #ececec;
+  border: 3px solid transparent;
+  border-color: ${(props) => (props.active ? '#494949' : 'transparent')};
+
+  &:hover,
+  &:active {
+    border-color: #494949;
+  }
 `
 
 const InputWrapper = styled.div<{
@@ -61,11 +73,22 @@ const After = styled.span`
 const InputNumber: React.FC<Props> = (props) => {
   const { inputSize, width = 60, textAlign = 'left', ...others } = props
   const height = React.useMemo(() => inputSize, [inputSize]) === 'big' ? 56 : 24
+  const [active, setActive] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  useClickAway(ref, () => {
+    setActive(false)
+  })
+
   const fontSize =
     React.useMemo(() => inputSize, [inputSize]) === 'big' ? 25 : 14
 
   return (
-    <Wrapper height={height} fontSize={fontSize}>
+    <Wrapper
+      active={active}
+      ref={ref}
+      height={height}
+      fontSize={fontSize}
+      onClick={() => setActive(true)}>
       {props.before && <Before>{props.before}</Before>}
       <InputWrapper height={height} width={width} textAlign={textAlign}>
         <RcInputNumber
