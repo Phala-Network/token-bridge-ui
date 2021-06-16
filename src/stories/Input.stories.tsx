@@ -5,17 +5,12 @@ import Input from '../components/Input'
 export default {
   title: 'Input',
   component: Input,
-  argTypes: {
-    color: { control: 'color' },
-    backgroundColor: { control: 'color' },
-  },
   parameters: {
     backgrounds: {
       default: 'white',
       values: [{ name: 'white', value: '#ffffff' }],
     },
   },
-  decorators: [(Story) => <Story />],
 } as Meta
 
 const Template: Story<React.ComponentProps<typeof Input>> = (args) => (

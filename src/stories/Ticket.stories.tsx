@@ -16,7 +16,6 @@ export default {
       values: [{ name: 'gray', value: '#ECECEC' }],
     },
   },
-  decorators: [(Story) => <Story />],
 } as Meta
 
 const Template: Story<React.ComponentProps<typeof Ticket>> = (args) => (

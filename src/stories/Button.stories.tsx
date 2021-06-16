@@ -5,17 +5,12 @@ import Button from '../components/Button'
 export default {
   title: 'Button',
   component: Button,
-  argTypes: {
-    color: { control: 'color' },
-    backgroundColor: { control: 'color' },
-  },
   parameters: {
     backgrounds: {
       default: 'white',
       values: [{ name: 'white', value: '#ffffff' }],
     },
   },
-  decorators: [(Story) => <Story />],
 } as Meta
 
 const Template: Story<React.ComponentProps<typeof Button>> = (args) => (

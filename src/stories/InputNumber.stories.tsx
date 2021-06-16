@@ -6,10 +6,6 @@ import InputAction from '../components/InputAction'
 export default {
   title: 'InputNumber',
   component: InputNumber,
-  argTypes: {
-    color: { control: 'color' },
-    backgroundColor: { control: 'color' },
-  },
   parameters: {
     backgrounds: {
       default: 'white',
@@ -20,7 +16,6 @@ export default {
       ],
     },
   },
-  decorators: [(Story) => <Story />],
 } as Meta
 
 const Template: Story<React.ComponentProps<typeof InputNumber>> = (args) => (

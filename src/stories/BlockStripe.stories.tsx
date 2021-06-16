@@ -19,7 +19,6 @@ export default {
       ],
     },
   },
-  decorators: [(Story) => <Story />],
 } as Meta
 
 const Template: Story<React.ComponentProps<typeof BlockStripe>> = (args) => (
