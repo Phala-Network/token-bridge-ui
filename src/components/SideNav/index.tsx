@@ -10,9 +10,12 @@ const Wrap = styled.div`
   background-image: url(${bg});
   background-size: 100% auto;
   width: 240px;
-  height: 100vh;
   padding: 60px 30px;
   box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
 `
 
 const index: React.FC<Props> = (props) => {
