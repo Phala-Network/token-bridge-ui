@@ -25,7 +25,6 @@ const SelectBody = styled.div`
 `
 
 const Value = styled.div`
-  width: 100px;
   font-family: Lato;
   font-style: normal;
   font-weight: bold;
@@ -36,6 +35,7 @@ const Value = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 120px;
 `
 
 const SelectItem = styled.div`

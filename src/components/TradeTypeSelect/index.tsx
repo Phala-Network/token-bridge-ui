@@ -4,8 +4,8 @@ import Form from './Form'
 import To from './To'
 
 type Props = {
-  value: any
-  onChange: (value: any) => void
+  value?: any
+  onChange?: (value: any) => void
 }
 
 const index: React.FC<Props> = (props) => {

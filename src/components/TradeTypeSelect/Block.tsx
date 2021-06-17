@@ -5,7 +5,6 @@ import Select from './Select'
 
 const BlockWrap = styled.div<{ backgroundColor?: Property.BackgroundColor }>`
   padding: 16px;
-  width: 100%;
   background: ${(props) => props.backgroundColor};
   display: flex;
   align-items: center;
@@ -18,8 +17,9 @@ const Title = styled.div`
   font-weight: bold;
   font-size: 20px;
   line-height: 24px;
-  width: 100px;
+  flex: 1;
   color: #202020;
+  text-align: left;
 `
 
 const Divider = styled.div`
@@ -27,6 +27,7 @@ const Divider = styled.div`
   height: 31px;
   background: #202020;
   opacity: 0.2;
+  margin: 0 16px;
 `
 
 type Props = { title: string } & ComponentProps<typeof BlockWrap>
