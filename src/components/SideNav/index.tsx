@@ -16,6 +16,7 @@ const Wrap = styled.div`
   top: 0;
   left: 0;
   bottom: 0;
+  box-shadow: 12px 16px 0px 0px #cccccc;
 `
 
 const index: React.FC<Props> = (props) => {
