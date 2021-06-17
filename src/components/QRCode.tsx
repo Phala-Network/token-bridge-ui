@@ -11,7 +11,11 @@ const QRCode: React.FC<Props> = (props) => {
       bgColor='#FFFFFF'
       fgColor='#000000'
       level='Q'
-      style={{ maxWidth: 120, marginTop: 12, ...style }}
+      style={{
+        backgroundColor: 'white',
+        border: '6px solid white',
+        ...style,
+      }}
       value={value.toString()}
       {...others}
     />

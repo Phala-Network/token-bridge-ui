@@ -1,47 +1,31 @@
-import React from 'react'
-import Button from '../Button'
-import InputAction from '../InputAction'
-import InputExternalInfo from '../InputExternalInfo'
-import InputNumber from '../InputNumber'
+import React, { useState } from 'react'
 import Modal from '../Modal'
-import Spacer from '../Spacer'
-import TradeTypeSelect from '../TradeTypeSelect'
+import InputDataStep from './InputDataStep'
+import ResultStep from './ResultStep'
+import SubmitStep from './SubmitStep'
 
 type Props = {}
 
-const BridgeModal: React.FC<Props> = (props) => {
+const BridgeModal: React.FC<Props> = () => {
+  const [step, setStep] = useState(0)
+  const [visible, setVisible] = useState(true)
+
+  const next = () => {
+    setStep((prev) => prev + 1)
+  }
+
+  const prev = () => {
+    setStep((prev) => prev - 1)
+  }
+
   return (
     <div>
-      <Modal
-        actions={[
-          <Button key='submit' type='primary'>
-            Submit
-          </Button>,
-          <Button key='cancel'>Cancel</Button>,
-        ]}
-        visible={true}
-        title='Transfer Modal'>
-        <Spacer></Spacer>
-        <TradeTypeSelect></TradeTypeSelect>
-        <Spacer></Spacer>
-        <InputNumber
-          size='large'
-          placeholder='Destination Address'
-          after={<InputAction>MY ADDRESS</InputAction>}></InputNumber>
-        <Spacer></Spacer>
-        <InputNumber
-          size='large'
-          placeholder='Amount (PHA)'
-          after={<InputAction>MAX</InputAction>}></InputNumber>
-        <Spacer y={0.2}></Spacer>
-        <InputExternalInfo
-          style={{ textAlign: 'right' }}
-          {...{
-            label: 'Balance',
-            value: 1234.56789,
-            type: 'PHA',
-          }}
-        />
+      <Modal visible={visible} title='Transfer Modal'>
+        {step === 0 && <InputDataStep onNext={next}></InputDataStep>}
+        {step === 1 && <SubmitStep onNext={next} onPrev={prev}></SubmitStep>}
+        {step === 2 && (
+          <ResultStep onNext={() => setVisible(false)}></ResultStep>
+        )}
       </Modal>
     </div>
   )

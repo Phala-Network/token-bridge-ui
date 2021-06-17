@@ -73,14 +73,14 @@ const After = styled.span`
 
 const InputNumber: React.FC<Props> = (props) => {
   const { size, width = 60, textAlign = 'left', ...others } = props
-  const height = React.useMemo(() => size, [size]) === 'large' ? 56 : 24
+  const height = React.useMemo(() => size, [size]) === 'large' ? 56 : 28
   const [active, setActive] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   useClickAway(ref, () => {
     setActive(false)
   })
 
-  const fontSize = React.useMemo(() => size, [size]) === 'large' ? 25 : 14
+  const fontSize = React.useMemo(() => size, [size]) === 'large' ? 25 : 18
 
   return (
     <Wrapper active={active} ref={ref} height={height} fontSize={fontSize}>

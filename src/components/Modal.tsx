@@ -29,6 +29,7 @@ const Content = styled.div`
   box-shadow: 16px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 32px;
   transition: all 0.1s ease-in-out;
+  text-align: left;
 
   &:hover {
     box-shadow: 16px 16px 0px rgba(0, 0, 0, 0.3);
@@ -45,13 +46,14 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   color: #202020;
+  margin-bottom: 16px;
 `
 
-const Action = styled.div`
+export const ModalAction = styled.div`
   margin-left: 7px;
 `
 
-const Actions = styled.div`
+export const ModalActions = styled.div`
   margin-top: 32px;
   display: flex;
   align-items: center;
@@ -79,11 +81,11 @@ const Modal: React.FC<Props> = (props) => {
           {children}
 
           {actions && actions?.length > 0 && (
-            <Actions>
+            <ModalActions>
               {actions?.map((item) => {
-                return <Action>{item}</Action>
+                return <ModalAction>{item}</ModalAction>
               })}
-            </Actions>
+            </ModalActions>
           )}
         </Content>
       </Wrap>
