@@ -11,7 +11,7 @@ const Point = styled.div`
 const CategoryWrap = styled.div`
   border-left: 1px solid #cccccc;
   position: relative;
-  padding: 0 0 40px 200px;
+  padding: 0 0 40px 160px;
 `
 
 const CategoryHeader = styled.div`
