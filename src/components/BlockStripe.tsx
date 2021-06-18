@@ -23,8 +23,7 @@ const Root = styled.div<RootProps>`
   height: ${(props) => props.blockSize * props.row}px;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: ${(props) =>
-    props.blockSize > props.row ? 'column' : 'row'};
+  flex-direction: ${(props) => (props.column > props.row ? 'column' : 'row')};
 `
 
 const Inner = styled.div`

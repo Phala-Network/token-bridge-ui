@@ -1,4 +1,6 @@
+import { ComponentProps, FC } from 'react'
 import styled from 'styled-components'
+import BlockStripe from '../BlockStripe'
 
 export const Header = styled.div`
   font-family: Lato;
@@ -26,3 +28,26 @@ export const PrimaryHeader = styled(Header)`
   background-color: #d1ff52;
   color: #202020;
 `
+
+const StripeHeaderWrap = styled(Header)`
+  color: #d1ff52;
+`
+
+export const StripeHeader: FC<ComponentProps<typeof StripeHeaderWrap>> = (
+  props
+) => {
+  return (
+    <BlockStripe
+      {...{
+        color: 'black',
+        blockSize: 6,
+        column: 24,
+        row: 4,
+        colorCheck(status, index) {
+          return index < 30 ? true : status > 0.3
+        },
+      }}>
+      <StripeHeaderWrap {...props}></StripeHeaderWrap>
+    </BlockStripe>
+  )
+}

@@ -4,6 +4,7 @@ import {
   BlackHeader,
   PrimaryHeader,
   WhiteHeader,
+  StripeHeader,
 } from '../components/BalanceCard/Header'
 import BalanceCard from '../components/BalanceCard'
 
@@ -44,4 +45,12 @@ primaryHeader.args = {
   balance: 888.8888,
   themeType: 'black',
   header: <PrimaryHeader>ePHA</PrimaryHeader>,
+}
+
+export const stripeHeader = Template.bind({})
+
+stripeHeader.args = {
+  balance: 888.8888,
+  themeType: 'black',
+  header: <StripeHeader>ePHA</StripeHeader>,
 }
