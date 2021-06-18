@@ -19,7 +19,7 @@ const Wrap = styled.div`
   box-shadow: 12px 16px 0px 0px #cccccc;
 `
 
-const index: React.FC<Props> = (props) => {
+const SideNav: React.FC<Props> = (props) => {
   return (
     <Wrap>
       <Logo></Logo>
@@ -34,4 +34,4 @@ const index: React.FC<Props> = (props) => {
   )
 }
 
-export default index
+export default SideNav
