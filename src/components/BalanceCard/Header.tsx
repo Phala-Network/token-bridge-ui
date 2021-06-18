@@ -41,7 +41,7 @@ export const StripeHeader: FC<ComponentProps<typeof StripeHeaderWrap>> = (
       {...{
         color: 'black',
         blockSize: 6,
-        column: 23,
+        column: 22,
         row: 4,
         colorCheck(status, index) {
           return index < 30 ? true : status > 0.3

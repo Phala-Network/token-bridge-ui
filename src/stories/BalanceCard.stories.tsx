@@ -20,7 +20,15 @@ export default {
 } as Meta
 
 const Template: Story<React.ComponentProps<typeof BalanceCard>> = (args) => (
-  <BalanceCard {...args} />
+  <div
+    style={{
+      height: '80vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+    <BalanceCard {...args} />
+  </div>
 )
 
 export const black = Template.bind({})
