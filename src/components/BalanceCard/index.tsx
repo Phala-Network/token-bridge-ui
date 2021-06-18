@@ -57,6 +57,8 @@ const Background = styled.div`
   width: 144px;
   height: 128px;
   background-color: #cccccc;
+  margin-top: 50px;
+  margin-right: 30px;
 `
 
 const BalanceCard: React.FC<Props> = (props) => {
