@@ -3,7 +3,8 @@ import { useRef } from 'react'
 import styled, { css } from 'styled-components'
 import useClickAway from '../../hooks/useClickAway'
 import toFixed from '../../utils/toFixed'
-import Dollar from './Doller'
+import Dollar from './Dollar'
+import Menu from './Menu'
 
 type Props = {
   themeType: 'black' | 'white'
@@ -58,13 +59,9 @@ const Background = styled.div`
   background-color: #cccccc;
 `
 
-const Menu = styled.div`
-  position: absolute;
-`
-
 const BalanceCard: React.FC<Props> = (props) => {
   const { themeType, balance = 0, header } = props
-  const [active, setActive] = useState(false)
+  const [active, setActive] = useState(true)
   const ref = useRef<HTMLDivElement>(null)
 
   useClickAway(ref, () => {
@@ -81,7 +78,7 @@ const BalanceCard: React.FC<Props> = (props) => {
         {header}
         <Balance>{toFixed(balance)}</Balance>
         <Dollar themeType={themeType}>{toFixed(888.88)}</Dollar>
-        <Menu></Menu>
+        <Menu active={active}></Menu>
       </Wrap>
     </Background>
   )
