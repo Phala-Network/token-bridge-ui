@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Story, Meta } from '@storybook/react'
 import TransferModal from '../components/TransferModal'
 
@@ -13,10 +13,10 @@ export default {
   },
 } as Meta
 
-const Template: Story<React.ComponentProps<typeof TransferModal>> = (args) => (
-  <TransferModal {...args} />
-)
+const Template: Story<React.ComponentProps<typeof TransferModal>> = () => {
+  const [visible, setVisible] = useState(true)
 
-export const active = Template.bind({})
+  return <TransferModal visible={visible} onClose={() => setVisible(false)} />
+}
 
-active.args = {}
+export const primary = Template.bind({})
