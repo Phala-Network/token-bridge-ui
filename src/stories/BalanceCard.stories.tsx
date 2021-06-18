@@ -1,10 +1,11 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import BalanceCard, {
+import {
   BlackHeader,
   PrimaryHeader,
   WhiteHeader,
-} from '../components/BalanceCard'
+} from '../components/BalanceCard/Header'
+import BalanceCard from '../components/BalanceCard'
 
 export default {
   title: 'BalanceCard',
