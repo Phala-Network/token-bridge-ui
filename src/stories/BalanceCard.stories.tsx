@@ -1,6 +1,9 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import BalanceCard from '../components/BalanceCard'
+import BalanceCard, {
+  BlackHeader,
+  WhiteHeader,
+} from '../components/BalanceCard'
 
 export default {
   title: 'BalanceCard',
@@ -22,6 +25,7 @@ export const black = Template.bind({})
 black.args = {
   balance: 12345.6789,
   themeType: 'black',
+  header: <WhiteHeader>GRAPH</WhiteHeader>,
 }
 
 export const white = Template.bind({})
@@ -29,4 +33,5 @@ export const white = Template.bind({})
 white.args = {
   balance: 12345.6789,
   themeType: 'white',
+  header: <BlackHeader>GRAPH</BlackHeader>,
 }
