@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 import styled from 'styled-components'
 import BridgeModal from '../BridgeModal'
+import ConvertModal from '../ConvertModal'
 import TransferModal from '../TransferModal'
 
 const MenuWrap = styled.div<{ active: boolean }>`
@@ -56,6 +57,7 @@ const Menu: FC<Props> = (props) => {
   const { active } = props
   const [visibleBridge, setVisibleBridge] = useState(false)
   const [visibleTransferModal, setVisibleTransferModal] = useState(false)
+  const [visibleConvertModal, setVisibleConvertModal] = useState(false)
 
   return (
     <>
@@ -69,11 +71,16 @@ const Menu: FC<Props> = (props) => {
           <span>Bridge</span>
           <ButtonBottomBorder active={active}></ButtonBottomBorder>
         </Button>
-        <Button active={active}>
+        <Button onClick={() => setVisibleConvertModal(true)} active={active}>
           <span>Convert</span>
           <ButtonBottomBorder active={active}></ButtonBottomBorder>
         </Button>
       </Buttons>
+
+      <ConvertModal
+        visible={visibleConvertModal}
+        onClose={() => setVisibleConvertModal(false)}></ConvertModal>
+
       <TransferModal
         visible={visibleTransferModal}
         onClose={() => setVisibleTransferModal(false)}></TransferModal>
