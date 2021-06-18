@@ -61,7 +61,7 @@ const Background = styled.div`
 
 const BalanceCard: React.FC<Props> = (props) => {
   const { themeType, balance = 0, header } = props
-  const [active, setActive] = useState(true)
+  const [active, setActive] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
   useClickAway(ref, () => {
