@@ -19,7 +19,7 @@ const Tickets = styled.div`
   padding: 80px 50px;
 `
 
-const HomePage: React.FC<Props> = (props) => {
+const HomePage: React.FC<Props> = () => {
   const card = (
     <BalanceCard
       {...{
