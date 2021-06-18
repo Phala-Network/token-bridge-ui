@@ -12,6 +12,7 @@ const DollarWrap = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  font-family: PT Mono;
 
   &.black {
     border: 1px solid white;

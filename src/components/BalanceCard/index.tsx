@@ -12,7 +12,7 @@ type Props = {
 const Wrap = styled.div`
   width: 144px;
   height: 128px;
-  padding: 8px;
+  padding: 8px 0 8px 8px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -69,6 +69,11 @@ export const BlackHeader = styled(Header)`
 
 export const WhiteHeader = styled(Header)`
   background-color: #ffffff;
+  color: #202020;
+`
+
+export const PrimaryHeader = styled(Header)`
+  background-color: #d1ff52;
   color: #202020;
 `
 
