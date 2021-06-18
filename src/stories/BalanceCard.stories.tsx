@@ -7,8 +7,8 @@ export default {
   component: BalanceCard,
   parameters: {
     backgrounds: {
-      default: 'white',
-      values: [{ name: 'white', value: '#ffffff' }],
+      default: 'gray',
+      values: [{ name: 'gray', value: '#ECECEC' }],
     },
   },
 } as Meta
@@ -17,8 +17,16 @@ const Template: Story<React.ComponentProps<typeof BalanceCard>> = (args) => (
   <BalanceCard {...args} />
 )
 
-export const primary = Template.bind({})
+export const black = Template.bind({})
 
-primary.args = {
-  children: 'Primary BalanceCard',
+black.args = {
+  balance: 12345.6789,
+  themeType: 'black',
+}
+
+export const white = Template.bind({})
+
+white.args = {
+  balance: 12345.6789,
+  themeType: 'white',
 }
