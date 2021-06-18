@@ -16,7 +16,9 @@ export type BlockStripeProps = {
 type RootProps = Required<
   Pick<BlockStripeProps, 'column' | 'row' | 'blockSize'>
 >
+
 const Root = styled.div<RootProps>`
+  position: relative;
   width: ${(props) => props.blockSize * props.column}px;
   height: ${(props) => props.blockSize * props.row}px;
   display: flex;
@@ -25,8 +27,17 @@ const Root = styled.div<RootProps>`
     props.blockSize > props.row ? 'column' : 'row'};
 `
 
-const BlockStripe: React.VoidFunctionComponent<BlockStripeProps> = (props) => {
+const Inner = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+`
+
+const BlockStripe: React.FC<BlockStripeProps> = (props) => {
   const {
+    children,
     row = 8,
     column = 8,
     color = 'black',
@@ -60,6 +71,8 @@ const BlockStripe: React.VoidFunctionComponent<BlockStripeProps> = (props) => {
           />
         )
       })}
+
+      <Inner>{children}</Inner>
     </Root>
   )
 }
