@@ -1,6 +1,7 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import Table from '../components/Table'
+import TableAction from '../components/Table/TableAction'
 
 export default {
   title: 'Table',
@@ -55,6 +56,11 @@ const Template: Story<React.ComponentProps<typeof Table>> = (args) => {
       {
         Header: 'Status',
         accessor: 'progress',
+      },
+      {
+        Header: () => 'Action',
+        id: 'expander',
+        Cell: () => <TableAction>Details</TableAction>,
       },
     ],
     []
