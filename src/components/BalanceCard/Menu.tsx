@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import BridgeModal from '../BridgeModal'
 import ConvertModal from '../ConvertModal'
@@ -53,7 +53,7 @@ type Props = {
   active: boolean
 }
 
-const Menu: FC<Props> = (props) => {
+const Menu: React.FC<Props> = (props) => {
   const { active } = props
   const [visibleBridge, setVisibleBridge] = useState(false)
   const [visibleTransferModal, setVisibleTransferModal] = useState(false)
@@ -79,14 +79,18 @@ const Menu: FC<Props> = (props) => {
 
       <ConvertModal
         visible={visibleConvertModal}
-        onClose={() => setVisibleConvertModal(false)}></ConvertModal>
+        onClose={() => setVisibleConvertModal(false)}
+      ></ConvertModal>
 
       <TransferModal
         visible={visibleTransferModal}
-        onClose={() => setVisibleTransferModal(false)}></TransferModal>
+        onClose={() => setVisibleTransferModal(false)}
+      ></TransferModal>
+
       <BridgeModal
         visible={visibleBridge}
-        onClose={() => setVisibleBridge(false)}></BridgeModal>
+        onClose={() => setVisibleBridge(false)}
+      ></BridgeModal>
     </>
   )
 }
