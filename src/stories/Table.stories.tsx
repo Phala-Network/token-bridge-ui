@@ -37,27 +37,27 @@ const Template: Story<React.ComponentProps<typeof Table>> = (args) => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'First Name',
+        Header: 'Time',
         accessor: 'firstName',
       },
       {
-        Header: 'Last Name',
+        Header: 'Peg-out',
         accessor: 'lastName',
       },
       {
-        Header: 'Age',
+        Header: 'Peg-in',
         accessor: 'age',
       },
       {
-        Header: 'Visits',
+        Header: 'Amount',
         accessor: 'visits',
       },
       {
-        Header: 'Status',
+        Header: 'Amount-in',
         accessor: 'status',
       },
       {
-        Header: 'Profile Progress',
+        Header: 'Status',
         accessor: 'progress',
       },
     ],
