@@ -14,8 +14,8 @@ export default {
 } as Meta
 
 const Template: Story<React.ComponentProps<typeof Table>> = (args) => {
-  const data = [
-    {
+  const data = new Array(10)
+    .fill({
       firstName: 'rainstorm',
       lastName: 'debt',
       age: 11,
@@ -23,17 +23,13 @@ const Template: Story<React.ComponentProps<typeof Table>> = (args) => {
       progress: 98,
       status: 'single',
       subRows: undefined,
-    },
-    {
-      firstName: 'rainstorm2',
-      lastName: 'debt3',
-      age: 112,
-      visits: 981,
-      progress: 918,
-      status: 'single2',
-      subRows: undefined,
-    },
-  ]
+    })
+    .map((item, index) => ({
+      ...item,
+      visits: item.visits * index,
+      age: (item.age * index) / 2,
+    }))
+
   const columns = React.useMemo(
     () => [
       {

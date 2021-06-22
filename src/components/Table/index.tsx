@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { Column, useSortBy, useTable } from 'react-table'
+import { Column, usePagination, useSortBy, useTable } from 'react-table'
+import TablePagination from './TablePagination'
 
 const Styles = styled.div`
   padding: 1rem;
@@ -7,6 +8,7 @@ const Styles = styled.div`
   table {
     border-spacing: 0;
     border: none;
+    width: 100%;
 
     tr {
       :last-child {
@@ -35,12 +37,20 @@ function Table({ columns, data }: { columns: Column<{}>[]; data: {}[] }) {
     headerGroups,
     rows,
     prepareRow,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    nextPage,
+    previousPage,
+    state: { pageIndex },
   } = useTable(
     {
       columns,
       data,
+      initialState: { pageIndex: 0 },
     },
-    useSortBy
+    useSortBy,
+    usePagination
   )
 
   return (
@@ -77,6 +87,15 @@ function Table({ columns, data }: { columns: Column<{}>[]; data: {}[] }) {
           })}
         </tbody>
       </table>
+
+      <TablePagination
+        pageIndex={pageIndex}
+        previousPage={previousPage}
+        pageOptions={pageOptions}
+        canPreviousPage={canPreviousPage}
+        canNextPage={canNextPage}
+        nextPage={nextPage}
+      />
     </Styles>
   )
 }
