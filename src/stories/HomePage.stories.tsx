@@ -1,5 +1,5 @@
 import { Story, Meta } from '@storybook/react'
-import HomePage from '../components/HomePage'
+import HomePage from '../components/pages/HomePage'
 
 export default {
   title: 'HomePage',
