@@ -5,7 +5,7 @@ import InfoTitle from '../InfoTitle'
 import InputExternalInfo from '../InputExternalInfo'
 import { ModalAction, ModalActions } from '../Modal'
 import Spacer from '../Spacer'
-import Address from './Address'
+import Address from '../Address'
 
 type Props = {
   onNext: () => void
@@ -28,7 +28,7 @@ const SubmitStep: React.FC<Props> = (props) => {
       </AmountInfo>
       <InputExternalInfo
         style={{ textAlign: 'right' }}
-        label='Balance'
+        label="Balance"
         value={1234.56789}
         type={'PHA'}
       />
@@ -39,7 +39,7 @@ const SubmitStep: React.FC<Props> = (props) => {
           <Button onClick={onPrev}>Back</Button>
         </ModalAction>
         <ModalAction>
-          <Button type='primary' onClick={onNext}>
+          <Button type="primary" onClick={onNext}>
             Submit
           </Button>
         </ModalAction>

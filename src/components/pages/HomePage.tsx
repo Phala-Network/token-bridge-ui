@@ -2,8 +2,8 @@ import React from 'react'
 import BalanceCard from '../BalanceCard'
 import { PrimaryHeader, WhiteHeader } from '../BalanceCard/Header'
 import Category from '../Category'
-import styled from 'styled-components'
 import BaseLayout from '../BaseLayout'
+import { Helmet } from 'react-helmet'
 
 type Props = {}
 
@@ -30,34 +30,39 @@ const HomePage: React.FC<Props> = () => {
 
   return (
     <BaseLayout>
-      <Category title="Title1" description={'Total: 372.6 PHA '}>
-        {card}
-        {card}
-        {card}
-        {card}
-        {card}
-        {card}
-        {card}
-      </Category>
-      <Category title="Title2" description="description">
-        {card1}
-        {card1}
-        {card1}
-        {card1}
-      </Category>
-      <Category title="Title3" description="description">
-        {card1}
-        {card}
-      </Category>
-      <Category title="Title4" description="description">
-        {card}
-      </Category>
-      <Category title="Title5" description="description">
-        {card1}
-        {card1}
-        {card1}
-        {card1}
-      </Category>
+      <Helmet>
+        <title>Wallet</title>
+      </Helmet>
+      <div>
+        <Category title="Title1" description={'Total: 372.6 PHA '}>
+          {card}
+          {card}
+          {card}
+          {card}
+          {card}
+          {card}
+          {card}
+        </Category>
+        <Category title="Title2" description="description">
+          {card1}
+          {card1}
+          {card1}
+          {card1}
+        </Category>
+        <Category title="Title3" description="description">
+          {card1}
+          {card}
+        </Category>
+        <Category title="Title4" description="description">
+          {card}
+        </Category>
+        <Category title="Title5" description="description">
+          {card1}
+          {card1}
+          {card1}
+          {card1}
+        </Category>
+      </div>
     </BaseLayout>
   )
 }

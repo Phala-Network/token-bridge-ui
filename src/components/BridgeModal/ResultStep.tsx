@@ -8,7 +8,7 @@ import InputExternalInfo from '../InputExternalInfo'
 import { ModalAction, ModalActions } from '../Modal'
 import QRCode from '../QRCode'
 import Spacer from '../Spacer'
-import Address from './Address'
+import Address from '../Address'
 
 type Props = {
   onNext: () => void
@@ -61,7 +61,8 @@ const ResultStep: React.FC<Props> = (props) => {
           <Spacer x={0.6}></Spacer>
           <QRCode
             style={{ width: 88, display: 'block' }}
-            value={address}></QRCode>
+            value={address}
+          ></QRCode>
         </AddressOfAmountInfo>
       </AmountInfo>
 
@@ -73,14 +74,14 @@ const ResultStep: React.FC<Props> = (props) => {
       </AmountInfo>
       <InputExternalInfo
         style={{ textAlign: 'right' }}
-        label='Balance'
+        label="Balance"
         value={1234.56789}
         type={'PHA'}
       />
 
       <ModalActions>
         <ModalAction>
-          <Button type='primary' onClick={onNext}>
+          <Button type="primary" onClick={onNext}>
             Done
           </Button>
         </ModalAction>
