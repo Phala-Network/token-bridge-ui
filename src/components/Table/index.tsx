@@ -1,12 +1,12 @@
 import styled from 'styled-components'
-import { Column, useTable } from 'react-table'
+import { Column, useSortBy, useTable } from 'react-table'
 
 const Styles = styled.div`
   padding: 1rem;
 
   table {
     border-spacing: 0;
-    border: 1px solid black;
+    border: none;
 
     tr {
       :last-child {
@@ -35,10 +35,13 @@ function Table({ columns, data }: { columns: Column<{}>[]; data: {}[] }) {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({
-    columns,
-    data,
-  })
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useSortBy
+  )
 
   return (
     <Styles>
@@ -47,7 +50,16 @@ function Table({ columns, data }: { columns: Column<{}>[]; data: {}[] }) {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render('Header')}
+                  <span>
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? ' 🔽'
+                        : ' 🔼'
+                      : ''}
+                  </span>
+                </th>
               ))}
             </tr>
           ))}
