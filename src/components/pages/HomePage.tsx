@@ -52,6 +52,12 @@ const HomePage: React.FC<Props> = () => {
       <Category title="Title4" description="description">
         {card}
       </Category>
+      <Category title="Title5" description="description">
+        {card1}
+        {card1}
+        {card1}
+        {card1}
+      </Category>
     </BaseLayout>
   )
 }

@@ -4,7 +4,7 @@ import { Link as GatsbyLink } from 'gatsby'
 
 type Props = {} & React.ComponentProps<typeof GatsbyLink>
 
-const Wrap = styled.div`
+const Wrap = styled(GatsbyLink)`
   font-family: Lato;
   font-style: normal;
   font-weight: bold;
@@ -19,6 +19,7 @@ const Wrap = styled.div`
   border: 1px solid transparent;
   cursor: pointer;
   max-width: 120px;
+  text-decoration: none;
 
   &:hover,
   &.active {
@@ -31,9 +32,9 @@ const Wrap = styled.div`
 const Link: React.FC<Props> = (props) => {
   const { children, to } = props
   return (
-    <GatsbyLink to={to}>
-      <Wrap className={true ? 'active' : ''}>{children}</Wrap>
-    </GatsbyLink>
+    <Wrap to={to} className={false ? 'active' : ''}>
+      {children}
+    </Wrap>
   )
 }
 
