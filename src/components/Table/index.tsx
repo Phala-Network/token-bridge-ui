@@ -10,6 +10,8 @@ const Styles = styled.div`
     border-spacing: 0;
     border: none;
     width: 100%;
+    font-family: Lato;
+    font-style: normal;
 
     tr {
       :last-child {
@@ -17,6 +19,13 @@ const Styles = styled.div`
           border-bottom: 0;
         }
       }
+    }
+
+    th {
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 14px;
+      color: #202020;
     }
 
     th,
@@ -65,6 +74,7 @@ function Table({ columns, data }: { columns: Column<{}>[]; data: {}[] }) {
                   <TableSorter
                     isSorted={column.isSorted}
                     isSortedDesc={column.isSortedDesc}>
+                    {' '}
                     {column.render('Header')}
                   </TableSorter>
                 </th>
