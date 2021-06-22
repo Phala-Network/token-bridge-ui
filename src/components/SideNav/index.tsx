@@ -34,4 +34,4 @@ const SideNav: React.FC<Props> = (props) => {
   )
 }
 
-export default SideNav
+export default React.memo(SideNav)

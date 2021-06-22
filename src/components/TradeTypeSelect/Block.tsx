@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Property } from 'csstype'
-import { ComponentProps } from 'react'
+import React, { ComponentProps } from 'react'
 import Select from './Select'
 
 const BlockWrap = styled.div<{ backgroundColor?: Property.BackgroundColor }>`
