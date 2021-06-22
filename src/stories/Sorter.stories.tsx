@@ -1,10 +1,10 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
-import Sorter from '../components/Table/Sorter'
+import TableSorter from '../components/Table/TableSorter'
 
 export default {
-  title: 'Sorter',
-  component: Sorter,
+  title: 'TableSorter',
+  component: TableSorter,
   parameters: {
     backgrounds: {
       default: 'white',
@@ -13,12 +13,12 @@ export default {
   },
 } as Meta
 
-const Template: Story<React.ComponentProps<typeof Sorter>> = (args) => (
-  <Sorter {...args} />
+const Template: Story<React.ComponentProps<typeof TableSorter>> = (args) => (
+  <TableSorter {...args} />
 )
 
 export const primary = Template.bind({})
 
 primary.args = {
-  children: ' Sorter',
+  children: ' TableSorter',
 }

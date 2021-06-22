@@ -7,7 +7,7 @@ const Styles = styled.span<{ status: string }>`
   cursor: pointer;
 `
 
-const Sorter: React.FC<Props> = (props) => {
+const TableSorter: React.FC<Props> = (props) => {
   const { children } = props
   const [status, setStatus] = useState('normal')
 
@@ -41,4 +41,4 @@ const Sorter: React.FC<Props> = (props) => {
   )
 }
 
-export default Sorter
+export default TableSorter
