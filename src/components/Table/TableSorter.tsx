@@ -1,24 +1,28 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 
-type Props = {}
+type Props = {
+  isSorted: boolean
+  isSortedDesc: boolean | undefined
+}
 
 const Styles = styled.span<{ status: string }>`
   cursor: pointer;
 `
 
 const TableSorter: React.FC<Props> = (props) => {
-  const { children } = props
+  const { children, isSortedDesc, isSorted } = props
   const [status, setStatus] = useState('normal')
 
-  function onClick() {
-    if (status === 'up') setStatus('down')
-    if (status === 'down') setStatus('normal')
-    if (status === 'normal') setStatus('up')
-  }
+  useEffect(() => {
+    if (!isSorted) setStatus('normal')
+    if (isSorted && !isSortedDesc) setStatus('down')
+    if (isSorted && isSortedDesc) setStatus('up')
+  }, [isSorted, isSortedDesc])
 
   return (
-    <Styles status={status} onClick={onClick}>
+    <Styles status={status}>
       <svg
         width='6'
         height='8'

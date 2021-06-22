@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Column, usePagination, useSortBy, useTable } from 'react-table'
 import TablePagination from './TablePagination'
+import TableSorter from './TableSorter'
 
 const Styles = styled.div`
   padding: 1rem;
@@ -61,14 +62,11 @@ function Table({ columns, data }: { columns: Column<{}>[]; data: {}[] }) {
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render('Header')}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' 🔽'
-                        : ' 🔼'
-                      : ''}
-                  </span>
+                  <TableSorter
+                    isSorted={column.isSorted}
+                    isSortedDesc={column.isSortedDesc}>
+                    {column.render('Header')}
+                  </TableSorter>
                 </th>
               ))}
             </tr>
