@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link as GatsbyLink } from 'gatsby'
 
-type Props = {}
+type Props = {} & React.ComponentProps<typeof GatsbyLink>
 
 const Wrap = styled.div`
   font-family: Lato;
@@ -19,7 +20,8 @@ const Wrap = styled.div`
   cursor: pointer;
   max-width: 120px;
 
-  &:hover {
+  &:hover,
+  &.active {
     color: #d1ff52;
     border: 1px solid #d1ff52;
     box-shadow: 4px 4px 0px #d1ff52;
@@ -27,8 +29,12 @@ const Wrap = styled.div`
 `
 
 const Link: React.FC<Props> = (props) => {
-  const { children } = props
-  return <Wrap>{children}</Wrap>
+  const { children, to } = props
+  return (
+    <GatsbyLink to={to}>
+      <Wrap className={true ? 'active' : ''}>{children}</Wrap>
+    </GatsbyLink>
+  )
 }
 
 export default Link

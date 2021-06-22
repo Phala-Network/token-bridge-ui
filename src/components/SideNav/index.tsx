@@ -23,13 +23,13 @@ const SideNav: React.FC<Props> = (props) => {
   return (
     <Wrap>
       <Logo></Logo>
-      <Link>Wallet</Link>
-      <Link>Bridge</Link>
-      <Link>Darkpool</Link>
+      <Link to="/">Wallet</Link>
+      <Link to="/bridge">Bridge</Link>
+      {/* <Link>Darkpool</Link>
       <Link>Tokens</Link>
       <Link>Transactions</Link>
       <Link>Stakepad</Link>
-      <Link>KSM Crowdloan</Link>
+      <Link>KSM Crowdloan</Link> */}
     </Wrap>
   )
 }
