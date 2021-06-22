@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { Column, usePagination, useSortBy, useTable } from 'react-table'
 import TablePagination from './TablePagination'
 import TableSorter from './TableSorter'
+import React from 'react'
 
 const Styles = styled.div`
   padding: 1rem;
@@ -40,7 +41,10 @@ const Styles = styled.div`
   }
 `
 
-function Table({ columns, data }: { columns: Column<{}>[]; data: {}[] }) {
+const Table: React.FC<{ columns: Column<{}>[]; data: {}[] }> = ({
+  columns,
+  data,
+}) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -73,7 +77,8 @@ function Table({ columns, data }: { columns: Column<{}>[]; data: {}[] }) {
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   <TableSorter
                     isSorted={column.isSorted}
-                    isSortedDesc={column.isSortedDesc}>
+                    isSortedDesc={column.isSortedDesc}
+                  >
                     {' '}
                     {column.render('Header')}
                   </TableSorter>

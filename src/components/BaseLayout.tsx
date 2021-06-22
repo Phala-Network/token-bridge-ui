@@ -57,7 +57,7 @@ const BaseLayout: React.FC<Props> = (props) => {
         ></Ticket>
       </Tickets>
 
-      <div>{children}</div>
+      {children}
     </HomePageWrap>
   )
 }
