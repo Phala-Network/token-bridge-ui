@@ -57,11 +57,11 @@ const SideNav: React.FC<Props> = (props) => {
         <Logo></Logo>
         <Link to="/">Wallet</Link>
         <Link to="/bridge">Bridge</Link>
-        <Link to="/">Darkpool</Link>
-        <Link to="/">Tokens</Link>
-        <Link to="/">Transactions</Link>
-        <Link to="/">Stakepad</Link>
-        <Link to="/">KSM Crowdloan</Link>
+        <Link to="/darkpool">Darkpool</Link>
+        <Link to="/tokens">Tokens</Link>
+        <Link to="/transactions">Transactions</Link>
+        <Link to="/stakepad">Stakepad</Link>
+        <Link to="/crowdloan">KSM Crowdloan</Link>
       </Header>
 
       <Footer>

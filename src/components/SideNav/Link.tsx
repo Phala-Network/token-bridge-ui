@@ -31,8 +31,9 @@ const Wrap = styled(GatsbyLink)`
 
 const Link: React.FC<Props> = (props) => {
   const { children, to } = props
+
   return (
-    <Wrap to={to} className={false ? 'active' : ''}>
+    <Wrap activeClassName="active" to={to}>
       {children}
     </Wrap>
   )
