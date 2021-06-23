@@ -28,13 +28,13 @@ const Styles = styled.div`
       line-height: 14px;
       color: #202020;
       border-bottom: 1px solid #dddddd;
-      margin-bottom: 6px;
-      padding-top: 6px;
+      padding: 0.8rem;
+      text-align: left;
     }
 
     td {
       margin: 0;
-      padding: 0.5rem;
+      padding: 0.8rem;
 
       :last-child {
         border-right: 0;
