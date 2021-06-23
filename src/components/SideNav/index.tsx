@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import LangSwitch from './LangSwitch'
 import Link from './Link'
 import Logo from './Logo'
 import bg from './sidebar.jpg'
@@ -25,11 +26,13 @@ const SideNav: React.FC<Props> = (props) => {
       <Logo></Logo>
       <Link to="/">Wallet</Link>
       <Link to="/bridge">Bridge</Link>
-      {/* <Link>Darkpool</Link>
-      <Link>Tokens</Link>
-      <Link>Transactions</Link>
-      <Link>Stakepad</Link>
-      <Link>KSM Crowdloan</Link> */}
+      <Link to="/">Darkpool</Link>
+      <Link to="/">Tokens</Link>
+      <Link to="/">Transactions</Link>
+      <Link to="/">Stakepad</Link>
+      <Link to="/">KSM Crowdloan</Link>
+
+      <LangSwitch></LangSwitch>
     </Wrap>
   )
 }

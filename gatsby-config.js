@@ -9,6 +9,15 @@ const path = require('path')
 module.exports = {
   /* Your site config here */
   plugins: [
+    {
+      resolve: `gatsby-plugin-intl`,
+      options: {
+        path: `${__dirname}/src/i18n`,
+        languages: [`en`, `zh`],
+        defaultLanguage: `en`,
+        redirect: false,
+      },
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-typescript`,
