@@ -27,9 +27,11 @@ const Styles = styled.div`
       font-size: 12px;
       line-height: 14px;
       color: #202020;
+      border-bottom: 1px solid #dddddd;
+      margin-bottom: 6px;
+      padding-top: 6px;
     }
 
-    th,
     td {
       margin: 0;
       padding: 0.5rem;
