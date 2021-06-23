@@ -14,7 +14,7 @@ const Wrap = styled(GatsbyLink)`
   align-items: center;
   color: #868686;
   padding: 8px 16px;
-  margin: 16px 0;
+  margin: 8px 0;
   display: block;
   border: 1px solid transparent;
   cursor: pointer;

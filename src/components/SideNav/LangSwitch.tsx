@@ -5,12 +5,11 @@ import styled from 'styled-components'
 type Props = {}
 
 const LangSwitchStyles = styled.div`
-  display: flex;
-  margin: auto;
-  justify-content: space-between;
+  display: grid;
+  grid-gap: 6px;
+  grid-template-columns: repeat(2, 1fr);
   background: #373737;
-  padding: 6px;
-  width: 46px;
+  padding: 5px;
 `
 
 const LangSwitchButton = styled.button<{ active: boolean }>`
@@ -22,9 +21,9 @@ const LangSwitchButton = styled.button<{ active: boolean }>`
   font-family: Lato;
   font-style: normal;
   font-weight: bold;
-  font-size: 8px;
-  line-height: 20px;
-  height: 20px;
+  font-size: 12px;
+  line-height: 26px;
+  height: 26px;
   border: none;
   cursor: pointer;
 
