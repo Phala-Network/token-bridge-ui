@@ -6,7 +6,7 @@ type Props = {}
 const Styles = styled.div`
   display: inline-block;
   height: 12px;
-  background: #d1ff52;
+  background: ${(props) => props.theme.colors.phala};
   margin: 0px 0px;
   font-family: Lato;
   font-style: normal;

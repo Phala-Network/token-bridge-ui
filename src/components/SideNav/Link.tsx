@@ -23,9 +23,9 @@ const Wrap = styled(GatsbyLink)`
 
   &:hover,
   &.active {
-    color: #d1ff52;
-    border: 1px solid #d1ff52;
-    box-shadow: 4px 4px 0px #d1ff52;
+    color: ${(props) => props.theme.colors.phala};
+    border: 1px solid ${(props) => props.theme.colors.phala};
+    box-shadow: 4px 4px 0px ${(props) => props.theme.colors.phala};
   }
 `
 

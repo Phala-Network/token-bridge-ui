@@ -30,7 +30,7 @@ const ButtonWrap = styled.button<ButtonProps>`
   border-radius: ${(props) => (props.shape === 'round' ? 56 : 0)}px;
 
   &.primary {
-    background: #d1ff52;
+    background: ${(props) => props.theme.colors.phala};
     color: #494949;
 
     &:hover {

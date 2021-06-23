@@ -51,7 +51,7 @@ const SelectItem = styled.div`
   padding: 0 8px;
 
   &:hover {
-    background-color: #d1ff52;
+    background-color: ${(props) => props.theme.colors.phala};
   }
 `
 
@@ -100,7 +100,8 @@ const Select: React.FC<Props> = (props) => {
       <Modal
         bodyStyle={{ height: 392, width: 168, padding: 8 }}
         onClose={() => setVisible(false)}
-        visible={visible}>
+        visible={visible}
+      >
         <SelectBody>
           {selectItems.map((item) => {
             return (
@@ -109,7 +110,8 @@ const Select: React.FC<Props> = (props) => {
                   onChange?.(item)
                   setVisible(false)
                 }}
-                key={item}>
+                key={item}
+              >
                 {item}
               </SelectItem>
             )

@@ -15,7 +15,7 @@ export default styled.button`
   color: #494949;
 
   &:hover {
-    background: #d1ff52;
+    background: ${(props) => props.theme.colors.phala};
   }
 
   &:active {

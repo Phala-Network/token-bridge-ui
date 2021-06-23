@@ -44,7 +44,8 @@ const Name = styled.div<{ active: boolean }>`
   height: 16px;
   left: 5px;
   bottom: 5px;
-  background: ${(props) => (props.active ? '#d1ff52' : '#878787')};
+  background: ${(props) =>
+    props.active ? props.theme.colors.phala : '#878787'};
   line-height: 16px;
   font-family: Orbitron;
   font-style: normal;

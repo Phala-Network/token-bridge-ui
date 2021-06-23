@@ -14,7 +14,8 @@ const LangSwitchStyles = styled.div`
 `
 
 const LangSwitchButton = styled.button<{ active: boolean }>`
-  background-color: ${(props) => (props.active ? '#d1ff52' : 'transparent')};
+  background-color: ${(props) =>
+    props.active ? props.theme.colors.phala : 'transparent'};
   color: ${(props) => (props.active ? 'black' : '#7A7A7A')};
 
   border: none;
@@ -28,7 +29,7 @@ const LangSwitchButton = styled.button<{ active: boolean }>`
   cursor: pointer;
 
   &:hover {
-    background-color: #d1ff52;
+    background-color: ${(props) => props.theme.colors.phala};
     color: black;
   }
 
@@ -37,7 +38,7 @@ const LangSwitchButton = styled.button<{ active: boolean }>`
   }
 `
 
-const LangSwitch: React.FC<Props> = (props) => {
+const LangSwitch: React.FC<Props> = () => {
   const { locale } = useContext(IntlContext)
 
   return (
