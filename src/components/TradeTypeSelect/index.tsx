@@ -9,10 +9,14 @@ type Props = {
 }
 
 const index: React.FC<Props> = (props) => {
+  const exchange = () => {
+    // todo
+  }
+
   return (
     <div>
       <Form></Form>
-      <ExchangeIcon></ExchangeIcon>
+      <ExchangeIcon onClick={exchange}></ExchangeIcon>
       <To></To>
     </div>
   )
