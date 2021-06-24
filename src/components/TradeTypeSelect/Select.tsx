@@ -1,7 +1,25 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Modal from '../Modal'
+import Backdrop from '../Backdrop'
 import SelectIcon from './SelectIcon'
+
+const SelectBodyWrap = styled.div`
+  grid-gap: 20px;
+  top: -8px;
+  position: absolute;
+  background-color: white;
+  height: 392px;
+  width: 168px;
+  padding: 8px;
+  z-index: 10000;
+  animation: boxShadowKeyframes 0.15s forwards;
+
+  @keyframes boxShadowKeyframes {
+    to {
+      box-shadow: 16px 16px 0px rgba(0, 0, 0, 0.3);
+    }
+  }
+`
 
 const SelectBody = styled.div`
   overflow-y: auto;
@@ -10,7 +28,7 @@ const SelectBody = styled.div`
   grid-gap: 20px;
 
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 3px;
     background-color: #ececec;
   }
 
@@ -36,6 +54,7 @@ const Value = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 120px;
+  position: relative;
 `
 
 const SelectItem = styled.div`
@@ -53,6 +72,10 @@ const SelectItem = styled.div`
   &:hover {
     background-color: ${(props) => props.theme.colors.phala};
   }
+`
+
+const SelectWrap = styled.div`
+  position: relative;
 `
 
 type Props = {
@@ -93,32 +116,35 @@ const Select: React.FC<Props> = (props) => {
   ]
 
   return (
-    <div>
+    <SelectWrap>
       <Value onClick={() => setVisible(true)}>
         <span>Select</span> <SelectIcon></SelectIcon>
       </Value>
-      <Modal
-        bodyStyle={{ height: 392, width: 168, padding: 8 }}
-        onClose={() => setVisible(false)}
-        visible={visible}
-      >
-        <SelectBody>
-          {selectItems.map((item) => {
-            return (
-              <SelectItem
-                onClick={() => {
-                  onChange?.(item)
-                  setVisible(false)
-                }}
-                key={item}
-              >
-                {item}
-              </SelectItem>
-            )
-          })}
-        </SelectBody>
-      </Modal>
-    </div>
+
+      <Backdrop onClick={() => setVisible(false)} visible={visible}></Backdrop>
+
+      {visible && (
+        <SelectBodyWrap>
+          <SelectBody>
+            {selectItems.map((item) => {
+              return (
+                <SelectItem
+                  onClick={() => {
+                    console.log('1')
+
+                    onChange?.(item)
+                    setVisible(false)
+                  }}
+                  key={item}
+                >
+                  {item}
+                </SelectItem>
+              )
+            })}
+          </SelectBody>
+        </SelectBodyWrap>
+      )}
+    </SelectWrap>
   )
 }
 
