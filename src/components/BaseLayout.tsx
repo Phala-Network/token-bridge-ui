@@ -13,7 +13,7 @@ const HomePageWrap = styled.div`
 `
 
 const Tickets = styled.div`
-  padding: 80px 50px;
+  padding: 80px 50px 80px 50px;
 `
 
 const BaseLayout: React.FC<Props> = (props) => {
@@ -40,8 +40,7 @@ const BaseLayout: React.FC<Props> = (props) => {
                 }}
               />
             ),
-          }}
-        ></Ticket>
+          }}></Ticket>
         <Spacer y={2}></Spacer>
         <Ticket
           {...{
@@ -53,8 +52,7 @@ const BaseLayout: React.FC<Props> = (props) => {
                 <span>442,236,966</span>
               </div>
             ),
-          }}
-        ></Ticket>
+          }}></Ticket>
       </Tickets>
 
       {children}
