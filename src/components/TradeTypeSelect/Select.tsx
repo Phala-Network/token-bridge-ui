@@ -84,6 +84,7 @@ type Props = {
 
 const Select: React.FC<Props> = (props) => {
   const { onChange } = props
+  const [value, setValue] = useState('')
   const [visible, setVisible] = useState(false)
   const selectItems = [
     'USDT',
@@ -118,7 +119,7 @@ const Select: React.FC<Props> = (props) => {
   return (
     <SelectWrap>
       <Value onClick={() => setVisible(true)}>
-        <span>Select</span> <SelectIcon></SelectIcon>
+        <span>{value || 'Select'}</span> <SelectIcon></SelectIcon>
       </Value>
 
       <Backdrop onClick={() => setVisible(false)} visible={visible}></Backdrop>
@@ -130,13 +131,11 @@ const Select: React.FC<Props> = (props) => {
               return (
                 <SelectItem
                   onClick={() => {
-                    console.log('1')
-
+                    setValue(item)
                     onChange?.(item)
                     setVisible(false)
                   }}
-                  key={item}
-                >
+                  key={item}>
                   {item}
                 </SelectItem>
               )
