@@ -5,7 +5,7 @@ type Props = {
   no: string
   bottomContent: React.ReactNode
   active: boolean
-  name: string
+  name: React.ReactNode
 }
 
 const Root = styled.div`

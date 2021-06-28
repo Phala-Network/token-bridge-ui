@@ -24,8 +24,7 @@ const HomePage: React.FC<Props> = () => {
         balance: 12345.6789,
         themeType: 'black',
         header: <WhiteHeader>GRAPH</WhiteHeader>,
-      }}
-    ></BalanceCard>
+      }}></BalanceCard>
   )
 
   return (
@@ -33,7 +32,7 @@ const HomePage: React.FC<Props> = () => {
       <Helmet>
         <title>Wallet</title>
       </Helmet>
-      <div>
+      <div style={{ marginLeft: 50 }}>
         <Category title="Title1" description={'Total: 372.6 PHA '}>
           {card}
           {card}
