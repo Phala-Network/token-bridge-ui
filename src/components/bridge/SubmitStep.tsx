@@ -8,6 +8,8 @@ import Spacer from '../Spacer'
 import Address from '../Address'
 import { voidFn } from '../../types/normal'
 import { StepProps } from './BridgeProcess'
+import FormLayout from './FormLayout'
+import FormItem from './FormItem'
 
 type Props = {
   onNext: voidFn
@@ -19,15 +21,15 @@ const SubmitStep: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div style={{ display: layout === 'inline' ? 'flex' : 'block' }}>
-        <div style={{ flex: 1 }}>
+      <FormLayout layout={layout}>
+        <FormItem>
           <InfoTitle>From</InfoTitle>
           <AmountInfo amount={12345.67891}></AmountInfo>
-        </div>
+        </FormItem>
 
         <Spacer></Spacer>
 
-        <div style={{ flex: 1 }}>
+        <FormItem>
           <InfoTitle>To</InfoTitle>
           <AmountInfo amount={67891.12345}>
             <Address>DaqqGMuj31iFen9zdHxrqebvXhp2bt8rDJge3X3hQuAMkBr</Address>
@@ -38,8 +40,8 @@ const SubmitStep: React.FC<Props> = (props) => {
             value={1234.56789}
             type={'PHA'}
           />
-        </div>
-      </div>
+        </FormItem>
+      </FormLayout>
 
       {/* footer */}
       <ModalActions>

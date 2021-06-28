@@ -8,6 +8,8 @@ import Button from '../Button'
 import { ModalAction, ModalActions } from '../Modal'
 import { useEffect } from 'react'
 import { StepProps } from './BridgeProcess'
+import FormItem from './FormItem'
+import FormLayout from './FormLayout'
 
 type Props = {
   onNext: () => void
@@ -23,12 +25,14 @@ const InputDataStep: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div style={{ display: layout === 'inline' ? 'flex' : 'block' }}>
-        <TradeTypeSelect style={{ flex: 1 }}></TradeTypeSelect>
+      <FormLayout layout={layout}>
+        <FormItem>
+          <TradeTypeSelect></TradeTypeSelect>
+        </FormItem>
 
         <Spacer />
 
-        <div style={{ flex: 1 }}>
+        <FormItem>
           <InputNumber
             size="large"
             placeholder="Destination Address"
@@ -49,8 +53,8 @@ const InputDataStep: React.FC<Props> = (props) => {
             value={balanceNumber}
             type={'PHA'}
           />
-        </div>
-      </div>
+        </FormItem>
+      </FormLayout>
 
       <ModalActions>
         <ModalAction>
