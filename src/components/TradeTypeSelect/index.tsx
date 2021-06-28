@@ -6,15 +6,16 @@ import To from './To'
 type Props = {
   value?: any
   onChange?: (value: any) => void
-}
+} & React.ComponentProps<'div'>
 
 const index: React.FC<Props> = (props) => {
+  const { ...others } = props
   const exchange = () => {
     // todo
   }
 
   return (
-    <div>
+    <div {...others}>
       <Form></Form>
       <ExchangeIcon onClick={exchange}></ExchangeIcon>
       <To></To>

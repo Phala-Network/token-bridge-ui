@@ -7,13 +7,14 @@ import TradeTypeSelect from '../TradeTypeSelect'
 import Button from '../Button'
 import { ModalAction, ModalActions } from '../Modal'
 import { useEffect } from 'react'
+import { StepProps } from './BridgeProcess'
 
 type Props = {
   onNext: () => void
-}
+} & StepProps
 
 const InputDataStep: React.FC<Props> = (props) => {
-  const { onNext } = props
+  const { layout, onNext } = props
   const [balanceNumber, setBalanceNumber] = useState(0)
 
   useEffect(() => {
@@ -21,31 +22,35 @@ const InputDataStep: React.FC<Props> = (props) => {
   }, [])
 
   return (
-    <div>
-      <TradeTypeSelect></TradeTypeSelect>
+    <>
+      <div style={{ display: layout === 'inline' ? 'flex' : 'block' }}>
+        <TradeTypeSelect style={{ flex: 1 }}></TradeTypeSelect>
 
-      <Spacer />
+        <Spacer />
 
-      <InputNumber
-        size="large"
-        placeholder="Destination Address"
-        after={<InputAction>MY ADDRESS</InputAction>}></InputNumber>
+        <div style={{ flex: 1 }}>
+          <InputNumber
+            size="large"
+            placeholder="Destination Address"
+            after={<InputAction>MY ADDRESS</InputAction>}></InputNumber>
 
-      <Spacer />
+          <Spacer y={1.2} />
 
-      <InputNumber
-        size="large"
-        placeholder="Amount (PHA)"
-        after={<InputAction>MAX</InputAction>}></InputNumber>
+          <InputNumber
+            size="large"
+            placeholder="Amount (PHA)"
+            after={<InputAction>MAX</InputAction>}></InputNumber>
 
-      <Spacer y={0.2}></Spacer>
+          <Spacer y={0.2}></Spacer>
 
-      <InputExternalInfo
-        style={{ textAlign: 'right' }}
-        label={'Balance'}
-        value={balanceNumber}
-        type={'PHA'}
-      />
+          <InputExternalInfo
+            style={{ textAlign: 'right' }}
+            label={'Balance'}
+            value={balanceNumber}
+            type={'PHA'}
+          />
+        </div>
+      </div>
 
       <ModalActions>
         <ModalAction>
@@ -57,7 +62,7 @@ const InputDataStep: React.FC<Props> = (props) => {
           </Button>
         </ModalAction>
       </ModalActions>
-    </div>
+    </>
   )
 }
 

@@ -9,10 +9,11 @@ import { ModalAction, ModalActions } from '../Modal'
 import QRCode from '../QRCode'
 import Spacer from '../Spacer'
 import Address from '../Address'
+import { StepProps } from './BridgeProcess'
 
 type Props = {
   onNext: () => void
-}
+} & StepProps
 
 const AddressInfoBlackPanel = styled.div`
   background: #494949;
@@ -42,42 +43,49 @@ const Tip = styled.div`
 `
 
 const ResultStep: React.FC<Props> = (props) => {
-  const { onNext } = props
+  const { onNext, layout } = props
   const address = 'DaqqGMuj31iFen9zdHxrqebvXhp2bt8rDJge3X3hQuAMkBr'
 
   return (
     <>
-      <InfoTitle>From</InfoTitle>
-      <AmountInfo style={{ backgroundColor: '#FFC786' }} amount={12345.67891}>
-        <AddressOfAmountInfo>
-          <div>
-            <Tip>Please recharge to the following address</Tip>
+      <div style={{ display: layout === 'inline' ? 'flex' : 'block' }}>
+        <div style={{ flex: 1 }}>
+          <InfoTitle>From</InfoTitle>
+          <AmountInfo
+            style={{ backgroundColor: '#FFC786' }}
+            amount={12345.67891}>
+            <AddressOfAmountInfo>
+              <div>
+                <Tip>Please recharge to the following address</Tip>
 
-            <AddressInfoBlackPanel>
-              <span>{address}</span>
-              <Copy value={address}></Copy>
-            </AddressInfoBlackPanel>
-          </div>
-          <Spacer x={0.6}></Spacer>
-          <QRCode
-            style={{ width: 88, display: 'block' }}
-            value={address}
-          ></QRCode>
-        </AddressOfAmountInfo>
-      </AmountInfo>
+                <AddressInfoBlackPanel>
+                  <span>{address}</span>
+                  <Copy value={address}></Copy>
+                </AddressInfoBlackPanel>
+              </div>
+              <Spacer x={0.6}></Spacer>
+              <QRCode
+                style={{ width: 88, display: 'block' }}
+                value={address}></QRCode>
+            </AddressOfAmountInfo>
+          </AmountInfo>
+        </div>
 
-      <Spacer></Spacer>
+        <Spacer></Spacer>
 
-      <InfoTitle>To</InfoTitle>
-      <AmountInfo amount={67891.12345}>
-        <Address>{address}</Address>
-      </AmountInfo>
-      <InputExternalInfo
-        style={{ textAlign: 'right' }}
-        label="Balance"
-        value={1234.56789}
-        type={'PHA'}
-      />
+        <div style={{ flex: 1 }}>
+          <InfoTitle>To</InfoTitle>
+          <AmountInfo amount={67891.12345}>
+            <Address>{address}</Address>
+          </AmountInfo>
+          <InputExternalInfo
+            style={{ textAlign: 'right' }}
+            label="Balance"
+            value={1234.56789}
+            type={'PHA'}
+          />
+        </div>
+      </div>
 
       <ModalActions>
         <ModalAction>

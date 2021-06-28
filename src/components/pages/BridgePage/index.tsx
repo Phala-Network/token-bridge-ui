@@ -16,7 +16,7 @@ const BridgePage: React.FC<Props> = () => {
       </Helmet>
       <div style={{ padding: 24, width: '100%' }}>
         <WhiteCard>
-          <BridgeProcess></BridgeProcess>
+          <BridgeProcess layout="inline"></BridgeProcess>
         </WhiteCard>
         <Spacer></Spacer>
         <WhiteCard>
