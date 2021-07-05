@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@phala/typedefs": "^0.2.1",
+    "@polkadot/api": "^4.16.2",
+    "@polkadot/extension-dapp": "^0.38.7",
+    "@polkadot/types": "^4.16.2",
+    "@polkadot/util": "^6.10.1",
+    "@polkadot/util-crypto": "^6.10.1",
     "@sentry/react": "^6.7.2",
     "@sentry/tracing": "^6.7.2",
     "@types/node": "^12.0.0",
@@ -13,6 +19,7 @@
     "@types/styled-components": "^5.1.9",
     "babel-loader": "8.1.0",
     "babel-plugin-styled-components": "^1.12.0",
+    "ethers": "^5.4.1",
     "gatsby": "^3.7.2",
     "gatsby-plugin-google-gtag": "^3.7.1",
     "gatsby-plugin-intl": "^0.3.3",
@@ -32,7 +39,8 @@
     "react-table": "^7.7.0",
     "styled-components": "^5.3.0",
     "typescript": "4.2.4",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "web3modal": "^1.9.3"
   },
   "scripts": {
     "develop": "gatsby develop",
