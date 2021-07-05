@@ -11,7 +11,7 @@ type Props = {
   after?: React.ReactNode
   width?: number
   placeholder?: string
-}
+} & React.ComponentProps<typeof InputWrapper>
 
 const Wrapper = styled.div<{
   height: number
