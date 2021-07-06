@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 type Props = {
-  no: string
-  bottomContent: React.ReactNode
-  active: boolean
-  name: React.ReactNode
+  no?: string
+  bottomContent?: React.ReactNode
+  active?: boolean
+  name?: React.ReactNode
 }
 
 const Root = styled.div`
@@ -14,6 +14,16 @@ const Root = styled.div`
   background: #202020;
   position: relative;
   color: #ececec;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    transform: scale(1.04);
+  }
+
+  &:active {
+    transform: scale(1.02);
+  }
 `
 
 const No = styled.div`
@@ -58,15 +68,18 @@ const Name = styled.div<{ active: boolean }>`
 `
 
 const Ticket: React.FC<Props> = (props) => {
-  const { no, bottomContent, active = false, name } = props
+  const { no, bottomContent, active = false, name, children } = props
 
   return (
     <Root>
       <Content>
-        <No>
-          {no?.slice(0, 4)}...{no?.slice(-8)}
-        </No>
-        <div style={{ marginTop: 4 }}>{bottomContent}</div>
+        {no && (
+          <No>
+            {no?.slice(0, 4)}...{no?.slice(-8)}
+          </No>
+        )}
+        {bottomContent && <div style={{ marginTop: 4 }}>{bottomContent}</div>}
+        {children}
       </Content>
       {name && <Name active={active}>{name}</Name>}
     </Root>
@@ -74,3 +87,26 @@ const Ticket: React.FC<Props> = (props) => {
 }
 
 export default Ticket
+
+export const DefaultStatus = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`
+
+export const DefaultStatusIcon = styled.div`
+  margin: 0 13px 0 6px;
+`
+
+export const DefaultStatusName = styled.div`
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.07em;
+  color: #ececec;
+`
