@@ -1,6 +1,6 @@
+import { Link as GatsbyLink } from 'gatsby-plugin-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { Link as GatsbyLink } from 'gatsby'
 
 type Props = {} & React.ComponentProps<typeof GatsbyLink>
 
