@@ -7,12 +7,12 @@ import PolkadotTicket from './PolkadotTicket'
 type Props = {}
 
 const TicketsRoot = styled.div`
-  padding: 50px;
+  padding: 60px;
 `
 
 const TicketsInner = styled.div`
   position: fixed;
-  top: 24px;
+  top: 48px;
   z-index: 0;
 `
 

@@ -11,8 +11,8 @@ type Props = {}
 
 const RightContent = styled.div`
   display: grid;
-  grid-gap: 24px;
-  padding: 24px;
+  grid-gap: 30px;
+  padding: 48px;
   width: 100%;
 `
 
