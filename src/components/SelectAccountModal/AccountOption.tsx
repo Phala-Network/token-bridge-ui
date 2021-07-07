@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Account } from '../../types/normal'
 
 type Props = {
-  name: string
+  name?: string
   address: string
   active?: boolean
   onClick: (account: Account) => void
@@ -64,15 +64,15 @@ const icon = (
 )
 
 const AccountOption: React.FC<Props> = (props) => {
-  const { name, address, active = false, onClick } = props
+  const { name = '', address, active = false, onClick } = props
 
   return (
     <AccountOptionWithStyle
       className={active ? 'active' : ''}
       onClick={() => onClick({ name, address })}>
       <div>
-        <Name>{name}</Name>
-        <Address>{address}</Address>
+        {name && <Name>{name}</Name>}
+        {address && <Address>{address}</Address>}
       </div>
       {active ? icon : null}
     </AccountOptionWithStyle>

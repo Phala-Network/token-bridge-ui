@@ -17,14 +17,6 @@ const Root = styled.div`
   color: #ececec;
   cursor: pointer;
   transition: all 0.15s;
-
-  &:hover {
-    transform: scale(1.04);
-  }
-
-  &:active {
-    transform: scale(1.02);
-  }
 `
 
 const No = styled.div`
@@ -49,13 +41,13 @@ const Content = styled.div`
   width: 200px;
 `
 
-const Name = styled.div<{ themeColor: string }>`
+export const TicketName = styled.div`
   position: absolute;
   width: 46px;
   height: 16px;
   left: 5px;
   bottom: 5px;
-  background: ${(props) => (props.themeColor ? props.themeColor : '#878787')};
+  background: #878787;
   line-height: 16px;
   font-family: Orbitron;
   font-style: normal;
@@ -63,7 +55,6 @@ const Name = styled.div<{ themeColor: string }>`
   font-size: 10px;
   align-items: center;
   text-align: center;
-  letter-spacing: 0.07em;
   color: #000000;
 `
 
@@ -84,7 +75,7 @@ const Ticket: React.FC<Props> = (props) => {
         {bottomContent && <div style={{ marginTop: 4 }}>{bottomContent}</div>}
       </Content>
 
-      {name && <Name themeColor={themeColor}>{name}</Name>}
+      {name}
     </Root>
   )
 }

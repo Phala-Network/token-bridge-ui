@@ -7,9 +7,11 @@ import Ticket, {
   DefaultStatus,
   DefaultStatusIcon,
   DefaultStatusName,
+  TicketName as _TicketName,
 } from '../Ticket'
 import { useTheme } from 'styled-components'
 import { useBalance } from '../../libs/polkadot/useBalance'
+import styled from 'styled-components'
 
 const khalaLogo = (
   <svg
@@ -26,6 +28,12 @@ const khalaLogo = (
     />
   </svg>
 )
+
+const TicketName = styled(_TicketName)`
+  color: black;
+  background: ${(props) => props.theme.colors.khala};
+  letter-spacing: 0.07em;
+`
 
 type Props = {}
 
@@ -69,7 +77,7 @@ const index: React.FC<Props> = () => {
           onClick={openAccountSelectModal}
           themeColor={theme.colors.khala}
           no={polkadotAccount?.address}
-          name="Khala"
+          name={<TicketName>Khala</TicketName>}
           bottomContent={
             <div>
               {balance?.toString() === '0' ? '0 PHA' : balance?.toHuman()}

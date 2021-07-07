@@ -21,7 +21,7 @@ const Content = styled.div`
   margin: 24px 0;
   max-height: 200px;
   overflow-y: auto;
-  padding-right: 20px;
+  overflow-y: auto;
 
   ${scrollbar}
 `
@@ -34,7 +34,7 @@ const SelectAccountModal: React.FC<Props> = (props) => {
       onClose={onClose}
       visible={visible}
       title={<Center>Select An Account</Center>}>
-      <Content>
+      <Content style={{ paddingRight: accounts.length > 2 ? 20 : 0 }}>
         {accounts.map((item) => (
           <AccountOption
             key={item.address}
