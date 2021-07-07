@@ -1,4 +1,5 @@
 import React from 'react'
+import { ComponentProps } from 'react'
 import styled from 'styled-components'
 
 type Props = {
@@ -6,7 +7,7 @@ type Props = {
   bottomContent?: React.ReactNode
   active?: boolean
   name?: React.ReactNode
-}
+} & ComponentProps<typeof Root>
 
 const Root = styled.div`
   width: 56px;
@@ -68,10 +69,10 @@ const Name = styled.div<{ active: boolean }>`
 `
 
 const Ticket: React.FC<Props> = (props) => {
-  const { no, bottomContent, active = false, name, children } = props
+  const { no, bottomContent, active = false, name, children, ...others } = props
 
   return (
-    <Root>
+    <Root {...others}>
       <Content>
         {no && (
           <No>

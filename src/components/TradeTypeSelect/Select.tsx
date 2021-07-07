@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import scrollbar from '../../style/scrollbar'
 import Backdrop from '../Backdrop'
 import SelectIcon from './SelectIcon'
 
@@ -27,19 +28,7 @@ const SelectBody = styled.div`
   display: grid;
   grid-gap: 20px;
 
-  ::-webkit-scrollbar {
-    width: 3px;
-    background-color: #ececec;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 0;
-    background-color: #000000;
-  }
+  ${scrollbar}
 `
 
 const Value = styled.div`
