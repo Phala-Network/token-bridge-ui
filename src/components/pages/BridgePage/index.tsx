@@ -1,12 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import BaseLayout from '../../BaseLayout'
-import Spacer from '../../Spacer'
 import WhiteCard from '../../WhiteCard'
 import DetailTable from './DetailTable'
 import { Helmet } from 'react-helmet'
 import BridgeProcess from '../../bridge/BridgeProcess'
+import Announcement from '../../Announcement'
+import styled from 'styled-components'
 
 type Props = {}
+
+const RightContent = styled.div`
+  display: grid;
+  grid-gap: 24px;
+  padding: 24px;
+  width: 100%;
+`
 
 const BridgePage: React.FC<Props> = () => {
   return (
@@ -14,15 +22,17 @@ const BridgePage: React.FC<Props> = () => {
       <Helmet>
         <title>Bridge</title>
       </Helmet>
-      <div style={{ padding: 24, width: '100%' }}>
+      <RightContent>
+        <Announcement></Announcement>
+
         <WhiteCard>
           <BridgeProcess layout="inline"></BridgeProcess>
         </WhiteCard>
-        <Spacer></Spacer>
+
         <WhiteCard>
           <DetailTable></DetailTable>
         </WhiteCard>
-      </div>
+      </RightContent>
     </BaseLayout>
   )
 }
