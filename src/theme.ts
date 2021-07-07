@@ -2,7 +2,8 @@ import { DefaultTheme } from 'styled-components'
 
 const theme: DefaultTheme = {
   colors: {
-    phala: '#d1ff52',
+    phala: '#D1FF52',
+    khala: '#03FFFF',
   },
 }
 

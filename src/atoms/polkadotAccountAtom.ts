@@ -1,6 +1,7 @@
 import { atomWithStorage } from 'jotai/utils'
+import { Account } from '../types/normal'
 
-const polkadotAccountAtom = atomWithStorage<string | undefined>(
+const polkadotAccountAtom = atomWithStorage<Account | undefined>(
   'polkadotAccount',
   undefined
 )

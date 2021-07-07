@@ -1,8 +1,7 @@
-import { useAtom } from 'jotai'
 import React from 'react'
 import styled from 'styled-components'
-import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
 import scrollbar from '../../style/scrollbar'
+import { Account } from '../../types/normal'
 import Button from '../Button'
 import Center from '../Center'
 import Modal from '../Modal'
@@ -11,10 +10,9 @@ import AccountOption from './AccountOption'
 type Props = {
   visible: boolean
   onClose: () => void
-  accounts: {
-    label: string
-    address: string
-  }[]
+  accounts: Account[]
+  currentAccount?: Account
+  onSelect: (account: Account) => void
 }
 
 const Content = styled.div`
@@ -29,12 +27,7 @@ const Content = styled.div`
 `
 
 const SelectAccountModal: React.FC<Props> = (props) => {
-  const { visible, accounts, onClose } = props
-  const [polkadotAccount, setPolkadotAccount] = useAtom(polkadotAccountAtom)
-
-  function onSelect(result: { label: string; address: string }) {
-    setPolkadotAccount(result.address)
-  }
+  const { visible, currentAccount, accounts, onClose, onSelect } = props
 
   return (
     <Modal
@@ -44,7 +37,8 @@ const SelectAccountModal: React.FC<Props> = (props) => {
       <Content>
         {accounts.map((item) => (
           <AccountOption
-            active={polkadotAccount === item.address}
+            key={item.address}
+            active={currentAccount?.address === item.address}
             onClick={onSelect}
             {...item}></AccountOption>
         ))}

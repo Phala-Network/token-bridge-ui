@@ -5,7 +5,7 @@ import styled from 'styled-components'
 type Props = {
   no?: string
   bottomContent?: React.ReactNode
-  active?: boolean
+  themeColor?: string
   name?: React.ReactNode
 } & ComponentProps<typeof Root>
 
@@ -49,14 +49,13 @@ const Content = styled.div`
   width: 200px;
 `
 
-const Name = styled.div<{ active: boolean }>`
+const Name = styled.div<{ themeColor: string }>`
   position: absolute;
   width: 46px;
   height: 16px;
   left: 5px;
   bottom: 5px;
-  background: ${(props) =>
-    props.active ? props.theme.colors.phala : '#878787'};
+  background: ${(props) => (props.themeColor ? props.themeColor : '#878787')};
   line-height: 16px;
   font-family: Orbitron;
   font-style: normal;
@@ -69,20 +68,23 @@ const Name = styled.div<{ active: boolean }>`
 `
 
 const Ticket: React.FC<Props> = (props) => {
-  const { no, bottomContent, active = false, name, children, ...others } = props
+  const { no, bottomContent, themeColor = '', name, cover, ...others } = props
 
   return (
     <Root {...others}>
+      <Content>{cover}</Content>
+
       <Content>
         {no && (
           <No>
-            {no?.slice(0, 4)}...{no?.slice(-8)}
+            {no?.slice(0, 4)} . . . {no?.slice(-8)}
           </No>
         )}
+
         {bottomContent && <div style={{ marginTop: 4 }}>{bottomContent}</div>}
-        {children}
       </Content>
-      {name && <Name active={active}>{name}</Name>}
+
+      {name && <Name themeColor={themeColor}>{name}</Name>}
     </Root>
   )
 }
