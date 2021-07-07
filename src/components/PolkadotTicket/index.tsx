@@ -46,20 +46,27 @@ const index: React.FC<Props> = () => {
     [accounts]
   )
 
+  const openAccountSelectModal = () => {
+    // todo check browser polkadot extension status
+
+    setSelectAccountModalViable(true)
+  }
+
   return (
     <>
       {!polkadotAccount ? (
         <Ticket
-          onClick={() => setSelectAccountModalViable(true)}
+          onClick={openAccountSelectModal}
           cover={
             <DefaultStatus>
               <DefaultStatusIcon>{khalaLogo}</DefaultStatusIcon>
               <DefaultStatusName>Connet Khala</DefaultStatusName>
             </DefaultStatus>
-          }></Ticket>
+          }
+        />
       ) : (
         <Ticket
-          onClick={() => setSelectAccountModalViable(true)}
+          onClick={openAccountSelectModal}
           themeColor={theme.colors.khala}
           no={polkadotAccount?.address}
           name="Khala"
@@ -67,7 +74,8 @@ const index: React.FC<Props> = () => {
             <div>
               {balance?.toString() === '0' ? '0 PHA' : balance?.toHuman()}
             </div>
-          }></Ticket>
+          }
+        />
       )}
 
       <SelectAccountModal
@@ -75,7 +83,8 @@ const index: React.FC<Props> = () => {
         currentAccount={polkadotAccount}
         onSelect={(account) => setPolkadotAccount(account)}
         onClose={() => setSelectAccountModalViable(false)}
-        visible={selectAccountModalViable}></SelectAccountModal>
+        visible={selectAccountModalViable}
+      />
     </>
   )
 }

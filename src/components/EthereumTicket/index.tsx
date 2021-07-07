@@ -10,14 +10,15 @@ type Props = {}
 
 const index: React.FC<Props> = (props) => {
   return (
-    <Ticket>
-      <DefaultStatus>
-        <DefaultStatusIcon>
-          <img src={logoImage} alt="" />
-        </DefaultStatusIcon>
-        <DefaultStatusName>Connet METAMASK</DefaultStatusName>
-      </DefaultStatus>
-    </Ticket>
+    <Ticket
+      cover={
+        <DefaultStatus>
+          <DefaultStatusIcon>
+            <img src={logoImage} alt="" />
+          </DefaultStatusIcon>
+          <DefaultStatusName>Connet METAMASK</DefaultStatusName>
+        </DefaultStatus>
+      }></Ticket>
   )
   // return (
   //   <Ticket
