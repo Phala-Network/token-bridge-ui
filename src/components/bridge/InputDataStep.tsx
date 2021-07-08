@@ -48,6 +48,7 @@ const InputDataStep: React.FC<Props> = (props) => {
       <FormLayout layout={layout}>
         <FormItem>
           <TradeTypeSelect
+            disableSelect={true}
             value={tradeTypeSelectValue}
             onChange={onTradeTypeSelectChange}
           />

@@ -75,13 +75,14 @@ type Props = {
 }
 
 const Select: React.FC<Props> = (props) => {
-  const { onChange, selectItems = [], value } = props
+  const { onChange, selectItems = [], value, disable } = props
   const [visible, setVisible] = useState(false)
 
   return (
     <SelectWrap>
-      <Value onClick={() => setVisible(true)}>
-        <span>{value || 'Select'}</span> <SelectIcon></SelectIcon>
+      <Value onClick={() => !disable && setVisible(true)}>
+        <span>{value || 'Select'}</span>
+        {!disable && <SelectIcon></SelectIcon>}
       </Value>
 
       <Backdrop onClick={() => setVisible(false)} visible={visible}></Backdrop>
