@@ -30,7 +30,7 @@ const BridgeProcess: React.FC<Props> = (props) => {
         <InputDataStep layout={layout} onNext={next}></InputDataStep>
       )}
       {step === 1 && (
-        <SubmitStep layout={layout} onNext={next} onPrev={prev}></SubmitStep>
+        <SubmitStep layout={layout} onSubmit={next} onPrev={prev}></SubmitStep>
       )}
       {step === 2 && (
         <ResultStep layout={layout} onNext={() => onDone?.()}></ResultStep>

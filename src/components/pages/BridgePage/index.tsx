@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import BaseLayout from '../../BaseLayout'
 import WhiteCard from '../../WhiteCard'
 import { Helmet } from 'react-helmet'
-import BridgeProcess from '../../bridge/BridgeProcess'
 import Announcement from '../../Announcement'
 import styled from 'styled-components'
+import InputDataStep from '../../bridge/InputDataStep'
+import Modal from '../../Modal'
+import SubmitStep from '../../bridge/SubmitStep'
 
 type Props = {}
 
@@ -16,6 +18,16 @@ const RightContent = styled.div`
 `
 
 const BridgePage: React.FC<Props> = () => {
+  const [modalVisible, setModalVisible] = useState(false)
+
+  const showSubmitModal = () => {
+    setModalVisible(true)
+  }
+
+  const onSubmit = () => {
+    setModalVisible(false)
+  }
+
   return (
     <BaseLayout>
       <Helmet>
@@ -25,7 +37,14 @@ const BridgePage: React.FC<Props> = () => {
         <Announcement></Announcement>
 
         <WhiteCard>
-          <BridgeProcess layout="inline"></BridgeProcess>
+          <InputDataStep layout={'inline'} onNext={showSubmitModal} />
+
+          <Modal visible={modalVisible} title="Bridge Modal">
+            <SubmitStep
+              onPrev={() => setModalVisible(false)}
+              onSubmit={onSubmit}
+            />
+          </Modal>
         </WhiteCard>
       </RightContent>
     </BaseLayout>

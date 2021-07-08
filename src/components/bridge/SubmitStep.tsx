@@ -12,12 +12,12 @@ import FormLayout from './FormLayout'
 import FormItem from './FormItem'
 
 type Props = {
-  onNext: voidFn
-  onPrev: voidFn
+  onPrev?: voidFn
+  onSubmit?: voidFn
 } & StepProps
 
 const SubmitStep: React.FC<Props> = (props) => {
-  const { onNext, onPrev, layout } = props
+  const { onSubmit, onPrev, layout } = props
 
   return (
     <>
@@ -43,16 +43,19 @@ const SubmitStep: React.FC<Props> = (props) => {
         </FormItem>
       </FormLayout>
 
-      {/* footer */}
       <ModalActions>
-        <ModalAction>
-          <Button onClick={onPrev}>Back</Button>
-        </ModalAction>
-        <ModalAction>
-          <Button type="primary" onClick={onNext}>
-            Submit
-          </Button>
-        </ModalAction>
+        {onPrev && (
+          <ModalAction>
+            <Button onClick={onPrev}>Back</Button>
+          </ModalAction>
+        )}
+        {onSubmit && (
+          <ModalAction>
+            <Button type="primary" onClick={onSubmit}>
+              Submit
+            </Button>
+          </ModalAction>
+        )}
       </ModalActions>
     </>
   )

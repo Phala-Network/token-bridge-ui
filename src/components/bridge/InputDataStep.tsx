@@ -12,8 +12,10 @@ import FormLayout from './FormLayout'
 import Input from '../Input'
 import InputNumber from '../InputNumber'
 
+type InputDataStepResult = { from: {}; to: {} }
+
 type Props = {
-  onNext: () => void
+  onNext: (data: InputDataStepResult) => void
 } & StepProps
 
 const InputDataStep: React.FC<Props> = (props) => {
@@ -25,6 +27,8 @@ const InputDataStep: React.FC<Props> = (props) => {
   const [tradeTypeSelectValue, setTradeTypeSelectValue] = useState(
     DEFAULT_VALUE
   )
+
+  console.log('tradeTypeSelectValue', tradeTypeSelectValue)
 
   useEffect(() => {
     setBalanceNumber(1234.5678)
