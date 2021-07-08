@@ -53,6 +53,11 @@ const index: React.FC<Props> = () => {
       })),
     [accounts]
   )
+  const balanceDisplay = !balance
+    ? '. . .'
+    : balance.toString?.() === '0'
+    ? '0 PHA'
+    : balance.toHuman?.()
 
   const openAccountSelectModal = () => {
     // todo check browser polkadot extension status
@@ -78,11 +83,7 @@ const index: React.FC<Props> = () => {
           themeColor={theme.colors.khala}
           no={polkadotAccount?.address}
           name={<TicketName>Khala</TicketName>}
-          bottomContent={
-            <div>
-              {balance?.toString() === '0' ? '0 PHA' : balance?.toHuman()}
-            </div>
-          }
+          bottomContent={balanceDisplay}
         />
       )}
 

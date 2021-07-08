@@ -62,9 +62,7 @@ const Ticket: React.FC<Props> = (props) => {
   const { no, bottomContent, themeColor = '', name, cover, ...others } = props
 
   return (
-    <Root {...others}>
-      <Content>{cover}</Content>
-
+    <Root>
       <Content>
         {no && (
           <No>
@@ -73,6 +71,8 @@ const Ticket: React.FC<Props> = (props) => {
         )}
 
         {bottomContent && <div style={{ marginTop: 4 }}>{bottomContent}</div>}
+
+        {cover}
       </Content>
 
       {name}
