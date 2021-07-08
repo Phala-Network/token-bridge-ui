@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import RcInputNumber from 'rc-input-number'
 import useClickAway from '../hooks/useClickAway'
 
-type Props = {
+type InputType = {
   type?: 'text' | 'number'
   size?: 'default' | 'large'
   textAlign?: 'left' | 'right'
@@ -11,7 +11,9 @@ type Props = {
   after?: React.ReactNode
   width?: number
   placeholder?: string
-} & React.ComponentProps<typeof InputWrapper>
+}
+
+export type InputProps = React.ComponentProps<typeof InputWrapper> & InputType
 
 const Wrapper = styled.div<{
   height: number
@@ -72,7 +74,7 @@ const After = styled.span`
   margin-left: 6px;
 `
 
-const Input: React.FC<Props> = (props) => {
+const Input: React.FC<InputProps> = (props) => {
   const {
     size,
     width = 60,

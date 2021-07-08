@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import InputAction from '../InputAction'
 import InputExternalInfo from '../InputExternalInfo'
-import InputNumber from '../InputNumber'
 import Spacer from '../Spacer'
 import TradeTypeSelect from '../TradeTypeSelect'
 import Button from '../Button'
@@ -10,6 +9,8 @@ import { useEffect } from 'react'
 import { StepProps } from './BridgeProcess'
 import FormItem from './FormItem'
 import FormLayout from './FormLayout'
+import Input from '../Input'
+import InputNumber from '../InputNumber'
 
 type Props = {
   onNext: () => void
@@ -18,32 +19,65 @@ type Props = {
 const InputDataStep: React.FC<Props> = (props) => {
   const { layout, onNext } = props
   const [balanceNumber, setBalanceNumber] = useState(0)
+  const [account, setAccount] = useState<string>()
+  const [amountInput, setAmountInput] = useState<number>()
+  const [recipient, setRecipient] = useState<string>()
+  const [tradeTypeSelectValue, setTradeTypeSelectValue] = useState({
+    from: {
+      type: 'ePHA',
+      network: 'ethereum',
+    },
+    to: {
+      type: 'PHA',
+      network: 'phala',
+    },
+  })
 
   useEffect(() => {
     setBalanceNumber(1234.5678)
   }, [])
 
+  function setMyAddress() {
+    console.info('todo setMyAddress')
+  }
+
+  function setMax() {
+    console.info('todo setMax')
+  }
+
+  function onTradeTypeSelectChange(value: any) {
+    console.info('todo onTradeTypeSelectChange')
+    setTradeTypeSelectValue(value)
+  }
+
   return (
     <>
       <FormLayout layout={layout}>
         <FormItem>
-          <TradeTypeSelect></TradeTypeSelect>
+          <TradeTypeSelect
+            value={tradeTypeSelectValue}
+            onChange={onTradeTypeSelectChange}
+          />
         </FormItem>
 
         <Spacer />
 
         <FormItem>
-          <InputNumber
+          <Input
             size="large"
             placeholder="Destination Address"
-            after={<InputAction>MY ADDRESS</InputAction>}></InputNumber>
+            after={<InputAction onClick={setMyAddress}>MY ADDRESS</InputAction>}
+          />
 
           <Spacer y={1.2} />
 
           <InputNumber
             size="large"
+            onChange={(value) => setAmountInput(value)}
+            value={amountInput}
             placeholder="Amount (PHA)"
-            after={<InputAction>MAX</InputAction>}></InputNumber>
+            after={<InputAction onClick={setMax}>MAX</InputAction>}
+          />
 
           <Spacer y={0.2}></Spacer>
 

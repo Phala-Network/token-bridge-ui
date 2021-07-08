@@ -1,7 +1,6 @@
 import React from 'react'
 import BaseLayout from '../../BaseLayout'
 import WhiteCard from '../../WhiteCard'
-import DetailTable from './DetailTable'
 import { Helmet } from 'react-helmet'
 import BridgeProcess from '../../bridge/BridgeProcess'
 import Announcement from '../../Announcement'
@@ -27,10 +26,6 @@ const BridgePage: React.FC<Props> = () => {
 
         <WhiteCard>
           <BridgeProcess layout="inline"></BridgeProcess>
-        </WhiteCard>
-
-        <WhiteCard>
-          <DetailTable></DetailTable>
         </WhiteCard>
       </RightContent>
     </BaseLayout>
