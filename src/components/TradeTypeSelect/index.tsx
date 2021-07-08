@@ -3,22 +3,53 @@ import ExchangeIcon from './ExchangeIcon'
 import Form from './Form'
 import To from './To'
 
-type Props = {
-  value?: any
-  onChange?: (value: any) => void
+export type FromAndTo = {
+  from: Target
+  to: Target
+}
+
+export type Target = {
+  network: string
+  type: string
+}
+
+export type TradeTypeSelectProps = {
+  disableSelect?: boolean
+  value?: FromAndTo
+  onChange?: (value: FromAndTo) => void
 } & React.ComponentProps<'div'>
 
-const index: React.FC<Props> = (props) => {
-  const { ...others } = props
+export const DEFAULT_VALUE = {
+  from: {
+    type: 'ePHA',
+    network: 'ethereum',
+  },
+  to: {
+    type: 'PHA',
+    network: 'phala',
+  },
+}
+
+const index: React.FC<TradeTypeSelectProps> = (props) => {
+  const {
+    onChange,
+    value = DEFAULT_VALUE,
+    disableSelect = false,
+    ...others
+  } = props
+
   const exchange = () => {
-    // todo
+    onChange?.({
+      from: value.to,
+      to: value.from,
+    })
   }
 
   return (
     <div {...others}>
-      <Form></Form>
+      <Form disableSelect={disableSelect} value={value?.from}></Form>
       <ExchangeIcon onClick={exchange}></ExchangeIcon>
-      <To></To>
+      <To disableSelect={disableSelect} value={value?.to}></To>
     </div>
   )
 }

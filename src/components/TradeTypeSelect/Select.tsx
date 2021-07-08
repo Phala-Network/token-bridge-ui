@@ -69,41 +69,14 @@ const SelectWrap = styled.div`
 
 type Props = {
   onChange?: (value: any) => void
+  disable: boolean
+  selectItems?: string[]
+  value: string
 }
 
 const Select: React.FC<Props> = (props) => {
-  const { onChange } = props
-  const [value, setValue] = useState('')
+  const { onChange, selectItems = [], value } = props
   const [visible, setVisible] = useState(false)
-  const selectItems = [
-    'USDT',
-    'BTC',
-    'ETH',
-    'HT',
-    'EOS',
-    'BCH',
-    'XRP',
-    'LTC',
-    'HUSD',
-    'ETC',
-    'BSV',
-    'DASH',
-    'LINK',
-    'DOT',
-    'FIL',
-    'TRX',
-    'ZEC',
-    'ADA',
-    'NEO',
-    'XLM',
-    'XMR',
-    'VET',
-    'DOGE',
-    'YFI',
-    'UNI',
-    'ALGO',
-    'XTZ',
-  ]
 
   return (
     <SelectWrap>
@@ -120,7 +93,6 @@ const Select: React.FC<Props> = (props) => {
               return (
                 <SelectItem
                   onClick={() => {
-                    setValue(item)
                     onChange?.(item)
                     setVisible(false)
                   }}
