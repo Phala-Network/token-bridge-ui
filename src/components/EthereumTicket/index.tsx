@@ -33,8 +33,6 @@ const index: React.FC<Props> = () => {
   )
   const { data: accounts = [] } = useAccountsQuery()
 
-  console.log('accounts', accounts)
-
   const ethereumAccounts = useMemo(
     () =>
       accounts?.map<Account>((address) => ({
@@ -44,7 +42,7 @@ const index: React.FC<Props> = () => {
   )
 
   const openAccountSelectModal = () => {
-    // todo check browser polkadot extension status
+    console.info('todo check browser polkadot extension status')
 
     setSelectAccountModalViable(true)
   }

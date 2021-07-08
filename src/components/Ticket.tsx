@@ -62,7 +62,7 @@ const Ticket: React.FC<Props> = (props) => {
   const { no, bottomContent, themeColor = '', name, cover, ...others } = props
 
   return (
-    <Root>
+    <Root {...others}>
       <Content>
         {no && (
           <No>
