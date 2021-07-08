@@ -39,7 +39,10 @@ const SelectAccountModal: React.FC<Props> = (props) => {
           <AccountOption
             key={item.address}
             active={currentAccount?.address === item.address}
-            onClick={onSelect}
+            onClick={(account) => {
+              onSelect(account)
+              onClose()
+            }}
             {...item}></AccountOption>
         ))}
       </Content>
