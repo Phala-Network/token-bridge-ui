@@ -4,7 +4,7 @@ import WhiteCard from '../../WhiteCard'
 import { Helmet } from 'react-helmet'
 import Announcement from '../../Announcement'
 import styled from 'styled-components'
-import InputDataStep from '../../bridge/InputDataStep'
+import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
 import Modal from '../../Modal'
 import SubmitStep from '../../bridge/SubmitStep'
 
@@ -19,8 +19,9 @@ const RightContent = styled.div`
 
 const BridgePage: React.FC<Props> = () => {
   const [modalVisible, setModalVisible] = useState(false)
+  const [submitData, setSubmitData] = useState({})
 
-  const showSubmitModal = () => {
+  const showSubmitModal = (data: InputDataStepResult) => {
     setModalVisible(true)
   }
 

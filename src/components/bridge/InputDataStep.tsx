@@ -12,7 +12,19 @@ import FormLayout from './FormLayout'
 import Input from '../Input'
 import InputNumber from '../InputNumber'
 
-type InputDataStepResult = { from: {}; to: {} }
+export type InputDataStepResult = {
+  from: {
+    type: string
+    network: string
+    account: string
+  }
+  to: {
+    type: string
+    network: string
+    account: string
+  }
+  amount: number
+}
 
 type Props = {
   onNext: (data: InputDataStepResult) => void
