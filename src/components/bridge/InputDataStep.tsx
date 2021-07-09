@@ -15,6 +15,9 @@ import FormLayout from './FormLayout'
 import Input from '../Input'
 import InputNumber from '../InputNumber'
 import { voidFn } from '../../types/normal'
+import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
+import { useBalance } from '../../libs/polkadot/useBalance'
+import { useAtom } from 'jotai'
 
 export type InputDataStepResult = {
   from: {
@@ -37,32 +40,40 @@ type Props = {
 
 const InputDataStep: React.FC<Props> = (props) => {
   const { layout, onNext, onCancel } = props
-  const [balanceNumber, setBalanceNumber] = useState(0)
-  const [account, setAccount] = useState<string>()
   const [amountInput, setAmountInput] = useState<number>()
   const [recipient, setRecipient] = useState<string>()
+  const [polkadotAccount] = useAtom(polkadotAccountAtom)
+  const balance = useBalance(polkadotAccount?.address)
   const [
     tradeTypeSelectValue,
     setTradeTypeSelectValue,
   ] = useState<TradeTypeSelectValue>(DEFAULT_VALUE)
 
-  console.log('tradeTypeSelectValue', tradeTypeSelectValue)
-
-  useEffect(() => {
-    setBalanceNumber(1234.5678)
-  }, [])
-
   function setMyAddress() {
-    console.info('todo setMyAddress')
+    setRecipient(polkadotAccount?.address)
   }
 
   function setMax() {
-    console.info('todo setMax')
+    setAmountInput(balance!.toNumber() / 10 ** 12)
   }
 
   const onTradeTypeSelectChange = (value: TradeTypeSelectValue) => {
     console.info('todo onTradeTypeSelectChange', value)
     setTradeTypeSelectValue(value)
+  }
+
+  const submit = () => {
+    onNext({
+      from: {
+        ...tradeTypeSelectValue.from,
+        account: polkadotAccount?.address!,
+      },
+      to: {
+        ...tradeTypeSelectValue.to,
+        account: recipient!,
+      },
+      amount: amountInput!,
+    })
   }
 
   return (
@@ -80,6 +91,10 @@ const InputDataStep: React.FC<Props> = (props) => {
 
         <FormItem>
           <Input
+            value={recipient}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setRecipient(e.currentTarget.value)
+            }
             size="large"
             placeholder="Destination Address"
             after={<InputAction onClick={setMyAddress}>MY ADDRESS</InputAction>}
@@ -97,12 +112,13 @@ const InputDataStep: React.FC<Props> = (props) => {
 
           <Spacer y={0.2}></Spacer>
 
-          <InputExternalInfo
-            style={{ textAlign: 'right' }}
-            label={'Balance'}
-            value={balanceNumber}
-            type={'PHA'}
-          />
+          {balance && (
+            <InputExternalInfo
+              style={{ textAlign: 'right' }}
+              label={'Balance'}
+              value={balance?.toHuman()}
+            />
+          )}
         </FormItem>
       </FormLayout>
 
@@ -114,7 +130,7 @@ const InputDataStep: React.FC<Props> = (props) => {
         )}
 
         <ModalAction>
-          <Button type="primary" onClick={onNext}>
+          <Button type="primary" onClick={submit}>
             Next
           </Button>
         </ModalAction>

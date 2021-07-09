@@ -19,10 +19,11 @@ const RightContent = styled.div`
 
 const BridgePage: React.FC<Props> = () => {
   const [modalVisible, setModalVisible] = useState(false)
-  const [submitData, setSubmitData] = useState({})
+  const [submitData, setSubmitData] = useState<InputDataStepResult>()
 
   const showSubmitModal = (data: InputDataStepResult) => {
     setModalVisible(true)
+    setSubmitData(data)
   }
 
   const onSubmit = () => {
@@ -42,6 +43,7 @@ const BridgePage: React.FC<Props> = () => {
 
           <Modal visible={modalVisible} title="Bridge Modal">
             <SubmitStep
+              data={submitData}
               onPrev={() => setModalVisible(false)}
               onSubmit={onSubmit}
             />

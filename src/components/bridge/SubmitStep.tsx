@@ -10,29 +10,39 @@ import { voidFn } from '../../types/normal'
 import { StepProps } from './BridgeProcess'
 import FormLayout from './FormLayout'
 import FormItem from './FormItem'
+import { InputDataStepResult } from './InputDataStep'
 
 type Props = {
   onPrev?: voidFn
   onSubmit?: voidFn
+  data?: InputDataStepResult
 } & StepProps
 
 const SubmitStep: React.FC<Props> = (props) => {
-  const { onSubmit, onPrev, layout } = props
+  const { onSubmit, onPrev, layout, data } = props
+  const { from, to, amount } = data || {}
 
   return (
     <>
       <FormLayout layout={layout}>
         <FormItem>
           <InfoTitle>From</InfoTitle>
-          <AmountInfo amount={12345.67891}></AmountInfo>
+          <AmountInfo
+            network={from?.network}
+            amount={12345.67891}
+            type={from?.type}
+          />
         </FormItem>
 
         <Spacer></Spacer>
 
         <FormItem>
           <InfoTitle>To</InfoTitle>
-          <AmountInfo amount={67891.12345}>
-            <Address>DaqqGMuj31iFen9zdHxrqebvXhp2bt8rDJge3X3hQuAMkBr</Address>
+          <AmountInfo
+            network={to?.network}
+            amount={12345.67891}
+            type={to?.type}>
+            <Address>{to?.account}</Address>
           </AmountInfo>
           <InputExternalInfo
             style={{ textAlign: 'right' }}

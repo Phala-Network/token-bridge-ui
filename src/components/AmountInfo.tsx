@@ -4,10 +4,6 @@ import styled from 'styled-components'
 import toFixed from '../utils/toFixed'
 import Tag from './Tag'
 
-type Props = {
-  amount: number
-} & ComponentProps<typeof AmountInfoWrap>
-
 const AmountInfoWrap = styled.div`
   background: #ececec;
   padding: 16px;
@@ -44,15 +40,21 @@ const Divider = styled.div`
   margin: 16px 0;
 `
 
+type Props = {
+  amount: number
+  type?: string
+  network?: string
+} & ComponentProps<typeof AmountInfoWrap>
+
 const AmountInfo: React.FC<Props> = (props) => {
-  const { children, amount, ...others } = props
+  const { children, amount, type, network, ...others } = props
 
   return (
     <AmountInfoWrap {...others}>
       <Header>
-        <Type>PHA</Type>
+        {network && <Type>{network}</Type>}
         <Amount>{toFixed(amount)}</Amount>
-        <Tag>ETC</Tag>
+        {type && <Tag>{type}</Tag>}
       </Header>
 
       {children && <Divider></Divider>}

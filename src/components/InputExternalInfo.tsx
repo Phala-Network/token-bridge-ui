@@ -33,7 +33,7 @@ const Value = styled.span`
 
 type Props = {
   label?: string
-  value?: number
+  value?: number | string
   type?: string
 } & ComponentProps<'div'>
 
@@ -43,7 +43,9 @@ const InputExternalInfo: React.FC<Props> = (props) => {
   return (
     <div {...others}>
       {label && <Label>{label}:</Label>}
-      {value && <Value>{toFixed(value)}</Value>}
+      {value && (
+        <Value>{typeof value === 'number' ? toFixed(value) : value}</Value>
+      )}
       {type && <Type>{type}</Type>}
     </div>
   )
