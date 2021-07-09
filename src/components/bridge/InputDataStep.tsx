@@ -11,6 +11,7 @@ import FormItem from './FormItem'
 import FormLayout from './FormLayout'
 import Input from '../Input'
 import InputNumber from '../InputNumber'
+import { voidFn } from '../../types/normal'
 
 export type InputDataStepResult = {
   from: {
@@ -28,10 +29,11 @@ export type InputDataStepResult = {
 
 type Props = {
   onNext: (data: InputDataStepResult) => void
+  onCancel?: voidFn
 } & StepProps
 
 const InputDataStep: React.FC<Props> = (props) => {
-  const { layout, onNext } = props
+  const { layout, onNext, onCancel } = props
   const [balanceNumber, setBalanceNumber] = useState(0)
   const [account, setAccount] = useState<string>()
   const [amountInput, setAmountInput] = useState<number>()
@@ -101,9 +103,12 @@ const InputDataStep: React.FC<Props> = (props) => {
       </FormLayout>
 
       <ModalActions>
-        <ModalAction>
-          <Button>Cancel</Button>
-        </ModalAction>
+        {onCancel && (
+          <ModalAction>
+            <Button onClick={onCancel}>Cancel</Button>
+          </ModalAction>
+        )}
+
         <ModalAction>
           <Button type="primary" onClick={onNext}>
             Next
