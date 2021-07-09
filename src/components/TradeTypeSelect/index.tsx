@@ -3,7 +3,7 @@ import ExchangeIcon from './ExchangeIcon'
 import Form from './Form'
 import To from './To'
 
-export type FromAndTo = {
+export type TradeTypeSelectValue = {
   from: Target
   to: Target
 }
@@ -15,9 +15,9 @@ export type Target = {
 
 export type TradeTypeSelectProps = {
   disableSelect?: boolean
-  value?: FromAndTo
-  onChange?: (value: FromAndTo) => void
-} & React.ComponentProps<'div'>
+  value?: TradeTypeSelectValue
+  onChange?: (value: TradeTypeSelectValue) => void
+} & Omit<React.ComponentProps<'div'>, 'onChange'>
 
 export const DEFAULT_VALUE = {
   from: {
@@ -39,10 +39,12 @@ const index: React.FC<TradeTypeSelectProps> = (props) => {
   } = props
 
   const exchange = () => {
-    onChange?.({
+    const newValue: TradeTypeSelectValue = {
       from: value.to,
       to: value.from,
-    })
+    }
+
+    onChange?.(newValue)
   }
 
   return (

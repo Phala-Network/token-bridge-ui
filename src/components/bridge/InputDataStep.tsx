@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import InputAction from '../InputAction'
 import InputExternalInfo from '../InputExternalInfo'
 import Spacer from '../Spacer'
-import TradeTypeSelect, { DEFAULT_VALUE } from '../TradeTypeSelect'
+import TradeTypeSelect, {
+  DEFAULT_VALUE,
+  TradeTypeSelectValue,
+} from '../TradeTypeSelect'
 import Button from '../Button'
 import { ModalAction, ModalActions } from '../Modal'
 import { useEffect } from 'react'
@@ -38,9 +41,10 @@ const InputDataStep: React.FC<Props> = (props) => {
   const [account, setAccount] = useState<string>()
   const [amountInput, setAmountInput] = useState<number>()
   const [recipient, setRecipient] = useState<string>()
-  const [tradeTypeSelectValue, setTradeTypeSelectValue] = useState(
-    DEFAULT_VALUE
-  )
+  const [
+    tradeTypeSelectValue,
+    setTradeTypeSelectValue,
+  ] = useState<TradeTypeSelectValue>(DEFAULT_VALUE)
 
   console.log('tradeTypeSelectValue', tradeTypeSelectValue)
 
@@ -56,8 +60,8 @@ const InputDataStep: React.FC<Props> = (props) => {
     console.info('todo setMax')
   }
 
-  function onTradeTypeSelectChange(value: any) {
-    console.info('todo onTradeTypeSelectChange')
+  const onTradeTypeSelectChange = (value: TradeTypeSelectValue) => {
+    console.info('todo onTradeTypeSelectChange', value)
     setTradeTypeSelectValue(value)
   }
 
