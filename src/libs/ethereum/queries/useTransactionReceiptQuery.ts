@@ -5,20 +5,18 @@ import { useEthers } from '../contexts/useEthers'
 
 const TransactionReceiptQueryKey = uuidv4()
 
-export const useTransactionReceiptQuery = (
-  hash?: string
-): UseQueryResult<ethers.providers.TransactionReceipt> => {
-  const { provider } = useEthers()
+export const useTransactionReceiptQuery = (hash?: string): UseQueryResult<ethers.providers.TransactionReceipt> => {
+    const { provider } = useEthers()
 
-  return useQuery([TransactionReceiptQueryKey], async () => {
-    {
-      if (hash !== undefined) {
-        const result = await provider?.getTransactionReceipt(hash)
-        // TODO: refetch more frequently while not confirmed yet
-        return result
-      }
+    return useQuery([TransactionReceiptQueryKey, hash, provider?.network?.chainId], async () => {
+        {
+            if (hash !== undefined) {
+                const result = await provider?.getTransactionReceipt(hash)
+                // TODO: refetch more frequently while not confirmed yet
+                return result
+            }
 
-      return undefined
-    }
-  })
+            return undefined
+        }
+    })
 }

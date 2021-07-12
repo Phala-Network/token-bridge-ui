@@ -1,5 +1,5 @@
-import { polkadot } from '../../../../config'
+import { latest } from '@phala/typedefs'
 
 export default {
-  types: polkadot.typedefs,
+    types: latest,
 }

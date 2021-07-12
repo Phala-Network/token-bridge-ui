@@ -43,7 +43,7 @@ type Props = {
 const InputDataStep: React.FC<Props> = (props) => {
   const { layout, onNext, onCancel } = props
   const [amountInput, setAmountInput] = useState<number>()
-  const [recipient, setRecipient] = useState<string>()
+  const [recipient, setRecipient] = useState<string>('')
   const [polkadotAccount] = useAtom(polkadotAccountAtom)
   const polkadotAccountAddress = polkadotAccount?.address
   const [ethereumAccount] = useAtom(ethereumAccountAtom)
@@ -54,12 +54,32 @@ const InputDataStep: React.FC<Props> = (props) => {
     ethereumAccountAddress
   )
 
-  const ethereumAccountBalanceString = useMemo(() => {
-    return ethereumAccountBalance !== undefined
-      ? `${ethers.utils.formatUnits(
+  console.log('ethereumAccountBalance', ethereumAccountBalance)
+
+  const ethereumAccountBalanceNumber = useMemo(() => {
+    if (ethereumAccountBalance) {
+      return parseFloat(
+        ethers.utils.formatUnits(
           ethereumAccountBalance as ethers.BigNumberish,
           18
-        )} PHA`
+        )
+      )
+    } else {
+      return 0
+    }
+  }, [ethereumAccountBalance])
+
+  const polkadotAccountBalanceNumber = useMemo(
+    () =>
+      polkadotAccountBalance
+        ? polkadotAccountBalance!.toNumber() / 10 ** 12
+        : 0,
+    [polkadotAccountBalance]
+  )
+
+  const ethereumAccountBalanceString = useMemo(() => {
+    return ethereumAccountBalance !== undefined
+      ? `${ethereumAccountBalanceNumber} PHA`
       : ethereumAccount !== undefined
       ? 'Loading'
       : undefined
@@ -73,12 +93,16 @@ const InputDataStep: React.FC<Props> = (props) => {
 
   function setMyAddress() {
     setRecipient(
-      isFromEthereum ? polkadotAccountAddress : ethereumAccountAddress
+      isFromEthereum ? polkadotAccountAddress! : ethereumAccountAddress!
     )
   }
 
   function setMax() {
-    setAmountInput(polkadotAccountBalance!.toNumber() / 10 ** 12)
+    setAmountInput(
+      isFromEthereum
+        ? polkadotAccountBalanceNumber!
+        : ethereumAccountBalanceNumber!
+    )
   }
 
   const onTradeTypeSelectChange = (value: TradeTypeSelectValue) => {

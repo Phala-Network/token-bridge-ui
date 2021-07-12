@@ -31,11 +31,15 @@ const SubmitStep: React.FC<Props> = (props) => {
   const { account: accountFrom } = from || {}
   const { account: accountTo } = to || {}
 
+  console.log('data', data)
+
   const { api } = useApiPromise()
   const decimals = useDecimalJsTokenDecimalMultiplier(api)
   const transferSubmit = useTransferSubmit(/* NOTE: pass destination Ethereum network Id here to override */)
   const [submittedHash, setSubmittedHash] = useState<Hash>()
   const [isSubmitting, setSubmitting] = useState<boolean>(false)
+
+  console.log('transferSubmit', transferSubmit)
 
   const amount = useMemo(() => {
     if (!amountFromPrevStep || !api || !decimals) return
@@ -50,16 +54,19 @@ const SubmitStep: React.FC<Props> = (props) => {
 
     try {
       setSubmitting(true)
-      const accountFromAddress = getAddress(accountFrom)
+
+      const accountToAddress = getAddress(accountTo)
 
       const hash = await transferSubmit?.(
         amount,
-        accountFromAddress,
-        accountTo,
+        accountToAddress,
+        accountFrom,
         (status) => console.log('status', status)
       )
 
       setSubmittedHash(hash)
+
+      console.log('hash', hash)
     } catch (e) {
       console.error(e)
     } finally {

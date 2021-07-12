@@ -1,35 +1,31 @@
 import { Contract, ethers } from 'ethers'
 import { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { networks } from '../../../config'
+import { ethereums } from '../../../config'
 import { useEthers } from '../contexts/useEthers'
 import { useEthersNetworkQuery } from '../queries/useEthersNetworkQuery'
 
 const contractInterface = [
-  'function allowance(address owner, address spender) external view returns (uint256)',
-  'function approve(address spender, uint256 amount) external returns (bool)',
-  'function balanceOf(address account) external view returns (uint256)',
+    'function allowance(address owner, address spender) external view returns (uint256)',
+    'function approve(address spender, uint256 amount) external returns (bool)',
+    'function balanceOf(address account) external view returns (uint256)',
 ]
 
-export const useErc20Contract = (
-  addressOrName?: string
-): { contract?: Contract; instance?: string } => {
-  const { signer } = useEthers()
+export const useErc20Contract = (addressOrName?: string): { contract?: Contract; instance?: string } => {
+    const { signer } = useEthers()
+    const { data: network } = useEthersNetworkQuery()
+    const chainId = network?.chainId
 
-  const { data: network } = useEthersNetworkQuery()
+    return useMemo(() => {
+        const erc20 = addressOrName ?? (typeof chainId === 'number' ? ethereums[chainId]?.erc20 : undefined)
 
-  const chainId = network?.chainId
+        if (erc20 === undefined || signer === undefined) {
+            return {}
+        }
 
-  return useMemo(() => {
-    const erc20 = addressOrName ?? networks[chainId as number]?.erc20
-
-    if (erc20 === undefined || signer === undefined) {
-      return {}
-    }
-
-    return {
-      contract: new ethers.Contract(erc20, contractInterface, signer),
-      instance: uuidv4(),
-    }
-  }, [addressOrName, chainId, signer])
+        return {
+            contract: new ethers.Contract(erc20, contractInterface, signer),
+            instance: uuidv4(),
+        }
+    }, [addressOrName, chainId, signer])
 }

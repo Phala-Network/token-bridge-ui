@@ -2,7 +2,6 @@ import React from 'react'
 import { ThemeProvider } from 'styled-components'
 import GlobalStyle from './GlobalStyle'
 import theme from './theme'
-import { polkadot } from './config'
 import { EthersProvider } from './libs/ethereum/contexts/useEthers'
 import { useRef } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
@@ -10,6 +9,7 @@ import { Web3Provider as EthereumWeb3Provider } from './libs/ethereum/contexts/u
 import { Web3Provider as PolkadotWeb3Provider } from './libs/polkadot/hooks/useWeb3'
 import { Provider as JotaiProvider } from 'jotai'
 import { ApiPromiseProvider } from './libs/polkadot/hooks/useApiPromise'
+import { NetworkContextProvider } from './libs/polkadot/hooks/useSubstrateNetwork'
 import './fonts.css'
 
 const WrapApp: React.FC = ({ children }) => {
@@ -20,16 +20,16 @@ const WrapApp: React.FC = ({ children }) => {
       <EthereumWeb3Provider>
         <JotaiProvider>
           <EthersProvider>
-            <PolkadotWeb3Provider originName="ChainBridge Operator">
-              <ApiPromiseProvider
-                endpoint={polkadot.endpoint}
-                registryTypes={polkadot.typedefs}>
-                <ThemeProvider theme={theme}>
-                  <GlobalStyle></GlobalStyle>
-                  {children}
-                </ThemeProvider>
-              </ApiPromiseProvider>
-            </PolkadotWeb3Provider>
+            <NetworkContextProvider defaultNetwork="poc4-dev">
+              <PolkadotWeb3Provider originName="ChainBridge Operator">
+                <ApiPromiseProvider>
+                  <ThemeProvider theme={theme}>
+                    <GlobalStyle></GlobalStyle>
+                    {children}
+                  </ThemeProvider>
+                </ApiPromiseProvider>
+              </PolkadotWeb3Provider>
+            </NetworkContextProvider>
           </EthersProvider>
         </JotaiProvider>
       </EthereumWeb3Provider>
