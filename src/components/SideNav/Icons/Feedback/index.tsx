@@ -1,6 +1,5 @@
 import React from 'react'
 import FeedbackModal from './FeedbackModal'
-import * as Sentry from '@sentry/react'
 
 const Feedback: React.FC = () => {
   const [visible, setVisible] = React.useState(false)
@@ -9,13 +8,6 @@ const Feedback: React.FC = () => {
     <>
       <svg
         onClick={() => {
-          Sentry.showReportDialog()
-
-          const eventId =
-            Sentry.lastEventId() || Sentry.captureMessage('feedback')
-
-          console.log('eventId', eventId)
-
           setVisible(!visible)
         }}
         width="16"

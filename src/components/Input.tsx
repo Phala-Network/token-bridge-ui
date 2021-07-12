@@ -11,6 +11,7 @@ type InputType = {
   after?: React.ReactNode
   width?: number
   placeholder?: string
+  onChange?: (value: string) => void
 }
 
 export type InputProps = React.ComponentProps<typeof InputWrapper> & InputType
@@ -85,8 +86,10 @@ const Input: React.FC<InputProps> = (props) => {
     width = 60,
     textAlign = 'left',
     type = 'text',
+    onChange = () => {},
     ...others
   } = props
+
   const height = React.useMemo(() => size, [size]) === 'large' ? 56 : 28
   const [active, setActive] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -105,17 +108,18 @@ const Input: React.FC<InputProps> = (props) => {
             type="text"
             onClick={() => setActive(true)}
             onBlur={() => setActive(false)}
+            onChange={(e) => onChange(e.target.value)}
             {...others}
           />
         )}
 
         {type === 'number' && (
           <RcInputNumber
-            min={0}
             upHandler={null}
             downHandler={null}
             onClick={() => setActive(true)}
             onBlur={() => setActive(false)}
+            onChange={onChange}
             {...others}
           />
         )}

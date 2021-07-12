@@ -36,10 +36,12 @@ const Wrapper = styled.div<{
   }
 `
 
-type Props = ComponentProps<'textarea'>
+type Props = {
+  onChange?: (value: string) => void
+} & Omit<ComponentProps<'textarea'>, 'onChange'>
 
 const Textarea: React.FC<Props> = (props) => {
-  const { ...otherProps } = props
+  const { onChange, ...otherProps } = props
   const [active, setActive] = React.useState(false)
   const ref = useRef<HTMLTextAreaElement>(null)
 
@@ -51,6 +53,7 @@ const Textarea: React.FC<Props> = (props) => {
     <Wrapper active={active}>
       <textarea
         {...otherProps}
+        onChange={(e) => onChange?.(e.target.value)}
         ref={ref}
         onClick={() => setActive(true)}
         onBlur={() => setActive(false)}></textarea>
