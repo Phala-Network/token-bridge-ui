@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import InputAction from '../InputAction'
 import InputExternalInfo from '../InputExternalInfo'
 import Spacer from '../Spacer'
@@ -18,6 +18,8 @@ import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
 import { useBalance } from '../../libs/polkadot/useBalance'
 import { useAtom } from 'jotai'
 import ethereumAccountAtom from '../../atoms/ethereumAccountAtom'
+import { useErc20BalanceQuery } from '../../libs/ethereum/queries/useErc20BalanceQuery'
+import { ethers } from 'ethers'
 
 export type InputDataStepResult = {
   from: {
@@ -46,7 +48,23 @@ const InputDataStep: React.FC<Props> = (props) => {
   const polkadotAccountAddress = polkadotAccount?.address
   const [ethereumAccount] = useAtom(ethereumAccountAtom)
   const ethereumAccountAddress = ethereumAccount?.address
-  const balance = useBalance(polkadotAccountAddress)
+
+  const polkadotAccountBalance = useBalance(polkadotAccountAddress)
+  const { data: ethereumAccountBalance } = useErc20BalanceQuery(
+    ethereumAccountAddress
+  )
+
+  const ethereumAccountBalanceString = useMemo(() => {
+    return ethereumAccountBalance !== undefined
+      ? `${ethers.utils.formatUnits(
+          ethereumAccountBalance as ethers.BigNumberish,
+          18
+        )} PHA`
+      : ethereumAccount !== undefined
+      ? 'Loading'
+      : undefined
+  }, [ethereumAccountBalance])
+
   const [
     tradeTypeSelectValue,
     setTradeTypeSelectValue,
@@ -60,7 +78,7 @@ const InputDataStep: React.FC<Props> = (props) => {
   }
 
   function setMax() {
-    setAmountInput(balance!.toNumber() / 10 ** 12)
+    setAmountInput(polkadotAccountBalance!.toNumber() / 10 ** 12)
   }
 
   const onTradeTypeSelectChange = (value: TradeTypeSelectValue) => {
@@ -120,11 +138,19 @@ const InputDataStep: React.FC<Props> = (props) => {
 
           <Spacer y={0.2}></Spacer>
 
-          {balance && (
+          {!isFromEthereum && polkadotAccountBalance && (
             <InputExternalInfo
               style={{ textAlign: 'right' }}
               label={'Balance'}
-              value={balance?.toHuman()}
+              value={polkadotAccountBalance?.toHuman()}
+            />
+          )}
+
+          {isFromEthereum && ethereumAccountBalanceString && (
+            <InputExternalInfo
+              style={{ textAlign: 'right' }}
+              label={'Balance'}
+              value={ethereumAccountBalanceString}
             />
           )}
         </FormItem>
