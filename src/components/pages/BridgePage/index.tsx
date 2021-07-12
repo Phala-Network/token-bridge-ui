@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
 import Modal from '../../Modal'
 import SubmitStep from '../../bridge/SubmitStep'
+import useSentry from '../../../hooks/useSentry'
 
 type Props = {}
 
@@ -20,6 +21,7 @@ const RightContent = styled.div`
 const BridgePage: React.FC<Props> = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [submitData, setSubmitData] = useState<InputDataStepResult>()
+  useSentry()
 
   const showSubmitModal = (data: InputDataStepResult) => {
     setModalVisible(true)
