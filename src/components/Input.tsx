@@ -25,7 +25,8 @@ const Wrapper = styled.div<{
   color: #494949;
   font-weight: bold;
   font-size: 20px;
-  font-family: PT Mono;
+  line-height: 24px;
+  font-family: Lato;
   display: flex;
   align-items: center;
   padding: 0 12px;
@@ -55,10 +56,14 @@ const InputWrapper = styled.div<{
     font-weight: 600;
     background: transparent;
     border: none;
+    font-size: 20px;
+    font-family: Lato;
+    line-height: 24px;
     outline: none;
     text-align: ${(props) => props.textAlign};
     margin: 0;
     width: 100%;
+    color: #202020;
 
     &::placeholder {
       color: #bbbbbb;
@@ -95,7 +100,14 @@ const Input: React.FC<InputProps> = (props) => {
     <Wrapper active={active} ref={ref} height={height} fontSize={fontSize}>
       {props.before && <Before>{props.before}</Before>}
       <InputWrapper height={height} width={width} textAlign={textAlign}>
-        {type === 'text' && <input type="text" {...others} />}
+        {type === 'text' && (
+          <input
+            type="text"
+            onClick={() => setActive(true)}
+            onBlur={() => setActive(false)}
+            {...others}
+          />
+        )}
 
         {type === 'number' && (
           <RcInputNumber

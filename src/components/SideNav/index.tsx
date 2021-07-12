@@ -73,9 +73,13 @@ const SideNav: React.FC<Props> = (props) => {
         <ExternalLink target="__blank" href="https://phala.network">
           Phala.network
         </ExternalLink>
+
         <Spacer></Spacer>
+
         <Icons></Icons>
+
         <Spacer></Spacer>
+
         <LangSwitch></LangSwitch>
       </Footer>
     </SideNavWrap>

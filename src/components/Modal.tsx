@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import usePortal from '../hooks/usePortal'
 import Backdrop from './Backdrop'
 
-type Props = {
+export type ModalProps = {
   visible: boolean
   onClose?: () => void
   title?: React.ReactNode
@@ -27,7 +27,7 @@ const Content = styled.div`
   width: 480px;
   background: #ffffff;
   box-shadow: 16px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 32px;
+  padding: 24px;
   transition: all 0.1s ease-in-out;
   text-align: left;
 
@@ -60,7 +60,7 @@ export const ModalActions = styled.div`
   justify-content: flex-end;
 `
 
-const Modal: React.FC<Props> = (props) => {
+const Modal: React.FC<ModalProps> = (props) => {
   const {
     children,
     title,
