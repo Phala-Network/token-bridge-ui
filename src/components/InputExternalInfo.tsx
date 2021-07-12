@@ -42,7 +42,7 @@ const InputExternalInfo: React.FC<Props> = (props) => {
 
   return (
     <div {...others}>
-      {label && <Label>{label}:</Label>}
+      {label && <Label>{label}: </Label>}
       {value && (
         <Value>{typeof value === 'number' ? toFixed(value) : value}</Value>
       )}

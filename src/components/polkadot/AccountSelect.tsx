@@ -1,5 +1,3 @@
-// import { FormControl } from 'baseui/form-control'
-// import { Option as SelectOption, Select } from 'baseui/select'
 import { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react'
 import { useApiPromise } from '../../libs/polkadot/hooks/useApiPromise'
 import { useWeb3 } from '../../libs/polkadot/hooks/useWeb3'

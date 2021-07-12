@@ -1,72 +1,99 @@
-import { BigNumber } from 'ethers'
-import { useMemo } from 'react'
-import { useBridgeContract } from '../../libs/ethereum/bridge/useBridgeContract'
-import { useEthereumNetworkOptions } from '../../libs/ethereum/queries/useNetworkConfigQuery'
+import { Block } from 'baseui/block'
+import { StyledLink } from 'baseui/link'
+import { PLACEMENT as TooltipPlacement, StatefulTooltip } from 'baseui/tooltip'
+import dayjs from 'dayjs'
+import RelativeTime from 'dayjs/plugin/relativeTime'
+import React, { useMemo } from 'react'
+import { bigNumberToDecimal } from '../../libs/ethereum/bridge/utils/balances'
+import { useDepositNonceQuery } from '../../libs/ethereum/queries/useDepositNonceQuery'
+import { useDepositRecordQuery } from '../../libs/ethereum/queries/useDepositRecordQuery'
+import { useEthereumNetworkOptions } from '../../libs/ethereum/queries/useEthereumNetworkOptions'
+import { useEthersNetworkQuery } from '../../libs/ethereum/queries/useEthersNetworkQuery'
 import { useTransactionReceiptQuery } from '../../libs/ethereum/queries/useTransactionReceiptQuery'
+import { useNetworkContext } from '../../libs/polkadot/hooks/useSubstrateNetwork'
+import { useBridgeVoteQuery } from '../../libs/polkadot/queries/useBridgeVoteQuery'
+
+dayjs.extend(RelativeTime)
 
 export const DepositStatus = ({ hash }: { hash?: string }): JSX.Element => {
-  const { contract } = useBridgeContract()
-  const network = useEthereumNetworkOptions()
-  const {
-    data: receipt,
-    isLoading: isReceiptLoading,
-    dataUpdatedAt,
-  } = useTransactionReceiptQuery(hash)
+    const { options: ethereum } = useEthereumNetworkOptions()
+    const { data: network } = useEthersNetworkQuery()
+    const { data: receipt, isLoading: isReceiptLoading, dataUpdatedAt } = useTransactionReceiptQuery(hash)
 
-  const depositMatcher = useMemo(
-    () => contract?.filters['Deposit']?.(null, null, null).topics?.[0],
-    [contract?.filters]
-  )
+    const { options: substrateOptions } = useNetworkContext()
+    const dstChainId = substrateOptions?.destChainIds[network?.chainId as number]
 
-  const depositNonce = useMemo(() => {
-    const nonces = receipt?.logs
-      .filter(
-        (log) =>
-          log.address === network?.bridge && log.topics[0] === depositMatcher
-      )
-      .map((log) => BigNumber.from(log.topics[3]).toNumber())
+    const { data: depositNonce, isLoading: isDepositNonceLoading } = useDepositNonceQuery(hash)
+    const { data: depositRecord } = useDepositRecordQuery(dstChainId, depositNonce)
 
-    if (nonces === undefined || nonces.length === 0) {
-      // no deposit event found, probably not a bridge transfer
-      return undefined
-    }
+    const amount = useMemo(() => bigNumberToDecimal(depositRecord?.amount, 12), [depositRecord?.amount]) // TODO: extract hardcoded decimal factor
 
-    if (nonces.length !== 1) {
-      // one transaction has exact one deposit event
-      throw new Error('Unexpected multiple deposit events in one transaction')
-    }
+    const { data: vote, isLoading: isVoteLoading } = useBridgeVoteQuery({
+        amount,
+        depositNonce,
+        recipient: depositRecord?.destinationRecipientAddress,
+        resourceId: depositRecord?.resourceID,
+        srcChainId: ethereum?.destChainId,
+    })
 
-    return nonces[0]
-  }, [depositMatcher, network?.bridge, receipt?.logs])
+    return (
+        <Block>
+            <p>
+                Transaction Hash:&nbsp;
+                <StyledLink
+                    href="#"
+                    onClick={() => {
+                        hash !== undefined && navigator.clipboard.writeText(hash).catch(() => {})
+                    }}
+                >
+                    {hash}
+                </StyledLink>
+                &nbsp;
+                {isReceiptLoading ? (
+                    <i>(loading status from Ethereum)</i>
+                ) : typeof receipt?.confirmations === 'number' && receipt.confirmations > 0 ? (
+                    <i>({receipt.confirmations} block confirmations)</i>
+                ) : (
+                    <i>(pending for confirmations)</i>
+                )}
+            </p>
 
-  return (
-    <>
-      <p>
-        Transaction Hash:&nbsp;
-        <a
-          href="#"
-          onClick={() => {
-            hash !== undefined &&
-              navigator.clipboard.writeText(hash).catch(() => {})
-          }}>
-          {hash}
-        </a>
-        &nbsp;
-        {isReceiptLoading ? (
-          <i>(loading status from Ethereum)</i>
-        ) : typeof receipt?.confirmations === 'number' &&
-          receipt.confirmations > 0 ? (
-          <i>({receipt.confirmations} block confirmations)</i>
-        ) : (
-          <i>(pending for confirmations)</i>
-        )}
-      </p>
+            <p>
+                Transfer Id (
+                <StatefulTooltip
+                    content={<>Bridge Deposit Nonce on Ethereum network</>}
+                    placement={TooltipPlacement.bottom}
+                    showArrow
+                >
+                    <StyledLink>?</StyledLink>
+                </StatefulTooltip>
+                ) : {depositNonce ?? (isDepositNonceLoading ? <i>loading</i> : <i>pending</i>)}
+            </p>
 
-      <p>Bridge Transfer Nonce: {depositNonce ?? <i>Pending</i>}</p>
+            <p>
+                Transfer Status (
+                <StatefulTooltip
+                    content={<>Bridge Transfer Proposal Status on Phala network</>}
+                    placement={TooltipPlacement.bottom}
+                    showArrow
+                >
+                    <StyledLink>?</StyledLink>
+                </StatefulTooltip>
+                ) :&nbsp;
+                {vote !== undefined && !vote.isEmpty ? (
+                    <>
+                        {vote?.status.toString()} ({vote?.votes_for?.length} votes)
+                    </>
+                ) : isVoteLoading ? (
+                    <i>loading</i>
+                ) : (
+                    <i>pending</i>
+                )}
+            </p>
 
-      <p>
-        <i>updated {dataUpdatedAt}</i>
-      </p>
-    </>
-  )
+            <p>
+                <i>updated {dayjs(dataUpdatedAt).fromNow()}</i>
+            </p>
+        </Block>
+    )
 }

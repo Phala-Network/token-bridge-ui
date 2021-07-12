@@ -4,7 +4,6 @@ import { Decimal } from 'decimal.js'
 import { getAddress, isAddress } from 'ethers/lib/utils'
 import { useMemo, useState } from 'react'
 import Button from '../components/Button'
-import { InjectedAccountSelectWithBalanceCaption as EthereumInjectedAccountSelectWithBalanceCaption } from '../components/ethereum/AccountSelect'
 import Input from '../components/Input'
 import { InjectedAccountSelectWithBalanceCaption as PolkadotInjectedAccountSelectWithBalanceCaption } from '../components/polkadot/AccountSelect'
 import { ExtrinsicStatusIndicator } from '../components/polkadot/ExtrinsicStatusIndicator'
@@ -39,7 +38,7 @@ const TransferToEthereumPage = (): JSX.Element => {
       setRecipient(undefined)
     }
   }
-
+  0x4b510edb1f076f1664a1416eb34a1a7880d2daa7
   const caption = useMemo(() => {
     if (amount !== undefined && decimals !== undefined) {
       return `${bnToDecimal(
@@ -108,10 +107,10 @@ const TransferToEthereumPage = (): JSX.Element => {
         />
         {/* </FormControl> */}
 
-        <EthereumInjectedAccountSelectWithBalanceCaption
+        {/* <EthereumInjectedAccountSelectWithBalanceCaption
           label="To Ethereum Recipient"
           onChange={(account) => handleRecipientChange(account)}
-        />
+        /> */}
 
         <Button
           onClick={() => handleSubmit()}

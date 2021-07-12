@@ -7,9 +7,6 @@ import { decodeAddress } from '@polkadot/util-crypto'
 import { BigNumber, ethers } from 'ethers'
 import { useMemo, useState } from 'react'
 import Button from '../components/Button'
-import { InjectedAccountSelectWithBalanceCaption as EthereumInjectedAccountSelectWithBalanceCaption } from '../components/ethereum/AccountSelect'
-import { AllowanceApprove } from '../components/ethereum/AllowanceGrant'
-import { DepositStatus } from '../components/ethereum/DepositStatus'
 import Input from '../components/Input'
 import { InjectedAccountSelect as PolkadotInjectedAccountSelect } from '../components/polkadot/AccountSelect'
 import { useErc20Deposit } from '../libs/ethereum/bridge/deposit'
@@ -96,21 +93,21 @@ const TransferToSubstratePage = (): JSX.Element => {
 
   return (
     <>
-      <EthereumInjectedAccountSelectWithBalanceCaption
+      {/* <EthereumInjectedAccountSelectWithBalanceCaption
         label="From Ethereum Account"
         onChange={(account) => setAccount(account)}
-      />
+      /> */}
 
       {/* <FormControl
         label={() => 'Amount'}
         caption={caption}
         positive={undefined}> */}
-      <Input
+      {/* <Input
         // error={amount === undefined}
         onChange={(e: { currentTarget: { value: string } }) =>
           handleAmountChange(e.currentTarget.value)
         }
-      />
+      /> */}
       {/* </FormControl> */}
 
       <PolkadotInjectedAccountSelect

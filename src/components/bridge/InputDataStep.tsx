@@ -81,7 +81,7 @@ const InputDataStep: React.FC<Props> = (props) => {
     return ethereumAccountBalance !== undefined
       ? `${ethereumAccountBalanceNumber} PHA`
       : ethereumAccount !== undefined
-      ? 'Loading'
+      ? '...'
       : undefined
   }, [ethereumAccountBalance])
 
@@ -100,8 +100,8 @@ const InputDataStep: React.FC<Props> = (props) => {
   function setMax() {
     setAmountInput(
       isFromEthereum
-        ? polkadotAccountBalanceNumber!
-        : ethereumAccountBalanceNumber!
+        ? ethereumAccountBalanceNumber!
+        : polkadotAccountBalanceNumber!
     )
   }
 
