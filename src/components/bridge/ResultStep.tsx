@@ -29,6 +29,7 @@ const AddressInfoBlackPanel = styled.div`
   color: #ffffff;
   word-break: break-all;
   max-width: 500px;
+  color: ${(p) => p.theme.colors.phala};
 `
 
 const AddressOfAmountInfo = styled.div`

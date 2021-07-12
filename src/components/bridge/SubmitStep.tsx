@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import AmountInfo from '../AmountInfo'
 import Button from '../Button'
 import InfoTitle from '../InfoTitle'
@@ -11,6 +11,13 @@ import { StepProps } from './BridgeProcess'
 import FormLayout from './FormLayout'
 import FormItem from './FormItem'
 import { InputDataStepResult } from './InputDataStep'
+import { useTransferSubmit } from '../../libs/polkadot/extrinsics/bridgeTransfer'
+import { useApiPromise } from '../../libs/polkadot/hooks/useApiPromise'
+import { useDecimalJsTokenDecimalMultiplier } from '../../libs/polkadot/useTokenDecimals'
+import { Decimal } from 'decimal.js'
+import { decimalToBalance } from '../../libs/polkadot/utils/balances'
+import { getAddress } from 'ethers/lib/utils'
+import { Hash } from '@polkadot/types/interfaces'
 
 type Props = {
   onPrev?: voidFn
@@ -20,7 +27,45 @@ type Props = {
 
 const SubmitStep: React.FC<Props> = (props) => {
   const { onSubmit, onPrev, layout, data } = props
-  const { from, to, amount } = data || {}
+  const { from, to, amount: amountFromPrevStep } = data || {}
+  const { account: accountFrom } = from || {}
+  const { account: accountTo } = to || {}
+
+  const { api } = useApiPromise()
+  const decimals = useDecimalJsTokenDecimalMultiplier(api)
+  const transferSubmit = useTransferSubmit(/* NOTE: pass destination Ethereum network Id here to override */)
+  const [submittedHash, setSubmittedHash] = useState<Hash>()
+  const [isSubmitting, setSubmitting] = useState<boolean>(false)
+
+  const amount = useMemo(() => {
+    if (!amountFromPrevStep || !api || !decimals) return
+
+    return decimalToBalance(new Decimal(amountFromPrevStep), decimals, api)
+  }, [amountFromPrevStep, api, decimals])
+
+  const submit = async () => {
+    if (!accountTo || !amount || !accountFrom) {
+      return
+    }
+
+    try {
+      setSubmitting(true)
+      const accountFromAddress = getAddress(accountFrom)
+
+      const hash = await transferSubmit?.(
+        amount,
+        accountFromAddress,
+        accountTo,
+        (status) => console.log('status', status)
+      )
+
+      setSubmittedHash(hash)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <>
@@ -61,7 +106,7 @@ const SubmitStep: React.FC<Props> = (props) => {
         )}
         {onSubmit && (
           <ModalAction>
-            <Button type="primary" onClick={onSubmit}>
+            <Button type="primary" onClick={submit}>
               Submit
             </Button>
           </ModalAction>
@@ -72,3 +117,19 @@ const SubmitStep: React.FC<Props> = (props) => {
 }
 
 export default SubmitStep
+
+class LazyPromise {
+  private _promise: Promise<any> | null = null
+
+  constructor(private _fn: () => Promise<any>) {}
+
+  get promise(): Promise<any> {
+    if (!this._promise) {
+      this._promise = this._fn()
+    }
+
+    return this._promise
+  }
+
+  public put(value: any): void {}
+}

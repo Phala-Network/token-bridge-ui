@@ -8,7 +8,6 @@ import TradeTypeSelect, {
 } from '../TradeTypeSelect'
 import Button from '../Button'
 import { ModalAction, ModalActions } from '../Modal'
-import { useEffect } from 'react'
 import { StepProps } from './BridgeProcess'
 import FormItem from './FormItem'
 import FormLayout from './FormLayout'
@@ -18,6 +17,7 @@ import { voidFn } from '../../types/normal'
 import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
 import { useBalance } from '../../libs/polkadot/useBalance'
 import { useAtom } from 'jotai'
+import ethereumAccountAtom from '../../atoms/ethereumAccountAtom'
 
 export type InputDataStepResult = {
   from: {
@@ -43,14 +43,20 @@ const InputDataStep: React.FC<Props> = (props) => {
   const [amountInput, setAmountInput] = useState<number>()
   const [recipient, setRecipient] = useState<string>()
   const [polkadotAccount] = useAtom(polkadotAccountAtom)
-  const balance = useBalance(polkadotAccount?.address)
+  const polkadotAccountAddress = polkadotAccount?.address
+  const [ethereumAccount] = useAtom(ethereumAccountAtom)
+  const ethereumAccountAddress = ethereumAccount?.address
+  const balance = useBalance(polkadotAccountAddress)
   const [
     tradeTypeSelectValue,
     setTradeTypeSelectValue,
   ] = useState<TradeTypeSelectValue>(DEFAULT_VALUE)
+  const isFromEthereum = tradeTypeSelectValue.from.network === 'ethereum'
 
   function setMyAddress() {
-    setRecipient(polkadotAccount?.address)
+    setRecipient(
+      isFromEthereum ? polkadotAccountAddress : ethereumAccountAddress
+    )
   }
 
   function setMax() {
@@ -58,21 +64,25 @@ const InputDataStep: React.FC<Props> = (props) => {
   }
 
   const onTradeTypeSelectChange = (value: TradeTypeSelectValue) => {
-    console.info('todo onTradeTypeSelectChange', value)
     setTradeTypeSelectValue(value)
   }
 
   const submit = () => {
+    const accountFrom = isFromEthereum
+      ? ethereumAccountAddress
+      : polkadotAccountAddress
+    const accountTo = amountInput!
+
     onNext({
       from: {
         ...tradeTypeSelectValue.from,
-        account: polkadotAccount?.address!,
+        account: accountFrom!,
       },
       to: {
         ...tradeTypeSelectValue.to,
         account: recipient!,
       },
-      amount: amountInput!,
+      amount: accountTo,
     })
   }
 
