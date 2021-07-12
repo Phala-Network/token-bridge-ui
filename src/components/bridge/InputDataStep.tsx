@@ -102,9 +102,7 @@ const InputDataStep: React.FC<Props> = (props) => {
         <FormItem>
           <Input
             value={recipient}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setRecipient(e.currentTarget.value)
-            }
+            onChange={setRecipient}
             size="large"
             placeholder="Destination Address"
             after={<InputAction onClick={setMyAddress}>MY ADDRESS</InputAction>}
@@ -114,7 +112,7 @@ const InputDataStep: React.FC<Props> = (props) => {
 
           <InputNumber
             size="large"
-            onChange={(value) => setAmountInput(value)}
+            onChange={(value) => setAmountInput(value as number)}
             value={amountInput}
             placeholder="Amount (PHA)"
             after={<InputAction onClick={setMax}>MAX</InputAction>}
