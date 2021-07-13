@@ -20,12 +20,14 @@ import { useAtom } from 'jotai'
 import ethereumAccountAtom from '../../atoms/ethereumAccountAtom'
 import { useErc20BalanceQuery } from '../../libs/ethereum/queries/useErc20BalanceQuery'
 import { ethers } from 'ethers'
+import { Decimal } from 'decimal.js'
 
 export type InputDataStepResult = {
   from: {
     type: string
     network: string
     account: string
+    balance: Decimal
   }
   to: {
     type: string
@@ -119,6 +121,11 @@ const InputDataStep: React.FC<Props> = (props) => {
       from: {
         ...tradeTypeSelectValue.from,
         account: accountFrom!,
+        balance: new Decimal(
+          isFromEthereum
+            ? ethereumAccountBalanceNumber
+            : polkadotAccountBalanceNumber
+        ),
       },
       to: {
         ...tradeTypeSelectValue.to,

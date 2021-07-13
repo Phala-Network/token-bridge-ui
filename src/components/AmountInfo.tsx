@@ -41,7 +41,7 @@ const Divider = styled.div`
 `
 
 type Props = {
-  amount: number
+  amount?: number | string
   type?: string
   network?: string
 } & ComponentProps<typeof AmountInfoWrap>
@@ -53,7 +53,11 @@ const AmountInfo: React.FC<Props> = (props) => {
     <AmountInfoWrap {...others}>
       <Header>
         {network && <Type>{network}</Type>}
-        <Amount>{toFixed(amount)}</Amount>
+        {amount && (
+          <Amount>
+            {typeof amount === 'string' ? amount : toFixed(amount)}
+          </Amount>
+        )}
         {type && <Tag>{type}</Tag>}
       </Header>
 

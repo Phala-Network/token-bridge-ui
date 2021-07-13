@@ -61,8 +61,6 @@ const SubmitStep: React.FC<Props> = (props) => {
       )
 
       setSubmittedHash(hash)
-
-      console.log('hash', hash)
     } catch (e) {
       console.error(e)
     } finally {
@@ -120,19 +118,3 @@ const SubmitStep: React.FC<Props> = (props) => {
 }
 
 export default SubmitStep
-
-class LazyPromise {
-  private _promise: Promise<any> | null = null
-
-  constructor(private _fn: () => Promise<any>) {}
-
-  get promise(): Promise<any> {
-    if (!this._promise) {
-      this._promise = this._fn()
-    }
-
-    return this._promise
-  }
-
-  public put(value: any): void {}
-}
