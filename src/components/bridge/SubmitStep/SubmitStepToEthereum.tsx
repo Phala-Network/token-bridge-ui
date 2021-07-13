@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
-import AmountInfo from '../AmountInfo'
-import Button from '../Button'
-import InfoTitle from '../InfoTitle'
-import InputExternalInfo from '../InputExternalInfo'
-import { ModalAction, ModalActions } from '../Modal'
-import Spacer from '../Spacer'
-import Address from '../Address'
-import { voidFn } from '../../types/normal'
-import { StepProps } from './BridgeProcess'
-import FormLayout from './FormLayout'
-import FormItem from './FormItem'
-import { InputDataStepResult } from './InputDataStep'
-import { useErc20Deposit } from '../../libs/ethereum/bridge/deposit'
+import AmountInfo from '../../AmountInfo'
+import Button from '../../Button'
+import InfoTitle from '../../InfoTitle'
+import InputExternalInfo from '../../InputExternalInfo'
+import { ModalAction, ModalActions } from '../../Modal'
+import Spacer from '../../Spacer'
+import Address from '../../Address'
+import { voidFn } from '../../../types/normal'
+import { StepProps } from '../BridgeProcess'
+import FormLayout from '../FormLayout'
+import FormItem from '../FormItem'
+import { InputDataStepResult } from '../InputDataStep'
+import { useErc20Deposit } from '../../../libs/ethereum/bridge/deposit'
 import { ethers } from 'ethers'
-import { AllowanceApprove } from '../ethereum/AllowanceGrant'
+import { AllowanceApprove } from '../../ethereum/AllowanceGrant'
 import { decodeAddress } from '@polkadot/util-crypto'
 import { u8aToHex } from '@polkadot/util'
 
@@ -23,7 +23,7 @@ type Props = {
   data?: InputDataStepResult
 } & StepProps
 
-const SubmitStep: React.FC<Props> = (props) => {
+const SubmitStepToEthereum: React.FC<Props> = (props) => {
   const { onSubmit, onPrev, layout, data } = props
   const { from, to, amount: amountFromPrevStep } = data || {}
   const { account: accountFrom } = from || {}
@@ -107,4 +107,4 @@ const SubmitStep: React.FC<Props> = (props) => {
   )
 }
 
-export default SubmitStep
+export default SubmitStepToEthereum

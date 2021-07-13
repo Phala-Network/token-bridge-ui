@@ -1,21 +1,21 @@
 import React, { useMemo, useState } from 'react'
-import AmountInfo from '../AmountInfo'
-import Button from '../Button'
-import InfoTitle from '../InfoTitle'
-import InputExternalInfo from '../InputExternalInfo'
-import { ModalAction, ModalActions } from '../Modal'
-import Spacer from '../Spacer'
-import Address from '../Address'
-import { voidFn } from '../../types/normal'
-import { StepProps } from './BridgeProcess'
-import FormLayout from './FormLayout'
-import FormItem from './FormItem'
-import { InputDataStepResult } from './InputDataStep'
-import { useTransferSubmit } from '../../libs/polkadot/extrinsics/bridgeTransfer'
-import { useApiPromise } from '../../libs/polkadot/hooks/useApiPromise'
-import { useDecimalJsTokenDecimalMultiplier } from '../../libs/polkadot/useTokenDecimals'
+import AmountInfo from '../../AmountInfo'
+import Button from '../../Button'
+import InfoTitle from '../../InfoTitle'
+import InputExternalInfo from '../../InputExternalInfo'
+import { ModalAction, ModalActions } from '../../Modal'
+import Spacer from '../../Spacer'
+import Address from '../../Address'
+import { voidFn } from '../../../types/normal'
+import { StepProps } from '../BridgeProcess'
+import FormLayout from '../FormLayout'
+import FormItem from '../FormItem'
+import { InputDataStepResult } from '../InputDataStep'
+import { useTransferSubmit } from '../../../libs/polkadot/extrinsics/bridgeTransfer'
+import { useApiPromise } from '../../../libs/polkadot/hooks/useApiPromise'
+import { useDecimalJsTokenDecimalMultiplier } from '../../../libs/polkadot/useTokenDecimals'
 import { Decimal } from 'decimal.js'
-import { decimalToBalance } from '../../libs/polkadot/utils/balances'
+import { decimalToBalance } from '../../../libs/polkadot/utils/balances'
 import { getAddress } from 'ethers/lib/utils'
 import { Hash } from '@polkadot/types/interfaces'
 
@@ -25,7 +25,7 @@ type Props = {
   data?: InputDataStepResult
 } & StepProps
 
-const SubmitStep: React.FC<Props> = (props) => {
+const SubmitStepToPhala: React.FC<Props> = (props) => {
   const { onSubmit, onPrev, layout, data } = props
   const { from, to, amount: amountFromPrevStep } = data || {}
   const { account: accountFrom } = from || {}
@@ -117,4 +117,4 @@ const SubmitStep: React.FC<Props> = (props) => {
   )
 }
 
-export default SubmitStep
+export default SubmitStepToPhala

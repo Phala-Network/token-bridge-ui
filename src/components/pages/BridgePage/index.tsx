@@ -8,7 +8,6 @@ import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
 import Modal from '../../Modal'
 import SubmitStep from '../../bridge/SubmitStep'
 import useSentry from '../../../hooks/useSentry'
-import SubmitStep2 from '../../bridge/SubmitStep2'
 
 type Props = {}
 
@@ -45,20 +44,11 @@ const BridgePage: React.FC<Props> = () => {
           <InputDataStep layout={'inline'} onNext={showSubmitModal} />
 
           <Modal visible={modalVisible} title="Bridge Modal">
-            {submitData?.to.network === 'ethereum' && (
-              <SubmitStep
-                data={submitData}
-                onPrev={() => setModalVisible(false)}
-                onSubmit={onSubmit}
-              />
-            )}
-            {submitData?.to.network === 'phala' && (
-              <SubmitStep2
-                data={submitData}
-                onPrev={() => setModalVisible(false)}
-                onSubmit={onSubmit}
-              />
-            )}
+            <SubmitStep
+              data={submitData}
+              onPrev={() => setModalVisible(false)}
+              onSubmit={onSubmit}
+            />
           </Modal>
         </WhiteCard>
       </RightContent>
