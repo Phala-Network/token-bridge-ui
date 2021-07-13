@@ -21,6 +21,8 @@ import ethereumAccountAtom from '../../atoms/ethereumAccountAtom'
 import { useErc20BalanceQuery } from '../../libs/ethereum/queries/useErc20BalanceQuery'
 import { ethers } from 'ethers'
 import { Decimal } from 'decimal.js'
+import { useEffect } from 'react'
+import ErrorText from '../ErrorText'
 
 export type InputDataStepResult = {
   from: {
@@ -50,6 +52,7 @@ const InputDataStep: React.FC<Props> = (props) => {
   const polkadotAccountAddress = polkadotAccount?.address
   const [ethereumAccount] = useAtom(ethereumAccountAtom)
   const ethereumAccountAddress = ethereumAccount?.address
+  const [errorString, setErrorString] = useState('')
 
   const polkadotAccountBalance = useBalance(polkadotAccountAddress)
   const { data: ethereumAccountBalance } = useErc20BalanceQuery(
@@ -89,7 +92,11 @@ const InputDataStep: React.FC<Props> = (props) => {
     tradeTypeSelectValue,
     setTradeTypeSelectValue,
   ] = useState<TradeTypeSelectValue>(DEFAULT_VALUE)
+
   const isFromEthereum = tradeTypeSelectValue.from.network === 'ethereum'
+  const currentAddress = isFromEthereum
+    ? ethereumAccountAddress
+    : polkadotAccountAddress
 
   function setMyAddress() {
     setRecipient(
@@ -109,11 +116,26 @@ const InputDataStep: React.FC<Props> = (props) => {
     setTradeTypeSelectValue(value)
   }
 
+  useEffect(() => {
+    setRecipient('')
+    setAmountInput(0)
+  }, [currentAddress])
+
   const submit = () => {
     const accountFrom = isFromEthereum
       ? ethereumAccountAddress
       : polkadotAccountAddress
-    const accountTo = amountInput!
+    const amountTo = amountInput!
+
+    if (!amountTo) {
+      setErrorString('need enter amount')
+      return
+    }
+
+    if (!accountFrom) {
+      setErrorString('need enter address')
+      return
+    }
 
     onNext({
       from: {
@@ -129,7 +151,7 @@ const InputDataStep: React.FC<Props> = (props) => {
         ...tradeTypeSelectValue.to,
         account: recipient!,
       },
-      amount: new Decimal(accountTo),
+      amount: new Decimal(amountTo),
     })
   }
 
@@ -198,6 +220,10 @@ const InputDataStep: React.FC<Props> = (props) => {
           </Button>
         </ModalAction>
       </ModalActions>
+
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <ErrorText>{errorString}</ErrorText>
+      </div>
     </>
   )
 }
