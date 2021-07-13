@@ -21,7 +21,7 @@ export type TradeTypeSelectProps = {
 
 export const DEFAULT_VALUE = {
   from: {
-    type: 'ePHA',
+    type: 'PHA',
     network: 'ethereum',
   },
   to: {
