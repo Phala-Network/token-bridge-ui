@@ -38,18 +38,22 @@ const SubmitStep: React.FC<Props> = (props) => {
   const [lastTxError, setTxError] = useState<Error>()
   const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
-  const submit = () => {
+  const submit = async () => {
     setTxError(undefined)
     setTxResponse(undefined)
     setSubmitting(true)
 
-    submitDeposit?.(
+    const recipient = u8aToHex(decodeAddress(accountTo))
+
+    const response = await submitDeposit?.(
       ethers.utils.parseUnits(amountFromPrevStep?.toString()!, 18),
-      u8aToHex(decodeAddress(accountTo))
+      recipient
     )
-      .then((response) => setTxResponse(response))
-      .catch((error) => setTxError(error))
-      .finally(() => setSubmitting(false))
+
+    setTxResponse(response)
+
+    // .catch((error) => setTxError(error))
+    // .finally(() => setSubmitting(false))
   }
 
   return (

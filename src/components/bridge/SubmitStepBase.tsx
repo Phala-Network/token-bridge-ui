@@ -39,7 +39,7 @@ const SubmitStepBase: React.FC<Props> = (props) => {
           <InfoTitle>To</InfoTitle>
           <AmountInfo
             network={to?.network}
-            amount={amountFromPrevStep}
+            amount={amountFromPrevStep?.toString()}
             type={to?.type}>
             <Address>{to?.account}</Address>
           </AmountInfo>

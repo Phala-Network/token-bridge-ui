@@ -34,7 +34,7 @@ export type InputDataStepResult = {
     network: string
     account: string
   }
-  amount: number
+  amount: Decimal
 }
 
 type Props = {
@@ -55,8 +55,6 @@ const InputDataStep: React.FC<Props> = (props) => {
   const { data: ethereumAccountBalance } = useErc20BalanceQuery(
     ethereumAccountAddress
   )
-
-  console.log('ethereumAccountBalance', ethereumAccountBalance)
 
   const ethereumAccountBalanceNumber = useMemo(() => {
     if (ethereumAccountBalance) {
@@ -131,7 +129,7 @@ const InputDataStep: React.FC<Props> = (props) => {
         ...tradeTypeSelectValue.to,
         account: recipient!,
       },
-      amount: accountTo,
+      amount: new Decimal(accountTo),
     })
   }
 
