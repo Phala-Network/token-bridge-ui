@@ -132,8 +132,13 @@ const InputDataStep: React.FC<Props> = (props) => {
       return
     }
 
+    if (!recipient) {
+      setErrorString('need enter recipient')
+      return
+    }
+
     if (!accountFrom) {
-      setErrorString('need enter address')
+      setErrorString('need login')
       return
     }
 
