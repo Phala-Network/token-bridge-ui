@@ -39,15 +39,22 @@ const SubmitStepToPhala: React.FC<Props> = (props) => {
 
     const recipient = u8aToHex(decodeAddress(accountTo))
 
-    const response = await submitDeposit?.(
-      ethers.utils.parseUnits(amountFromPrevStep?.toString()!, 18),
-      recipient
-    )
+    try {
+      const response = await submitDeposit?.(
+        ethers.utils.parseUnits(amountFromPrevStep?.toString()!, 18),
+        recipient
+      )
 
-    setTxResponse(response)
+      setTxResponse(response)
 
-    // .catch((error) => setTxError(error))
-    // .finally(() => setSubmitting(false))
+      console.log('response', response)
+    } catch (error) {
+      setTxError(error)
+
+      console.log('error', error)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -60,20 +67,32 @@ const SubmitStepToPhala: React.FC<Props> = (props) => {
 
       <EthereumAllowance account={accountFrom}></EthereumAllowance>
 
-      <ModalActions>
-        {onPrev && (
+      {lastTxResponse && (
+        <ModalActions>
           <ModalAction>
-            <Button onClick={onPrev}>Back</Button>
-          </ModalAction>
-        )}
-        {onSubmit && (
-          <ModalAction>
-            <Button type="primary" onClick={submit}>
-              Submit
+            <Button type="primary" onClick={onPrev}>
+              Done
             </Button>
           </ModalAction>
-        )}
-      </ModalActions>
+        </ModalActions>
+      )}
+
+      {!lastTxResponse && (
+        <ModalActions>
+          {onPrev && !isSubmitting && (
+            <ModalAction>
+              <Button onClick={onPrev}>Back</Button>
+            </ModalAction>
+          )}
+          {onSubmit && (
+            <ModalAction>
+              <Button loading={isSubmitting} type="primary" onClick={submit}>
+                {isSubmitting ? 'Submitting' : 'Submit'}
+              </Button>
+            </ModalAction>
+          )}
+        </ModalActions>
+      )}
     </>
   )
 }
