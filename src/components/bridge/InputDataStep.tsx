@@ -127,6 +127,8 @@ const InputDataStep: React.FC<Props> = (props) => {
       : polkadotAccountAddress
     const amountTo = amountInput!
 
+    setErrorString('')
+
     if (!amountTo) {
       setErrorString('need enter amount')
       return

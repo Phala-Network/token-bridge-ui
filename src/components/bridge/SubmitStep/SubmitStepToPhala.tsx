@@ -15,6 +15,8 @@ import { ethers } from 'ethers'
 import { AllowanceApprove } from '../../ethereum/AllowanceGrant'
 import { decodeAddress } from '@polkadot/util-crypto'
 import { u8aToHex } from '@polkadot/util'
+import { ErrorBoundary } from 'react-error-boundary'
+import EthereumAllowance from '../EthereumAllowance'
 
 type Props = {
   onPrev?: voidFn
@@ -28,8 +30,6 @@ const SubmitStepToPhala: React.FC<Props> = (props) => {
   const { account: accountFrom } = from || {}
   const { account: accountTo } = to || {}
   const submitDeposit = useErc20Deposit(accountFrom)
-  const [account, setAccount] = useState<string>()
-  const [recipient, setRecipient] = useState<string>()
   const [
     lastTxResponse,
     setTxResponse,
@@ -80,7 +80,11 @@ const SubmitStepToPhala: React.FC<Props> = (props) => {
         </FormItem>
       </FormLayout>
 
-      <AllowanceApprove owner={account!} />
+      <ErrorBoundary fallbackRender={() => null}>
+        <AllowanceApprove owner={accountFrom!} />
+      </ErrorBoundary>
+
+      <EthereumAllowance account={accountFrom}></EthereumAllowance>
 
       <ModalActions>
         {onPrev && (
