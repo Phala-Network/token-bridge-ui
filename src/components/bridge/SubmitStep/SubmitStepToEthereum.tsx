@@ -1,15 +1,8 @@
 import React, { useMemo, useState } from 'react'
-import AmountInfo from '../../AmountInfo'
 import Button from '../../Button'
-import InfoTitle from '../../InfoTitle'
-import InputExternalInfo from '../../InputExternalInfo'
 import { ModalAction, ModalActions } from '../../Modal'
-import Spacer from '../../Spacer'
-import Address from '../../Address'
 import { voidFn } from '../../../types/normal'
 import { StepProps } from '../BridgeProcess'
-import FormLayout from '../FormLayout'
-import FormItem from '../FormItem'
 import { InputDataStepResult } from '../InputDataStep'
 import { useTransferSubmit } from '../../../libs/polkadot/extrinsics/bridgeTransfer'
 import { useApiPromise } from '../../../libs/polkadot/hooks/useApiPromise'
@@ -17,7 +10,8 @@ import { useDecimalJsTokenDecimalMultiplier } from '../../../libs/polkadot/useTo
 import { Decimal } from 'decimal.js'
 import { decimalToBalance } from '../../../libs/polkadot/utils/balances'
 import { getAddress } from 'ethers/lib/utils'
-import { Hash } from '@polkadot/types/interfaces'
+import { ExtrinsicStatus, Hash } from '@polkadot/types/interfaces'
+import BaseInfo from './BaseInfo'
 
 type Props = {
   onPrev?: voidFn
@@ -36,6 +30,7 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
   const transferSubmit = useTransferSubmit(42)
   const [submittedHash, setSubmittedHash] = useState<Hash>()
   const [isSubmitting, setSubmitting] = useState<boolean>(false)
+  const [extrinsicStatus, setExtrinsicStatus] = useState<ExtrinsicStatus[]>([])
 
   const amount = useMemo(() => {
     if (!amountFromPrevStep || !api || !decimals) return
@@ -57,7 +52,10 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
         amount,
         accountToAddress,
         accountFrom,
-        (status) => console.log('status', status)
+        (status) => {
+          console.log('status', status)
+          setExtrinsicStatus([...extrinsicStatus, status])
+        }
       )
 
       setSubmittedHash(hash)
@@ -70,43 +68,38 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
 
   return (
     <>
-      <FormLayout layout={layout}>
-        <FormItem>
-          <InfoTitle>From</InfoTitle>
-          <AmountInfo
-            network={from?.network}
-            amount={from?.balance.toString()}
-            type={from?.type}
-          />
-        </FormItem>
+      <BaseInfo layout={layout} data={data}></BaseInfo>
 
-        <Spacer></Spacer>
+      {extrinsicStatus.map((status) => (
+        <div>{status.type}</div>
+      ))}
 
-        <FormItem>
-          <InfoTitle>To</InfoTitle>
-          <AmountInfo
-            network={to?.network}
-            amount={amountFromPrevStep?.toString()}
-            type={to?.type}>
-            <Address>{to?.account}</Address>
-          </AmountInfo>
-        </FormItem>
-      </FormLayout>
-
-      <ModalActions>
-        {onPrev && (
+      {submittedHash && (
+        <ModalActions>
           <ModalAction>
-            <Button onClick={onPrev}>Back</Button>
-          </ModalAction>
-        )}
-        {onSubmit && (
-          <ModalAction>
-            <Button loading={isSubmitting} type="primary" onClick={submit}>
-              {isSubmitting ? 'Submitting' : 'Submit'}
+            <Button type="primary" onClick={onPrev}>
+              Done
             </Button>
           </ModalAction>
-        )}
-      </ModalActions>
+        </ModalActions>
+      )}
+
+      {!submittedHash && (
+        <ModalActions>
+          {onPrev && !isSubmitting && (
+            <ModalAction>
+              <Button onClick={onPrev}>Back</Button>
+            </ModalAction>
+          )}
+          {onSubmit && (
+            <ModalAction>
+              <Button loading={isSubmitting} type="primary" onClick={submit}>
+                {isSubmitting ? 'Submitting' : 'Submit'}
+              </Button>
+            </ModalAction>
+          )}
+        </ModalActions>
+      )}
     </>
   )
 }

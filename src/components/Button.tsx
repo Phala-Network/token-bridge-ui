@@ -76,7 +76,7 @@ const Button: React.FC<Props> = (props) => {
   const { loading = false, children, type = 'normal', shape, ...others } = props
 
   return (
-    <ButtonWrap disable={loading} shape={shape} className={type} {...others}>
+    <ButtonWrap disabled={loading} shape={shape} className={type} {...others}>
       {children}
     </ButtonWrap>
   )
