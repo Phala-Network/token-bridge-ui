@@ -65,8 +65,6 @@ const SubmitStepToPhala: React.FC<Props> = (props) => {
         <AllowanceApprove owner={accountFrom!} />
       </ErrorBoundary>
 
-      <EthereumAllowance account={accountFrom}></EthereumAllowance>
-
       {lastTxResponse && (
         <ModalActions>
           <ModalAction>
@@ -86,9 +84,13 @@ const SubmitStepToPhala: React.FC<Props> = (props) => {
           )}
           {onSubmit && (
             <ModalAction>
-              <Button loading={isSubmitting} type="primary" onClick={submit}>
-                {isSubmitting ? 'Submitting' : 'Submit'}
-              </Button>
+              <EthereumAllowance
+                placeholder={<Button type="primary">Allowance</Button>}
+                account={accountFrom}>
+                <Button loading={isSubmitting} type="primary" onClick={submit}>
+                  {isSubmitting ? 'Submitting' : 'Submit'}
+                </Button>
+              </EthereumAllowance>
             </ModalAction>
           )}
         </ModalActions>
