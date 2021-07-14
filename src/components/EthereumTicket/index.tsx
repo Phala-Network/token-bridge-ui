@@ -67,18 +67,16 @@ const index: React.FC<Props> = () => {
           no={ethereumAccount?.address}
           name={<TicketName>Ethereum</TicketName>}
           bottomContent={
-            <div>
-              <BlockStripe
-                {...{
-                  color: '#ECECEC',
-                  backgroundColor: '#202020',
-                  blockSize: 4,
-                  column: 40,
-                  row: 4,
-                  random: 0.5,
-                }}
-              />
-            </div>
+            <BlockStripe
+              {...{
+                color: '#ECECEC',
+                backgroundColor: '#202020',
+                blockSize: 4,
+                column: 40,
+                row: 4,
+                random: 0.5,
+              }}
+            />
           }
         />
       )}
