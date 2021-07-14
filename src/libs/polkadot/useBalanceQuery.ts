@@ -5,13 +5,9 @@ import { useApiPromise } from './hooks/useApiPromise'
 
 const BalanceQueryKey = uuidv4()
 
-export function useBalanceQuery(
-  account?: AccountId | string
-): UseQueryResult<BalanceOf> {
-  const { api } = useApiPromise()
-  return useQuery([BalanceQueryKey, account, api === undefined], async () =>
-    account !== undefined
-      ? (await api?.query.system.account(account))?.data.free
-      : undefined
-  )
+export function useBalanceQuery(account?: AccountId | string): UseQueryResult<BalanceOf> {
+    const { api } = useApiPromise()
+    return useQuery([BalanceQueryKey, account, api === undefined], async () =>
+        account !== undefined ? (await api?.query.system.account(account))?.data.free : undefined
+    )
 }

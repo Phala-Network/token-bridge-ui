@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { Balance, AccountId } from '@polkadot/types/interfaces'
-import { useApiPromise } from './hooks/useApiPromise'
 import { VoidFn } from '@polkadot/api/types'
+import { useApiPromise } from '../libs/polkadot/hooks/useApiPromise'
 
 export const useBalance = (
   address?: string | AccountId | Uint8Array

@@ -10,8 +10,8 @@ import Ticket, {
   TicketName as _TicketName,
 } from '../Ticket'
 import { useTheme } from 'styled-components'
-import { useBalance } from '../../libs/polkadot/useBalance'
 import styled from 'styled-components'
+import { useBalance } from '../../hooks/useBalance'
 
 const khalaLogo = (
   <svg

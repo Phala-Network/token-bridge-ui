@@ -1,64 +1,55 @@
-import {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react'
 import { substrates } from '../../../config'
 import { SubstrateNetworkOptions } from '../../configuration'
 
 interface INetworkContext {
-  /**
-   * id of currently currently connected network
-   */
-  network?: string
+    /**
+     * id of currently currently connected network
+     */
+    network?: string
 
-  /**
-   * network options of currently connected network
-   */
-  options?: SubstrateNetworkOptions
+    /**
+     * network options of currently connected network
+     */
+    options?: SubstrateNetworkOptions
 
-  /**
-   * switch to network {id}
-   */
-  setNetwork: (id: string) => void
+    /**
+     * switch to network {id}
+     */
+    setNetwork: (id: string) => void
 }
 
 const NetworkContext = createContext<INetworkContext>({ setNetwork: () => {} })
 
 export const NetworkContextProvider = ({
-  children,
-  defaultNetwork,
+    children,
+    defaultNetwork,
 }: PropsWithChildren<{ defaultNetwork: string }>): JSX.Element => {
-  const [network, setNetwork] = useState<string>(defaultNetwork)
+    const [network, setNetwork] = useState<string>(defaultNetwork)
 
-  if (substrates[defaultNetwork] === undefined) {
-    throw new Error(`Default network ${defaultNetwork} is not configured`)
-  }
-
-  const handleSetNetwork = (id: string) => {
-    if (substrates[id] === undefined) {
-      throw new Error(`Network ${id} is not configured`)
+    if (substrates[defaultNetwork] === undefined) {
+        throw new Error(`Default network ${defaultNetwork} is not configured`)
     }
 
-    setNetwork(id)
-  }
+    const handleSetNetwork = (id: string) => {
+        if (substrates[id] === undefined) {
+            throw new Error(`Network ${id} is not configured`)
+        }
 
-  useEffect(() => {
-    setNetwork(defaultNetwork)
-  }, [defaultNetwork])
+        setNetwork(id)
+    }
 
-  const value = {
-    network,
-    options: substrates[network] as SubstrateNetworkOptions,
-    setNetwork: handleSetNetwork,
-  }
+    useEffect(() => {
+        setNetwork(defaultNetwork)
+    }, [defaultNetwork])
 
-  return (
-    <NetworkContext.Provider value={value}>{children}</NetworkContext.Provider>
-  )
+    const value = {
+        network,
+        options: substrates[network] as SubstrateNetworkOptions,
+        setNetwork: handleSetNetwork,
+    }
+
+    return <NetworkContext.Provider value={value}>{children}</NetworkContext.Provider>
 }
 
-export const useNetworkContext = (): INetworkContext =>
-  useContext(NetworkContext)
+export const useNetworkContext = (): INetworkContext => useContext(NetworkContext)
