@@ -4,11 +4,13 @@ import styled from 'styled-components'
 type ButtonProps = {
   type?: 'normal' | 'primary'
   shape?: 'round' | 'circle'
+  loading?: boolean
 }
 
 type Props = ButtonProps & React.ComponentProps<typeof ButtonWrap>
 
 const ButtonWrap = styled.button<ButtonProps>`
+  position: relative;
   align-items: center;
   border: none;
   display: flex;
@@ -18,7 +20,6 @@ const ButtonWrap = styled.button<ButtonProps>`
   font-weight: bold;
   height: 56px;
   justify-content: center;
-  left: 111px;
   line-height: 19px;
   order: 1;
   padding: 10px 24px 11px;
@@ -28,6 +29,8 @@ const ButtonWrap = styled.button<ButtonProps>`
   border-color: transparent;
   cursor: pointer;
   border-radius: ${(props) => (props.shape === 'round' ? 56 : 0)}px;
+
+  ${({ loading }) => loading && `color: transparent; `}
 
   &.primary {
     background: ${(props) => props.theme.colors.phala};
@@ -58,10 +61,22 @@ const ButtonWrap = styled.button<ButtonProps>`
   }
 `
 
+const Loading = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 const Button: React.FC<Props> = (props) => {
-  const { children, type = 'normal', shape, ...others } = props
+  const { loading = false, children, type = 'normal', shape, ...others } = props
+
   return (
-    <ButtonWrap shape={shape} className={type} {...others}>
+    <ButtonWrap disable={loading} shape={shape} className={type} {...others}>
       {children}
     </ButtonWrap>
   )

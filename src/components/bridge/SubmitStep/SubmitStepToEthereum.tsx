@@ -33,7 +33,7 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
 
   const { api } = useApiPromise()
   const decimals = useDecimalJsTokenDecimalMultiplier(api)
-  const transferSubmit = useTransferSubmit(/* NOTE: pass destination Ethereum network Id here to override */)
+  const transferSubmit = useTransferSubmit(42)
   const [submittedHash, setSubmittedHash] = useState<Hash>()
   const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
@@ -101,8 +101,8 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
         )}
         {onSubmit && (
           <ModalAction>
-            <Button type="primary" onClick={submit}>
-              Submit
+            <Button loading={isSubmitting} type="primary" onClick={submit}>
+              {isSubmitting ? 'Submitting' : 'Submit'}
             </Button>
           </ModalAction>
         )}

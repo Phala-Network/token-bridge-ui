@@ -6,60 +6,82 @@ import { useNetworkContext } from '../hooks/useSubstrateNetwork'
 import { waitSignAndSend } from '../utils/signAndSend'
 
 interface TransferProps {
-    amount: BalanceOf
-    api: ApiPromise
-    destChainId: number
-    recipient: string
-    sender: string
+  amount: BalanceOf
+  api: ApiPromise
+  destChainId: number
+  recipient: string
+  sender: string
 
-    onstatus?: (status: ExtrinsicStatus) => void
+  onstatus?: (status: ExtrinsicStatus) => void
 }
 
 export const transfer = async ({
-    amount,
-    api,
-    destChainId,
-    onstatus,
-    recipient,
-    sender,
+  amount,
+  api,
+  destChainId,
+  onstatus,
+  recipient,
+  sender,
 }: TransferProps): Promise<Hash> => {
-    const web3FromAddress = (await import('@polkadot/extension-dapp')).web3FromAddress
+  const web3FromAddress = (await import('@polkadot/extension-dapp'))
+    .web3FromAddress
 
-    const signer = (await web3FromAddress(sender)).signer
-    const extrinsic = api.tx.bridgeTransfer.transferNative(amount, recipient, destChainId)
+  const signer = (await web3FromAddress(sender)).signer
+  const extrinsic = api.tx.bridgeTransfer.transferNative(
+    amount,
+    recipient,
+    destChainId
+  )
 
-    return await waitSignAndSend({ account: sender, api, extrinsic, onstatus, signer })
+  return await waitSignAndSend({
+    account: sender,
+    api,
+    extrinsic,
+    onstatus,
+    signer,
+  })
 }
 
 type TransferSubmit = (
-    amount: BalanceOf,
-    recipient: string,
-    sender: string,
-    onstatus?: (status: ExtrinsicStatus) => void
+  amount: BalanceOf,
+  recipient: string,
+  sender: string,
+  onstatus?: (status: ExtrinsicStatus) => void
 ) => Promise<Hash>
 
 /**
  * Submits fungible tranfer from Substrate to foreign chains
  * @param ethereumChainId Chain Id of destination Ethereum network (e.g Kovan for 42)
  */
-export const useTransferSubmit = (ethereumChainId?: number): TransferSubmit | undefined => {
-    const { api } = useApiPromise()
-    const { options } = useNetworkContext()
+export const useTransferSubmit = (
+  ethereumChainId?: number
+): TransferSubmit | undefined => {
+  const { api } = useApiPromise()
+  const { options } = useNetworkContext()
 
-    const destChainId = options?.peerChainIds[ethereumChainId as number] as number | undefined
+  const destChainId = options?.peerChainIds[ethereumChainId as number] as
+    | number
+    | undefined
 
-    return useMemo(() => {
-        if (api === undefined || destChainId === undefined) {
-            return undefined
-        }
+  return useMemo(() => {
+    if (api === undefined || destChainId === undefined) {
+      return undefined
+    }
 
-        return async (
-            amount: BalanceOf,
-            recipient: string,
-            sender: string,
-            onstatus?: (status: ExtrinsicStatus) => void
-        ): Promise<Hash> => {
-            return await transfer({ amount, api, destChainId, onstatus, recipient, sender })
-        }
-    }, [api, destChainId])
+    return async (
+      amount: BalanceOf,
+      recipient: string,
+      sender: string,
+      onstatus?: (status: ExtrinsicStatus) => void
+    ): Promise<Hash> => {
+      return await transfer({
+        amount,
+        api,
+        destChainId,
+        onstatus,
+        recipient,
+        sender,
+      })
+    }
+  }, [api, destChainId])
 }
