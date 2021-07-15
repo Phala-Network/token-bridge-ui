@@ -40,10 +40,12 @@ const SubmitStepToPhala: React.FC<Props> = (props) => {
     const recipient = u8aToHex(decodeAddress(accountTo))
 
     try {
-      const response = await submitDeposit?.(
-        ethers.utils.parseUnits(amountFromPrevStep?.toString()!, 18),
-        recipient
+      const amount = ethers.utils.parseUnits(
+        amountFromPrevStep?.toString()!,
+        18
       )
+
+      const response = await submitDeposit?.(amount, recipient)
 
       setTxResponse(response)
 

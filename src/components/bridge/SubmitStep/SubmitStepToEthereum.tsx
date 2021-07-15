@@ -14,6 +14,7 @@ import { ExtrinsicStatus, Hash } from '@polkadot/types/interfaces'
 import BaseInfo from './BaseInfo'
 import Alert from '../../Alert/Alert'
 import Spacer from '../../Spacer'
+import Progress from './Progress'
 
 type Props = {
   onPrev?: voidFn
@@ -79,8 +80,10 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
       <Spacer></Spacer>
 
       <Alert>
-        Please be patient as the transaction may take a few minutes. You can
-        follow each step of the transaction here once you confirm it!
+        {/* Please be patient as the transaction may take a few minutes. You can
+        follow each step of the transaction here once you confirm it! */}
+
+        <Progress></Progress>
       </Alert>
 
       {submittedHash && (
