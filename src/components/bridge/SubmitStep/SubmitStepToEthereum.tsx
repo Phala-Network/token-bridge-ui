@@ -12,6 +12,8 @@ import { decimalToBalance } from '../../../libs/polkadot/utils/balances'
 import { getAddress } from 'ethers/lib/utils'
 import { ExtrinsicStatus, Hash } from '@polkadot/types/interfaces'
 import BaseInfo from './BaseInfo'
+import Alert from '../../Alert/Alert'
+import Spacer from '../../Spacer'
 
 type Props = {
   onPrev?: voidFn
@@ -73,6 +75,13 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
       {extrinsicStatus.map((status) => (
         <div>{status.type}</div>
       ))}
+
+      <Spacer></Spacer>
+
+      <Alert>
+        Please be patient as the transaction may take a few minutes. You can
+        follow each step of the transaction here once you confirm it!
+      </Alert>
 
       {submittedHash && (
         <ModalActions>
