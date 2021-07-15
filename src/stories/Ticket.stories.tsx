@@ -26,7 +26,7 @@ export const active = Template.bind({})
 
 active.args = {
   no: '0xC28C2D8769A20C2002E',
-  name: 'Phala',
+  name: 'Khala',
   active: true,
   bottomContent: (
     <BlockStripe

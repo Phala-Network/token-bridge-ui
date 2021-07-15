@@ -3,7 +3,7 @@ import { voidFn } from '../../../types/normal'
 import { StepProps } from '../BridgeProcess'
 import { InputDataStepResult } from '../InputDataStep'
 import SubmitStepToEthereum from './SubmitStepToEthereum'
-import SubmitStepToPhala from './SubmitStepToPhala'
+import SubmitStepToKhala from './SubmitStepToKhala'
 
 type SubmitStepProps = {
   onPrev?: voidFn
@@ -16,8 +16,8 @@ const SubmitStep: React.FC<SubmitStepProps> = (props) => {
 
   if (data?.to.network === 'ethereum') {
     return <SubmitStepToEthereum {...props} />
-  } else if (data?.to.network === 'phala') {
-    return <SubmitStepToPhala {...props} />
+  } else if (data?.to.network === 'khala') {
+    return <SubmitStepToKhala {...props} />
   } else {
     return null
   }

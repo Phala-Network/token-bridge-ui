@@ -19,7 +19,7 @@ type Props = {
   data?: InputDataStepResult
 } & StepProps
 
-const SubmitStepToPhala: React.FC<Props> = (props) => {
+const SubmitStepToKhala: React.FC<Props> = (props) => {
   const { onSubmit, onPrev, layout, data } = props
   const { from, to, amount: amountFromPrevStep } = data || {}
   const { account: accountFrom } = from || {}
@@ -101,4 +101,4 @@ const SubmitStepToPhala: React.FC<Props> = (props) => {
   )
 }
 
-export default SubmitStepToPhala
+export default SubmitStepToKhala

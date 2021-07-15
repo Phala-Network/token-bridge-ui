@@ -26,7 +26,7 @@ export const DEFAULT_VALUE = {
   },
   to: {
     type: 'PHA',
-    network: 'phala',
+    network: 'khala',
   },
 }
 
