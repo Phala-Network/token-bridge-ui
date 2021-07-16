@@ -55,27 +55,21 @@ const index: React.FC<Props> = () => {
 
   return (
     <>
-      {!polkadotAccount ? (
-        <Ticket
-          onClick={openAccountSelectModal}
-          cover={
-            <DefaultStatus>
-              <DefaultStatusIcon>
-                <img src={logo} alt="logo" />
-              </DefaultStatusIcon>
-              <DefaultStatusName>{`Connect Polkadot{.js}`}</DefaultStatusName>
-            </DefaultStatus>
-          }
-        />
-      ) : (
-        <Ticket
-          onClick={openAccountSelectModal}
-          themeColor={theme.colors.khala}
-          no={polkadotAccount?.address}
-          name={<TicketName>Khala</TicketName>}
-          bottomContent={balanceDisplay}
-        />
-      )}
+      <Ticket
+        onClick={openAccountSelectModal}
+        themeColor={theme.colors.khala}
+        no={polkadotAccount?.address}
+        name={<TicketName>Khala</TicketName>}
+        bottomContent={balanceDisplay}
+        cover={
+          <DefaultStatus>
+            <DefaultStatusIcon>
+              <img src={logo} alt="logo" />
+            </DefaultStatusIcon>
+            <DefaultStatusName>{`Connect Polkadot{.js}`}</DefaultStatusName>
+          </DefaultStatus>
+        }
+      />
 
       <SelectAccountModal
         accounts={polkadotAccounts}

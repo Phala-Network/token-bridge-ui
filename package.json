@@ -52,7 +52,7 @@
     "web3modal": "^1.9.3"
   },
   "scripts": {
-    "develop": "gatsby develop",
+    "develop": "gatsby develop -p 8008",
     "start": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
