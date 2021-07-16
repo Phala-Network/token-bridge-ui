@@ -7,10 +7,6 @@
 const path = require('path')
 
 module.exports = {
-  /* Your site config here */
-  flags: {
-    DEV_SSR: false,
-  },
   plugins: [
     {
       resolve: `gatsby-plugin-intl`,

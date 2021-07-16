@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect } from 'react'
 import { ComponentProps } from 'react'
 import styled from 'styled-components'
 
@@ -65,8 +66,13 @@ export const TicketName = styled.div`
 
 const Ticket: React.FC<Props> = (props) => {
   const { no, bottomContent, themeColor = '', name, cover, ...others } = props
+  const [isActive, setIsActive] = React.useState(false)
 
-  if (!window) {
+  useEffect(() => {
+    setIsActive(true)
+  }, [])
+
+  if (!isActive) {
     return null
   }
 
