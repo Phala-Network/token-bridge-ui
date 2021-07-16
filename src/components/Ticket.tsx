@@ -69,11 +69,11 @@ const Ticket: React.FC<Props> = (props) => {
   return (
     <Root {...others}>
       <Content>
-        {no && (
+        {no ? (
           <No key="no">
             {no?.slice(0, 4)} . . . {no?.slice(-8)}
           </No>
-        )}
+        ) : null}
 
         {bottomContent && <div style={{ marginTop: 4 }}>{bottomContent}</div>}
 
