@@ -70,16 +70,19 @@ const Ticket: React.FC<Props> = (props) => {
     <Root {...others}>
       <Content>
         {no ? (
-          <No>
-            {no?.slice(0, 4)} . . . {no?.slice(-8)}
-          </No>
+          <>
+            <No>
+              {' '}
+              {no?.slice(0, 4)} . . . {no?.slice(-8)}
+            </No>
+
+            {bottomContent ? (
+              <div style={{ marginTop: 4 }}>{bottomContent}</div>
+            ) : null}
+          </>
         ) : (
           <Cover>{cover}</Cover>
         )}
-
-        {bottomContent ? (
-          <div style={{ marginTop: 4 }}>{bottomContent}</div>
-        ) : null}
       </Content>
 
       {name}
