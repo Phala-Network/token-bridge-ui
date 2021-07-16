@@ -66,6 +66,10 @@ export const TicketName = styled.div`
 const Ticket: React.FC<Props> = (props) => {
   const { no, bottomContent, themeColor = '', name, cover, ...others } = props
 
+  if (!window) {
+    return null
+  }
+
   return (
     <Root {...others}>
       <Content>
