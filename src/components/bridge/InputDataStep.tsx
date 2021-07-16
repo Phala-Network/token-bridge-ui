@@ -2,10 +2,7 @@ import React, { useMemo, useState } from 'react'
 import InputAction from '../InputAction'
 import InputExternalInfo from '../InputExternalInfo'
 import Spacer from '../Spacer'
-import TradeTypeSelect, {
-  DEFAULT_VALUE,
-  TradeTypeSelectValue,
-} from '../TradeTypeSelect'
+import TradeTypeSelect, { TradeTypeSelectValue } from '../TradeTypeSelect'
 import Button from '../Button'
 import { ModalAction, ModalActions } from '../Modal'
 import { StepProps } from './BridgeProcess'
@@ -23,6 +20,7 @@ import { ethers } from 'ethers'
 import { Decimal } from 'decimal.js'
 import { useEffect } from 'react'
 import ErrorText from '../ErrorText'
+import DEFAULT_VALUE from '../TradeTypeSelect/DEFAULT_VALUE'
 
 export type InputDataStepResult = {
   from: {

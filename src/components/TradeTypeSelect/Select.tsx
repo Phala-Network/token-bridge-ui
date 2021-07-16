@@ -37,11 +37,10 @@ const Value = styled.div`
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
-  color: #202020;
+  color: #ffffff;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 120px;
   position: relative;
 `
@@ -72,15 +71,18 @@ type Props = {
   disable: boolean
   selectItems?: string[]
   value: string
+  icon: React.ReactNode
+  color: string
 }
 
 const Select: React.FC<Props> = (props) => {
-  const { onChange, selectItems = [], value, disable } = props
+  const { color, icon, onChange, selectItems = [], value, disable } = props
   const [visible, setVisible] = useState(false)
 
   return (
     <SelectWrap>
-      <Value onClick={() => !disable && setVisible(true)}>
+      <Value style={{ color }} onClick={() => !disable && setVisible(true)}>
+        {icon}
         <span>{value || 'Select'}</span>
         {!disable && <SelectIcon></SelectIcon>}
       </Value>

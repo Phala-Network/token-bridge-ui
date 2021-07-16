@@ -8,7 +8,7 @@ type Props = {
 }
 
 const Form: React.FC<Props> = (props) => {
-  return <Block {...props} backgroundColor="#c5cdf2" title="Form" />
+  return <Block {...props} title="Form" />
 }
 
 export default Form
