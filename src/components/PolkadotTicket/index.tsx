@@ -38,6 +38,9 @@ const index: React.FC<Props> = () => {
       })),
     [accounts]
   )
+
+  console.log('accounts', accounts)
+
   const balanceDisplay = !balance
     ? '. . .'
     : balance.toString?.() === '0'
