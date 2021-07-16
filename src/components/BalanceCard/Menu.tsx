@@ -19,14 +19,14 @@ const MenuWrap = styled.div<{ active: boolean }>`
 `
 
 const Buttons = styled.div<{ active: boolean }>`
+  padding: 0 8px;
   position: absolute;
   top: -20px;
-  width: 144px;
+  max-width: 144px;
   left: 50%;
   margin-left: -72px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
   background-color: #ececec;
 `
 
@@ -39,6 +39,10 @@ const Button = styled.div<{ active: boolean }>`
   color: #202020;
   opacity: ${(props) => (props.active ? 1 : 0)};
   transition: opacity 0.2s linear;
+
+  & + & {
+    margin-left: 12px;
+  }
 `
 
 const ButtonBottomBorder = styled.div<{ active: boolean }>`
@@ -49,12 +53,23 @@ const ButtonBottomBorder = styled.div<{ active: boolean }>`
   transition: width 0.15s linear 0.05s;
 `
 
-type Props = {
-  active: boolean
+export type MenuProps = {
+  disableTransfer?: boolean
+  disableBridge?: boolean
+  disableConvert?: boolean
 }
 
+type Props = {
+  active: boolean
+} & MenuProps
+
 const Menu: React.FC<Props> = (props) => {
-  const { active } = props
+  const {
+    active,
+    disableTransfer = false,
+    disableBridge = false,
+    disableConvert = false,
+  } = props
   const [visibleBridge, setVisibleBridge] = useState(false)
   const [visibleTransferModal, setVisibleTransferModal] = useState(false)
   const [visibleConvertModal, setVisibleConvertModal] = useState(false)
@@ -63,34 +78,37 @@ const Menu: React.FC<Props> = (props) => {
     <>
       <MenuWrap active={active}></MenuWrap>
       <Buttons active={active}>
-        <Button onClick={() => setVisibleTransferModal(true)} active={active}>
-          <span>Transfer</span>
-          <ButtonBottomBorder active={active}></ButtonBottomBorder>
-        </Button>
-        <Button onClick={() => setVisibleBridge(true)} active={active}>
-          <span>Bridge</span>
-          <ButtonBottomBorder active={active}></ButtonBottomBorder>
-        </Button>
-        <Button onClick={() => setVisibleConvertModal(true)} active={active}>
-          <span>Convert</span>
-          <ButtonBottomBorder active={active}></ButtonBottomBorder>
-        </Button>
+        {!disableTransfer && (
+          <Button onClick={() => setVisibleTransferModal(true)} active={active}>
+            <span>Transfer</span>
+            <ButtonBottomBorder active={active}></ButtonBottomBorder>
+          </Button>
+        )}
+        {!disableBridge && (
+          <Button onClick={() => setVisibleBridge(true)} active={active}>
+            <span>Bridge</span>
+            <ButtonBottomBorder active={active}></ButtonBottomBorder>
+          </Button>
+        )}
+        {!disableConvert && (
+          <Button onClick={() => setVisibleConvertModal(true)} active={active}>
+            <span>Convert</span>
+            <ButtonBottomBorder active={active}></ButtonBottomBorder>
+          </Button>
+        )}
       </Buttons>
 
       <ConvertModal
         visible={visibleConvertModal}
-        onClose={() => setVisibleConvertModal(false)}
-      ></ConvertModal>
+        onClose={() => setVisibleConvertModal(false)}></ConvertModal>
 
       <TransferModal
         visible={visibleTransferModal}
-        onClose={() => setVisibleTransferModal(false)}
-      ></TransferModal>
+        onClose={() => setVisibleTransferModal(false)}></TransferModal>
 
       <BridgeModal
         visible={visibleBridge}
-        onClose={() => setVisibleBridge(false)}
-      ></BridgeModal>
+        onClose={() => setVisibleBridge(false)}></BridgeModal>
     </>
   )
 }

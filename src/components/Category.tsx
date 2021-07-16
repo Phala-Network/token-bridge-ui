@@ -9,16 +9,15 @@ const Point = styled.div`
 `
 
 const CategoryWrap = styled.div`
-  border-left: 1px solid #cccccc;
   position: relative;
-  padding: 0 0 40px 160px;
+  padding: 16px 48px 40px 160px;
 `
 
 const CategoryHeader = styled.div`
   display: flex;
   position: absolute;
   left: -16px;
-  top: 80px;
+  top: 0;
   font-family: Lato;
   font-style: normal;
   font-weight: bold;
@@ -38,6 +37,7 @@ const Description = styled.div`
 const CategoryContent = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin-top: -50px;
 `
 
 type Props = {
