@@ -70,14 +70,14 @@ const Ticket: React.FC<Props> = (props) => {
     <Root {...others}>
       <Content>
         {no && (
-          <No>
+          <No key="no">
             {no?.slice(0, 4)} . . . {no?.slice(-8)}
           </No>
         )}
 
         {bottomContent && <div style={{ marginTop: 4 }}>{bottomContent}</div>}
 
-        <Cover>{cover}</Cover>
+        <Cover key="cover">{cover}</Cover>
       </Content>
 
       {name}
