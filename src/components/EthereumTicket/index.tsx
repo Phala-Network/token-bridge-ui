@@ -18,8 +18,7 @@ import logoImage from './logo.png'
 type Props = {}
 
 const TicketName = styled(_TicketName)`
-  color: #ececec;
-  background: black;
+  background: #c5cdf2;
   font-size: 8px;
   letter-spacing: 0;
 `
