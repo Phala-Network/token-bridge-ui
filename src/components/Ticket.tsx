@@ -19,7 +19,7 @@ const Root = styled.div`
   transition: all 0.15s;
 `
 
-const No = styled.div`
+const No2 = styled.div`
   font-weight: 700;
   text-align: right;
   font-size: 10px;
@@ -71,10 +71,10 @@ const Ticket: React.FC<Props> = (props) => {
       <Content>
         {no ? (
           <>
-            <No>
+            <No2>
               {' '}
               {no?.slice(0, 4)} . . . {no?.slice(-8)}
-            </No>
+            </No2>
 
             {bottomContent ? (
               <div style={{ marginTop: 4 }}>{bottomContent}</div>
