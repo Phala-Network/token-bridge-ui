@@ -41,6 +41,11 @@ const Content = styled.div`
   width: 200px;
 `
 
+const Cover = styled.div`
+  width: 100%;
+  height: 100%;
+`
+
 export const TicketName = styled.div`
   position: absolute;
   width: 46px;
@@ -72,7 +77,7 @@ const Ticket: React.FC<Props> = (props) => {
 
         {bottomContent && <div style={{ marginTop: 4 }}>{bottomContent}</div>}
 
-        <div>{cover}</div>
+        <Cover>{cover}</Cover>
       </Content>
 
       {name}
@@ -91,6 +96,11 @@ export const DefaultStatus = styled.div`
 
 export const DefaultStatusIcon = styled.div`
   margin: 0 13px 0 6px;
+
+  img {
+    width: 26px;
+    height: auto;
+  }
 `
 
 export const DefaultStatusName = styled.div`
@@ -101,6 +111,6 @@ export const DefaultStatusName = styled.div`
   line-height: 14px;
   display: flex;
   align-items: center;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.03em;
   color: #ececec;
 `
