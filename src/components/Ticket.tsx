@@ -72,7 +72,7 @@ const Ticket: React.FC<Props> = (props) => {
 
         {bottomContent && <div style={{ marginTop: 4 }}>{bottomContent}</div>}
 
-        {/* {cover} */}
+        <div>{cover}</div>
       </Content>
 
       {name}
