@@ -71,8 +71,8 @@ type Props = {
   disable: boolean
   selectItems?: string[]
   value: string
-  icon: React.ReactNode
-  color: string
+  icon?: React.ReactNode
+  color?: string
 }
 
 const Select: React.FC<Props> = (props) => {
