@@ -4,13 +4,13 @@ import styled, { css } from 'styled-components'
 import useClickAway from '../../hooks/useClickAway'
 import toFixed from '../../utils/toFixed'
 import Dollar from './Dollar'
-import Menu from './Menu'
+import Menu, { MenuProps } from './Menu'
 
 type Props = {
   themeType: 'black' | 'white'
   balance: number
   header: React.ReactNode
-}
+} & MenuProps
 
 const Wrap = styled.div<{ active: boolean }>`
   width: 144px;
@@ -62,7 +62,14 @@ const Background = styled.div`
 `
 
 const BalanceCard: React.FC<Props> = (props) => {
-  const { themeType, balance = 0, header } = props
+  const {
+    themeType,
+    balance = 0,
+    header,
+    disableTransfer,
+    disableBridge,
+    disableConvert,
+  } = props
   const [active, setActive] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -73,14 +80,17 @@ const BalanceCard: React.FC<Props> = (props) => {
   return (
     <Background
       ref={ref}
-      onClick={() => {
-        setActive((prev) => !prev)
-      }}>
+      onMouseEnter={() => setActive(true)}
+      onMouseLeave={() => setActive(false)}>
       <Wrap active={active} className={themeType}>
         {header}
         <Balance>{toFixed(balance)}</Balance>
         <Dollar themeType={themeType}>{toFixed(888.88)}</Dollar>
-        <Menu active={active}></Menu>
+        <Menu
+          active={active}
+          disableTransfer={disableTransfer}
+          disableBridge={disableBridge}
+          disableConvert={disableConvert}></Menu>
       </Wrap>
     </Background>
   )
