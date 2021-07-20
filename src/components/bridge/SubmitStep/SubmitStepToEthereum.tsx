@@ -1,19 +1,19 @@
+import { ExtrinsicStatus, Hash } from '@polkadot/types/interfaces'
+import { Decimal } from 'decimal.js'
+import { getAddress } from 'ethers/lib/utils'
 import React, { useMemo, useState } from 'react'
-import Button from '../../Button'
-import { ModalAction, ModalActions } from '../../Modal'
-import { voidFn } from '../../../types/normal'
-import { StepProps } from '../BridgeProcess'
-import { InputDataStepResult } from '../InputDataStep'
 import { useTransferSubmit } from '../../../libs/polkadot/extrinsics/bridgeTransfer'
 import { useApiPromise } from '../../../libs/polkadot/hooks/useApiPromise'
 import { useDecimalJsTokenDecimalMultiplier } from '../../../libs/polkadot/useTokenDecimals'
-import { Decimal } from 'decimal.js'
 import { decimalToBalance } from '../../../libs/polkadot/utils/balances'
-import { getAddress } from 'ethers/lib/utils'
-import { ExtrinsicStatus, Hash } from '@polkadot/types/interfaces'
-import BaseInfo from './BaseInfo'
+import { voidFn } from '../../../types/normal'
 import Alert from '../../Alert/Alert'
+import Button from '../../Button'
+import { ModalAction, ModalActions } from '../../Modal'
 import Spacer from '../../Spacer'
+import { StepProps } from '../BridgeProcess'
+import { InputDataStepResult } from '../InputDataStep'
+import BaseInfo from './BaseInfo'
 import Progress from './Progress'
 
 type Props = {
@@ -56,7 +56,6 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
         accountToAddress,
         accountFrom,
         (status) => {
-          console.log('status', status)
           setExtrinsicStatus([...extrinsicStatus, status])
         }
       )
@@ -72,10 +71,6 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
   return (
     <>
       <BaseInfo layout={layout} data={data}></BaseInfo>
-
-      {extrinsicStatus.map((status) => (
-        <div>{status.type}</div>
-      ))}
 
       <Spacer></Spacer>
 
