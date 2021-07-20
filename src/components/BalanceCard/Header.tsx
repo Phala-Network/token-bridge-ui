@@ -12,6 +12,10 @@ export const Header = styled.div`
   line-height: 14px;
   display: flex;
   align-items: center;
+
+  & > svg {
+    margin-left: -8px;
+  }
 `
 
 export const BlackHeader = styled(Header)`
@@ -46,8 +50,7 @@ export const StripeHeader: FC<ComponentProps<typeof StripeHeaderWrap>> = (
         colorCheck(status, index) {
           return index < 30 ? true : status > 0.3
         },
-      }}
-    >
+      }}>
       <StripeHeaderWrap {...props}></StripeHeaderWrap>
     </BlockStripe>
   )

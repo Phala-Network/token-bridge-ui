@@ -26,5 +26,13 @@ module.exports = {
         trackingIds: ['G-E0PDMEJQ0T'],
       },
     },
+    {
+      resolve: 'gatsby-plugin-react-svg',
+      options: {
+        rule: {
+          include: /.svg$/,
+        },
+      },
+    },
   ],
 }
