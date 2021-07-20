@@ -2,9 +2,7 @@ import React from 'react'
 import Table from '../../Table'
 import TableAction from '../../Table/TableAction'
 
-type Props = {}
-
-const DetailTable: React.FC<Props> = () => {
+const DetailTable: React.FC = () => {
   const data = new Array(10)
     .fill({
       firstName: 'rainstorm',

@@ -1,6 +1,4 @@
-import React from 'react'
-import { useEffect } from 'react'
-import { ComponentProps } from 'react'
+import React, { ComponentProps, useEffect } from 'react'
 import styled from 'styled-components'
 
 type Props = {
@@ -65,7 +63,7 @@ export const TicketName = styled.div`
 `
 
 const Ticket: React.FC<Props> = (props) => {
-  const { no, bottomContent, themeColor = '', name, cover, ...others } = props
+  const { no, bottomContent, name, cover, ...others } = props
   const [isActive, setIsActive] = React.useState(false)
 
   useEffect(() => {
