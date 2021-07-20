@@ -2,6 +2,7 @@ import React, { ComponentProps } from 'react'
 import styled from 'styled-components'
 import { voidFn } from '../../types/normal'
 import Spacer from '../Spacer'
+import Tooltip from '../Tooltip'
 
 const TransactionsHeaderRoot = styled.div`
   display: flex;
@@ -35,7 +36,9 @@ const TransactionsHeader: React.FC<Props> = (props) => {
   const { onClickHeader, active, ...others } = props
 
   return (
-    <>
+    <Tooltip
+      placement="topLeft"
+      overlay={<span>Press here to toggle panel.</span>}>
       <TransactionsHeaderRoot {...others}>
         {active ? (
           <svg
@@ -67,7 +70,7 @@ const TransactionsHeader: React.FC<Props> = (props) => {
 
         <Title onClick={onClickHeader}>Transactions Panel</Title>
       </TransactionsHeaderRoot>
-    </>
+    </Tooltip>
   )
 }
 

@@ -38,7 +38,6 @@ const BridgePage: React.FC = () => {
       </Helmet>
       <RightContent>
         <Announcement></Announcement>
-
         <WhiteCard>
           <InputDataStep layout={'inline'} onNext={showSubmitModal} />
 

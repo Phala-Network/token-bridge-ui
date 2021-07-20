@@ -12,6 +12,7 @@ import { NetworkContextProvider } from './libs/polkadot/hooks/useSubstrateNetwor
 import { Web3Provider as PolkadotWeb3Provider } from './libs/polkadot/hooks/useWeb3'
 import './ReactToastify.css'
 import theme from './theme'
+import './tooltip.css'
 
 const WrapApp: React.FC = ({ children }) => {
   const client = useRef(new QueryClient())
