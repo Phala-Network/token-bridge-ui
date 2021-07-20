@@ -1,17 +1,12 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import styled from 'styled-components'
 import Spacer from '../Spacer'
-import TransactionsPanel from './TransactionsPanel'
 
-const TransactionRoot = styled.div`
+const TransactionsHeaderRoot = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
   padding: 8px 16px;
-  position: fixed;
-  right: 48px;
-  bottom: 48px;
   background: #ffffff;
   z-index: 1;
 
@@ -29,12 +24,12 @@ const TransactionRoot = styled.div`
   }
 `
 
-const TransactionsButton: React.FC = () => {
-  const [visible, setVisible] = React.useState(false)
+type Props = ComponentProps<typeof TransactionsHeaderRoot>
 
+const TransactionsHeader: React.FC<Props> = (props) => {
   return (
     <>
-      <TransactionRoot onClick={() => setVisible(true)}>
+      <TransactionsHeaderRoot {...props}>
         <svg
           width="9"
           height="10"
@@ -47,14 +42,12 @@ const TransactionsButton: React.FC = () => {
           />
         </svg>
 
-        <Spacer x={1}></Spacer>
+        <Spacer x={0.6}></Spacer>
 
         <span>Transactions Panel</span>
-      </TransactionRoot>
-
-      {visible && <TransactionsPanel></TransactionsPanel>}
+      </TransactionsHeaderRoot>
     </>
   )
 }
 
-export default TransactionsButton
+export default TransactionsHeader
