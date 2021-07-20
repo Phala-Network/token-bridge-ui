@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import BaseLayout from '../../BaseLayout'
-import WhiteCard from '../../WhiteCard'
 import { Helmet } from 'react-helmet'
-import Announcement from '../../Announcement'
 import styled from 'styled-components'
-import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
-import Modal from '../../Modal'
-import SubmitStep from '../../bridge/SubmitStep'
 import useSentry from '../../../hooks/useSentry'
+import Announcement from '../../Announcement'
+import BaseLayout from '../../BaseLayout'
+import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
+import SubmitStep from '../../bridge/SubmitStep'
+import Modal from '../../Modal'
+import TransactionsButton from '../../transactions/TransactionsButton'
+import WhiteCard from '../../WhiteCard'
 
 type Props = {}
 
@@ -51,6 +52,8 @@ const BridgePage: React.FC<Props> = () => {
             />
           </Modal>
         </WhiteCard>
+
+        <TransactionsButton></TransactionsButton>
       </RightContent>
     </BaseLayout>
   )

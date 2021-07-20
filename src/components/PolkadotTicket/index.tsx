@@ -39,8 +39,6 @@ const index: React.FC<Props> = () => {
     [accounts]
   )
 
-  console.log('accounts', accounts)
-
   const balanceDisplay = !balance
     ? '. . .'
     : balance.toString?.() === '0'
@@ -55,21 +53,27 @@ const index: React.FC<Props> = () => {
 
   return (
     <>
-      <Ticket
-        onClick={openAccountSelectModal}
-        themeColor={theme.colors.khala}
-        no={polkadotAccount?.address}
-        name={<TicketName>Khala</TicketName>}
-        bottomContent={balanceDisplay}
-        cover={
-          <DefaultStatus>
-            <DefaultStatusIcon>
-              <img src={logo} alt="logo" />
-            </DefaultStatusIcon>
-            <DefaultStatusName>{`Connect Polkadot{.js}`}</DefaultStatusName>
-          </DefaultStatus>
-        }
-      />
+      {!polkadotAccount ? (
+        <Ticket
+          onClick={openAccountSelectModal}
+          cover={
+            <DefaultStatus>
+              <DefaultStatusIcon>
+                <img src={logo} alt="logo" />
+              </DefaultStatusIcon>
+              <DefaultStatusName>{`Connect Polkadot{.js}`}</DefaultStatusName>
+            </DefaultStatus>
+          }
+        />
+      ) : (
+        <Ticket
+          onClick={openAccountSelectModal}
+          themeColor={theme.colors.khala}
+          no={polkadotAccount?.address}
+          name={<TicketName>Khala</TicketName>}
+          bottomContent={balanceDisplay}
+        />
+      )}
 
       <SelectAccountModal
         accounts={polkadotAccounts}
