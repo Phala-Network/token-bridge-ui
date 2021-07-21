@@ -161,6 +161,24 @@ const InputDataStep: React.FC<Props> = (props) => {
 
   return (
     <>
+      <div style={{ height: 26 }}>
+        {!isFromEthereum && polkadotAccountBalance && (
+          <InputExternalInfo
+            style={{ textAlign: 'right' }}
+            label={'Balance'}
+            value={polkadotAccountBalance?.toHuman()}
+          />
+        )}
+
+        {isFromEthereum && ethereumAccountBalanceString && (
+          <InputExternalInfo
+            style={{ textAlign: 'right' }}
+            label={'Balance'}
+            value={ethereumAccountBalanceString}
+          />
+        )}
+      </div>
+
       <FormLayout layout={layout}>
         <FormItem>
           <TradeTypeSelect
@@ -190,24 +208,6 @@ const InputDataStep: React.FC<Props> = (props) => {
             placeholder="Amount (PHA)"
             after={<InputAction onClick={setMax}>MAX</InputAction>}
           />
-
-          <Spacer y={0.2}></Spacer>
-
-          {!isFromEthereum && polkadotAccountBalance && (
-            <InputExternalInfo
-              style={{ textAlign: 'right' }}
-              label={'Balance'}
-              value={polkadotAccountBalance?.toHuman()}
-            />
-          )}
-
-          {isFromEthereum && ethereumAccountBalanceString && (
-            <InputExternalInfo
-              style={{ textAlign: 'right' }}
-              label={'Balance'}
-              value={ethereumAccountBalanceString}
-            />
-          )}
         </FormItem>
       </FormLayout>
 
