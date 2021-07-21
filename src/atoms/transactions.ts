@@ -1,5 +1,5 @@
 import { atomWithStorage } from 'jotai/utils'
 
-const transactionsAtom = atomWithStorage<any[] | undefined>('transactions', [])
+const transactionsAtom = atomWithStorage<any[]>('transactions', [])
 
 export default transactionsAtom

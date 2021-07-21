@@ -34,11 +34,11 @@ const TransactionsListItem: React.FC<TransactionsListItemProps> = (props) => {
     <ItemRoot>
       <Status status={status}></Status>
 
-      <ItemInfoBlock {...to}></ItemInfoBlock>
+      <ItemInfoBlock {...from}></ItemInfoBlock>
 
       <ArrowIcon></ArrowIcon>
 
-      <ItemInfoBlock {...from}></ItemInfoBlock>
+      <ItemInfoBlock {...to}></ItemInfoBlock>
 
       <JumpIcon></JumpIcon>
 

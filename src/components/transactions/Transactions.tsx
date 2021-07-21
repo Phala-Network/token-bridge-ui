@@ -1,5 +1,7 @@
+import { useAtom } from 'jotai'
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
+import transactionsAtom from '../../atoms/transactions'
 import useClickAway from '../../hooks/useClickAway'
 import ClearButton from './ClearButton'
 import TransactionsHeader from './Header'
@@ -19,45 +21,45 @@ const TEST_DATA = [
       amount: 123,
     },
   },
-  {
-    status: 'success',
-    from: {
-      network: 'ethereum',
-      address: '0xo298ofhwoehefo982i9w3fh',
-      amount: 123,
-    },
-    to: {
-      network: 'khala',
-      address: 'ofhwoehefo982i9w3fh',
-      amount: 123,
-    },
-  },
-  {
-    status: 'pending',
-    from: {
-      network: 'ethereum',
-      address: '0xo298ofhwoehefo982i9w3fh',
-      amount: 123,
-    },
-    to: {
-      network: 'khala',
-      address: 'ofhwoehefo982i9w3fh',
-      amount: 123,
-    },
-  },
-  {
-    status: 'pending',
-    from: {
-      network: 'ethereum',
-      address: '0xo298ofhwoehefo982i9w3fh',
-      amount: 123,
-    },
-    to: {
-      network: 'khala',
-      address: 'ofhwoehefo982i9w3fh',
-      amount: 123,
-    },
-  },
+  // {
+  //   status: 'success',
+  //   from: {
+  //     network: 'ethereum',
+  //     address: '0xo298ofhwoehefo982i9w3fh',
+  //     amount: 123,
+  //   },
+  //   to: {
+  //     network: 'khala',
+  //     address: 'ofhwoehefo982i9w3fh',
+  //     amount: 123,
+  //   },
+  // },
+  // {
+  //   status: 'pending',
+  //   from: {
+  //     network: 'ethereum',
+  //     address: '0xo298ofhwoehefo982i9w3fh',
+  //     amount: 123,
+  //   },
+  //   to: {
+  //     network: 'khala',
+  //     address: 'ofhwoehefo982i9w3fh',
+  //     amount: 123,
+  //   },
+  // },
+  // {
+  //   status: 'pending',
+  //   from: {
+  //     network: 'ethereum',
+  //     address: '0xo298ofhwoehefo982i9w3fh',
+  //     amount: 123,
+  //   },
+  //   to: {
+  //     network: 'khala',
+  //     address: 'ofhwoehefo982i9w3fh',
+  //     amount: 123,
+  //   },
+  // },
 ]
 
 const TransactionsRoot = styled.div`
@@ -83,11 +85,13 @@ const TransactionsRoot = styled.div`
 const Transactions: React.FC = () => {
   const [active, setActive] = useState(false)
   const rootRef = useRef(null)
-  const [data, setData] = useState(TEST_DATA)
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
 
   useClickAway(rootRef, () => {
     setActive(false)
   })
+
+  console.log('transactions', transactions)
 
   return (
     <TransactionsRoot ref={rootRef} className={active ? 'active' : ''}>
@@ -98,8 +102,17 @@ const Transactions: React.FC = () => {
 
       {active && (
         <>
-          <ClearButton onClick={() => setData([])}>Clear</ClearButton>
-          <TransactionsList transactions={data} />
+          <ClearButton onClick={() => setTransactions([])}>Clear</ClearButton>
+          <TransactionsList
+            transactions={transactions.map((item) => {
+              item.from.amount = item.from.balance
+              item.status = 'success'
+
+              return {
+                ...item,
+              }
+            })}
+          />
         </>
       )}
     </TransactionsRoot>

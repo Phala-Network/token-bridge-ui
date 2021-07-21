@@ -1,8 +1,10 @@
 import { u8aToHex } from '@polkadot/util'
 import { decodeAddress } from '@polkadot/util-crypto'
 import { ethers } from 'ethers'
+import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+import transactionsAtom from '../../../atoms/transactions'
 import { useErc20Deposit } from '../../../libs/ethereum/bridge/deposit'
 import { voidFn } from '../../../types/normal'
 import Button from '../../Button'
@@ -20,6 +22,7 @@ type Props = {
 } & StepProps
 
 const SubmitStepToKhala: React.FC<Props> = (props) => {
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
   const { onSubmit, onPrev, layout, data } = props
   const { from, to, amount: amountFromPrevStep } = data || {}
   const { account: accountFrom } = from || {}
@@ -29,11 +32,9 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
     lastTxResponse,
     setTxResponse,
   ] = useState<ethers.providers.TransactionResponse>()
-  const [lastTxError, setTxError] = useState<Error>()
   const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
   const submit = async () => {
-    setTxError(undefined)
     setTxResponse(undefined)
     setSubmitting(true)
 
@@ -41,7 +42,7 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
 
     try {
       const amount = ethers.utils.parseUnits(
-        amountFromPrevStep?.toString()!,
+        amountFromPrevStep?.toString() || '0',
         18
       )
 
@@ -49,11 +50,9 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
 
       setTxResponse(response)
 
-      console.log('response', response)
+      setTransactions([{ ...data, hash: response?.hash }, ...transactions])
     } catch (error) {
-      setTxError(error)
-
-      console.log('error', error)
+      console.error(error)
     } finally {
       setSubmitting(false)
     }
@@ -64,7 +63,7 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
       <BaseInfo layout={layout} data={data}></BaseInfo>
 
       <ErrorBoundary fallbackRender={() => null}>
-        <AllowanceApprove owner={accountFrom!} />
+        <AllowanceApprove owner={accountFrom} />
       </ErrorBoundary>
 
       {lastTxResponse && (
