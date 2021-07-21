@@ -71,9 +71,7 @@ const InputDataStep: React.FC<Props> = (props) => {
 
   const polkadotAccountBalanceNumber = useMemo(
     () =>
-      polkadotAccountBalance
-        ? polkadotAccountBalance!.toNumber() / 10 ** 12
-        : 0,
+      polkadotAccountBalance ? polkadotAccountBalance.toNumber() / 10 ** 12 : 0,
     [polkadotAccountBalance]
   )
 
@@ -96,16 +94,18 @@ const InputDataStep: React.FC<Props> = (props) => {
     : polkadotAccountAddress
 
   function setMyAddress() {
-    setRecipient(
-      isFromEthereum ? polkadotAccountAddress! : ethereumAccountAddress!
-    )
+    const address = isFromEthereum
+      ? polkadotAccountAddress
+      : ethereumAccountAddress
+
+    setRecipient(address || '')
   }
 
   function setMax() {
     setAmountInput(
       isFromEthereum
-        ? ethereumAccountBalanceNumber!
-        : polkadotAccountBalanceNumber!
+        ? ethereumAccountBalanceNumber
+        : polkadotAccountBalanceNumber
     )
   }
 
@@ -122,7 +122,7 @@ const InputDataStep: React.FC<Props> = (props) => {
     const accountFrom = isFromEthereum
       ? ethereumAccountAddress
       : polkadotAccountAddress
-    const amountTo = amountInput!
+    const amountTo = amountInput
 
     setErrorString('')
 
@@ -144,7 +144,7 @@ const InputDataStep: React.FC<Props> = (props) => {
     onNext({
       from: {
         ...tradeTypeSelectValue.from,
-        account: accountFrom!,
+        account: accountFrom,
         balance: new Decimal(
           isFromEthereum
             ? ethereumAccountBalanceNumber
@@ -153,7 +153,7 @@ const InputDataStep: React.FC<Props> = (props) => {
       },
       to: {
         ...tradeTypeSelectValue.to,
-        account: recipient!,
+        account: recipient,
       },
       amount: new Decimal(amountTo),
     })
