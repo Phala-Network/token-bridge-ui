@@ -51,7 +51,7 @@ const ActionButton: React.FC<Props> = (props) => {
         <Button
           onClick={() => setEthereumAccountModalViable(true)}
           type="primary">
-          Connet METAMASK {ethereumAccountModalViable ? 1 : 0}
+          Connet METAMASK
         </Button>
 
         <EthereumAccountModal
