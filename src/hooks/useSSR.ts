@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const isBrowser = (): boolean => {
+export const isBrowser = (): boolean => {
   return Boolean(
     typeof window !== 'undefined' &&
       window.document &&

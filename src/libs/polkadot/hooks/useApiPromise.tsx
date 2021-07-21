@@ -15,6 +15,7 @@ type Readystate = 'unavailable' | 'init' | 'ready' | 'failed'
 interface IApiPromiseContext {
   api?: ApiPromise
   readystate: Readystate
+  initialized: boolean
 }
 
 const ApiPromiseContext = createContext<IApiPromiseContext>({
@@ -78,7 +79,7 @@ export const ApiPromiseProvider = ({
       })
   }, [endpoint, readystate, registryTypes])
 
-  const value = { api, readystate }
+  const value = { api, readystate, initialized: readystate === 'ready' }
 
   return (
     <ApiPromiseContext.Provider value={value}>

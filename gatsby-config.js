@@ -4,9 +4,10 @@
  * See: https://www.gatsbyjs.com/docs/gatsby-config/
  */
 
-const path = require('path')
-
 module.exports = {
+  flags: {
+    DEV_SSR: false,
+  },
   plugins: [
     {
       resolve: `gatsby-plugin-intl`,

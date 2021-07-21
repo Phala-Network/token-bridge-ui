@@ -22,7 +22,7 @@ const WrapApp: React.FC = ({ children }) => {
       <EthereumWeb3Provider>
         <JotaiProvider>
           <EthersProvider>
-            <NetworkContextProvider defaultNetwork="poc4-dev">
+            <NetworkContextProvider defaultNetwork="poc5">
               <PolkadotWeb3Provider originName="ChainBridge Operator">
                 <ApiPromiseProvider>
                   <ThemeProvider theme={theme}>
