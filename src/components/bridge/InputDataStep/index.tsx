@@ -2,24 +2,25 @@ import { Decimal } from 'decimal.js'
 import { ethers } from 'ethers'
 import { useAtom } from 'jotai'
 import React, { useEffect, useMemo, useState } from 'react'
-import ethereumAccountAtom from '../../atoms/ethereumAccountAtom'
-import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
-import { useBalance } from '../../hooks/useBalance'
-import { useErc20BalanceQuery } from '../../libs/ethereum/queries/useErc20BalanceQuery'
-import { voidFn } from '../../types/normal'
-import Button from '../Button'
-import ErrorText from '../ErrorText'
-import Input from '../Input'
-import InputAction from '../InputAction'
-import InputExternalInfo from '../InputExternalInfo'
-import InputNumber from '../InputNumber'
-import { ModalAction, ModalActions } from '../Modal'
-import Spacer from '../Spacer'
-import TradeTypeSelect, { TradeTypeSelectValue } from '../TradeTypeSelect'
-import DEFAULT_VALUE from '../TradeTypeSelect/DEFAULT_VALUE'
-import { StepProps } from './BridgeProcess'
-import FormItem from './FormItem'
-import FormLayout from './FormLayout'
+import ethereumAccountAtom from '../../../atoms/ethereumAccountAtom'
+import polkadotAccountAtom from '../../../atoms/polkadotAccountAtom'
+import { useBalance } from '../../../hooks/useBalance'
+import { useErc20BalanceQuery } from '../../../libs/ethereum/queries/useErc20BalanceQuery'
+import { voidFn } from '../../../types/normal'
+import Button from '../../Button'
+import ErrorText from '../../ErrorText'
+import Input from '../../Input'
+import InputAction from '../../InputAction'
+import InputExternalInfo from '../../InputExternalInfo'
+import InputNumber from '../../InputNumber'
+import { ModalAction, ModalActions } from '../../Modal'
+import Spacer from '../../Spacer'
+import TradeTypeSelect, { TradeTypeSelectValue } from '../../TradeTypeSelect'
+import DEFAULT_VALUE from '../../TradeTypeSelect/DEFAULT_VALUE'
+import { StepProps } from '../BridgeProcess'
+import FormItem from '../FormItem'
+import FormLayout from '../FormLayout'
+import ActionButton from './ActionButton'
 
 export type InputDataStepResult = {
   from: {
@@ -72,8 +73,8 @@ const InputDataStep: React.FC<Props> = (props) => {
   const polkadotAccountBalanceNumber = useMemo(
     () =>
       polkadotAccountBalance
-        ? polkadotAccountBalance!.toNumber() / 10 ** 12
-        : 0,
+        ? new Decimal(polkadotAccountBalance.toString()).div(10 ** 12)
+        : new Decimal(0),
     [polkadotAccountBalance]
   )
 
@@ -96,16 +97,18 @@ const InputDataStep: React.FC<Props> = (props) => {
     : polkadotAccountAddress
 
   function setMyAddress() {
-    setRecipient(
-      isFromEthereum ? polkadotAccountAddress! : ethereumAccountAddress!
-    )
+    const address = isFromEthereum
+      ? polkadotAccountAddress
+      : ethereumAccountAddress
+
+    setRecipient(address || '')
   }
 
   function setMax() {
     setAmountInput(
       isFromEthereum
-        ? ethereumAccountBalanceNumber!
-        : polkadotAccountBalanceNumber!
+        ? ethereumAccountBalanceNumber
+        : polkadotAccountBalanceNumber.toNumber()
     )
   }
 
@@ -122,7 +125,7 @@ const InputDataStep: React.FC<Props> = (props) => {
     const accountFrom = isFromEthereum
       ? ethereumAccountAddress
       : polkadotAccountAddress
-    const amountTo = amountInput!
+    const amountTo = amountInput
 
     setErrorString('')
 
@@ -144,7 +147,7 @@ const InputDataStep: React.FC<Props> = (props) => {
     onNext({
       from: {
         ...tradeTypeSelectValue.from,
-        account: accountFrom!,
+        account: accountFrom,
         balance: new Decimal(
           isFromEthereum
             ? ethereumAccountBalanceNumber
@@ -153,7 +156,7 @@ const InputDataStep: React.FC<Props> = (props) => {
       },
       to: {
         ...tradeTypeSelectValue.to,
-        account: recipient!,
+        account: recipient,
       },
       amount: new Decimal(amountTo),
     })
@@ -161,6 +164,24 @@ const InputDataStep: React.FC<Props> = (props) => {
 
   return (
     <>
+      <div style={{ height: 26 }}>
+        {!isFromEthereum && polkadotAccountBalance && (
+          <InputExternalInfo
+            style={{ textAlign: 'right' }}
+            label={'Balance'}
+            value={polkadotAccountBalance?.toHuman()}
+          />
+        )}
+
+        {isFromEthereum && ethereumAccountBalanceString && (
+          <InputExternalInfo
+            style={{ textAlign: 'right' }}
+            label={'Balance'}
+            value={ethereumAccountBalanceString}
+          />
+        )}
+      </div>
+
       <FormLayout layout={layout}>
         <FormItem>
           <TradeTypeSelect
@@ -190,24 +211,6 @@ const InputDataStep: React.FC<Props> = (props) => {
             placeholder="Amount (PHA)"
             after={<InputAction onClick={setMax}>MAX</InputAction>}
           />
-
-          <Spacer y={0.2}></Spacer>
-
-          {!isFromEthereum && polkadotAccountBalance && (
-            <InputExternalInfo
-              style={{ textAlign: 'right' }}
-              label={'Balance'}
-              value={polkadotAccountBalance?.toHuman()}
-            />
-          )}
-
-          {isFromEthereum && ethereumAccountBalanceString && (
-            <InputExternalInfo
-              style={{ textAlign: 'right' }}
-              label={'Balance'}
-              value={ethereumAccountBalanceString}
-            />
-          )}
         </FormItem>
       </FormLayout>
 
@@ -219,9 +222,9 @@ const InputDataStep: React.FC<Props> = (props) => {
         )}
 
         <ModalAction>
-          <Button type="primary" onClick={submit}>
-            Next
-          </Button>
+          <ActionButton
+            isFromEthereum={isFromEthereum}
+            onClick={submit}></ActionButton>
         </ModalAction>
       </ModalActions>
 

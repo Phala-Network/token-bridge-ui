@@ -14,16 +14,25 @@ export type Readystate = 'disabled' | 'enabling' | 'ready' | 'failed'
 interface IWeb3Context {
   accounts: InjectedAccountWithMeta[]
   readystate: Readystate
+  enabled: boolean
 }
 
 const Web3Context = createContext<IWeb3Context>({
   accounts: [],
   readystate: 'disabled',
+  enabled: false,
 })
 
 const logDebug = console.debug.bind(console, '[Web3Context]')
 const logError = console.error.bind(console, '[Web3Context]')
 const logInfo = console.info.bind(console, '[Web3Context]')
+
+const imported =
+  typeof window !== 'undefined' &&
+  import('@polkadot/extension-dapp').catch((error) => {
+    logError('Failed to import @polkadot/extension-dapp:', error)
+    throw error
+  })
 
 export const Web3Provider = ({
   children,
@@ -31,6 +40,7 @@ export const Web3Provider = ({
 }: PropsWithChildren<{ originName: string }>): ReactElement => {
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([])
   const [readystate, setReadystate] = useState<Readystate>('disabled')
+  const [enabled, setEnabled] = useState<boolean>(false)
 
   const { api } = useApiPromise()
 
@@ -38,11 +48,6 @@ export const Web3Provider = ({
     if (readystate === 'ready') {
       return
     }
-
-    const imported = import('@polkadot/extension-dapp').catch((error) => {
-      logError('Failed to import @polkadot/extension-dapp:', error)
-      throw error
-    })
 
     imported
       .then(({ web3Enable, isWeb3Injected }) => {
@@ -53,6 +58,7 @@ export const Web3Provider = ({
         web3Enable(originName)
           .then((extensions) => {
             setReadystate('ready')
+            extensions.length > 0 && setEnabled(true)
             logInfo(
               'Injected extensions:',
               extensions.map((ext) => `${ext.name} (${ext.version})`).join(', ')
@@ -69,11 +75,6 @@ export const Web3Provider = ({
   })
 
   useEffect(() => {
-    const imported = import('@polkadot/extension-dapp').catch((error) => {
-      logError('Failed to import @polkadot/extension-dapp:', error)
-      throw error
-    })
-
     const unsub = imported
       .then(async ({ web3AccountsSubscribe }) => {
         const unsub = await web3AccountsSubscribe(
@@ -102,7 +103,7 @@ export const Web3Provider = ({
          */
         logError('Failed to subscribe to account injection updates:', error)
 
-        return () => {} // return a dummy unsub func to useEffect unload
+        return () => null // return a dummy unsub func to useEffect unload
       })
 
     imported
@@ -122,12 +123,12 @@ export const Web3Provider = ({
       })
 
     return () => {
-      unsub.then((unsub) => unsub()).catch(() => {})
+      unsub.then((unsub) => unsub()).catch(() => null)
     }
   }, [api, readystate])
 
   return (
-    <Web3Context.Provider value={{ accounts, readystate }}>
+    <Web3Context.Provider value={{ accounts, readystate, enabled }}>
       {children}
     </Web3Context.Provider>
   )

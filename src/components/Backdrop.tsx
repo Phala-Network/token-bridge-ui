@@ -81,14 +81,14 @@ const Backdrop2: React.FC<Props> = ({
 
   return (
     <Wrap
-      className='backdrop'
+      className="backdrop"
       onClick={clickHandler}
       onMouseUp={mouseUpHandler}
       {...props}>
       <Layer></Layer>
       <Content
         onClick={childrenClickHandler}
-        className='content'
+        className="content"
         onMouseDown={() => setIsContentMouseDown(true)}>
         {children}
       </Content>

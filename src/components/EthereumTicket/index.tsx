@@ -1,12 +1,9 @@
 import { useAtom } from 'jotai'
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import ethereumAccountAtom from '../../atoms/ethereumAccountAtom'
-import { useEthers } from '../../libs/ethereum/contexts/useEthers'
-import { useAccountsQuery } from '../../libs/ethereum/queries/useAccountsQuery'
-import { Account } from '../../types/normal'
 import BlockStripe from '../BlockStripe'
-import SelectAccountModal from '../SelectAccountModal'
+import EthereumAccountModal from '../EthereumAccountModal'
 import Ticket, {
   DefaultStatus,
   DefaultStatusIcon,
@@ -15,34 +12,19 @@ import Ticket, {
 } from '../Ticket'
 import logoImage from './logo.png'
 
-type Props = {}
-
 const TicketName = styled(_TicketName)`
   background: #c5cdf2;
   font-size: 8px;
   letter-spacing: 0;
 `
 
-const index: React.FC<Props> = () => {
-  const { readystate: readyState } = useEthers()
-  const isReady = readyState === 'connected'
-  const [ethereumAccount, setEthereumAccount] = useAtom(ethereumAccountAtom)
+const index: React.FC = () => {
+  const [ethereumAccount] = useAtom(ethereumAccountAtom)
   const [selectAccountModalViable, setSelectAccountModalViable] = useState(
     false
   )
-  const { data: accounts = [] } = useAccountsQuery()
-
-  const ethereumAccounts = useMemo(
-    () =>
-      accounts?.map<Account>((address) => ({
-        address,
-      })),
-    [accounts]
-  )
 
   const openAccountSelectModal = () => {
-    console.info('todo check browser polkadot extension status')
-
     setSelectAccountModalViable(true)
   }
 
@@ -80,10 +62,7 @@ const index: React.FC<Props> = () => {
         />
       )}
 
-      <SelectAccountModal
-        accounts={ethereumAccounts}
-        currentAccount={ethereumAccount}
-        onSelect={(account) => setEthereumAccount(account)}
+      <EthereumAccountModal
         onClose={() => setSelectAccountModalViable(false)}
         visible={selectAccountModalViable}
       />
