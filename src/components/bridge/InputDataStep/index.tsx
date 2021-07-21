@@ -20,6 +20,7 @@ import DEFAULT_VALUE from '../../TradeTypeSelect/DEFAULT_VALUE'
 import { StepProps } from '../BridgeProcess'
 import FormItem from '../FormItem'
 import FormLayout from '../FormLayout'
+import ActionButton from './ActionButton'
 
 export type InputDataStepResult = {
   from: {
@@ -221,9 +222,9 @@ const InputDataStep: React.FC<Props> = (props) => {
         )}
 
         <ModalAction>
-          <Button type="primary" onClick={submit}>
-            Next
-          </Button>
+          <ActionButton
+            isFromEthereum={isFromEthereum}
+            onClick={submit}></ActionButton>
         </ModalAction>
       </ModalActions>
 
