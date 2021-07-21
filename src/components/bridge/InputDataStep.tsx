@@ -71,7 +71,9 @@ const InputDataStep: React.FC<Props> = (props) => {
 
   const polkadotAccountBalanceNumber = useMemo(
     () =>
-      polkadotAccountBalance ? polkadotAccountBalance.toNumber() / 10 ** 12 : 0,
+      polkadotAccountBalance
+        ? new Decimal(polkadotAccountBalance.toString()).div(10 ** 12)
+        : new Decimal(0),
     [polkadotAccountBalance]
   )
 
@@ -105,7 +107,7 @@ const InputDataStep: React.FC<Props> = (props) => {
     setAmountInput(
       isFromEthereum
         ? ethereumAccountBalanceNumber
-        : polkadotAccountBalanceNumber
+        : polkadotAccountBalanceNumber.toNumber()
     )
   }
 
