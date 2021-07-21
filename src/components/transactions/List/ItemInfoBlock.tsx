@@ -33,7 +33,7 @@ const ItemInfoBlock: React.FC<ItemInfoBlockProps> = (props) => {
         {account?.slice(-4)}
       </div>
       <div>
-        {amount} <B>PHA</B>
+        {amount?.toString()} <B>PHA</B>
       </div>
     </ItemInfoBlockRoot>
   )

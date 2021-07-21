@@ -48,11 +48,17 @@ const Transactions: React.FC = () => {
           <ClearButton onClick={() => setTransactions([])}>Clear</ClearButton>
           <TransactionsList
             transactions={transactions.map((item) => {
-              item.from.amount = item.from.balance
-              item.status = 'success'
-
               return {
                 ...item,
+                from: {
+                  ...item.from,
+                  amount: item.from.balance,
+                },
+                to: {
+                  ...item.to,
+                  amount: item.amount,
+                },
+                status: 'success',
               }
             })}
           />

@@ -27,10 +27,12 @@ const logDebug = console.debug.bind(console, '[Web3Context]')
 const logError = console.error.bind(console, '[Web3Context]')
 const logInfo = console.info.bind(console, '[Web3Context]')
 
-const imported = import('@polkadot/extension-dapp').catch((error) => {
-  logError('Failed to import @polkadot/extension-dapp:', error)
-  throw error
-})
+const imported =
+  typeof window !== 'undefined' &&
+  import('@polkadot/extension-dapp').catch((error) => {
+    logError('Failed to import @polkadot/extension-dapp:', error)
+    throw error
+  })
 
 export const Web3Provider = ({
   children,

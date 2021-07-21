@@ -1,17 +1,13 @@
 import { ethers } from 'ethers'
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { ethereums } from '../../config'
 import { useEthers } from '../../libs/ethereum/contexts/useEthers'
 import { useErc20Contract } from '../../libs/ethereum/erc20/useErc20Contract'
 import { useErc20AssetHandlerAllowanceQuery } from '../../libs/ethereum/queries/useErc20AllowanceQuery'
 
-export const AllowanceApprove = ({
-  owner,
-}: {
-  owner?: string
-}): JSX.Element => {
+export const AllowanceApprove = ({ owner }: { owner: string }): JSX.Element => {
   const { contract } = useErc20Contract()
-  const { data: allowance } = useErc20AssetHandlerAllowanceQuery(owner || '')
+  const { data: allowance } = useErc20AssetHandlerAllowanceQuery(owner)
   const { provider, signer } = useEthers()
 
   const allowanceText = useMemo(
@@ -40,5 +36,5 @@ export const AllowanceApprove = ({
     )
   }
 
-  return <div onClick={() => startApprove()}>Approve {allowanceText}</div>
+  return <div onClick={() => startApprove()}>Approve</div>
 }

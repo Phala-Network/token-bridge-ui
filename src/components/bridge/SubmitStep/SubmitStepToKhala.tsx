@@ -8,7 +8,6 @@ import transactionsAtom from '../../../atoms/transactions'
 import { useErc20Deposit } from '../../../libs/ethereum/bridge/deposit'
 import { voidFn } from '../../../types/normal'
 import Button from '../../Button'
-import { AllowanceApprove } from '../../ethereum/AllowanceGrant'
 import { ModalAction, ModalActions } from '../../Modal'
 import { StepProps } from '../BridgeProcess'
 import EthereumAllowance from '../EthereumAllowance'
@@ -62,10 +61,6 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
     <>
       <BaseInfo layout={layout} data={data}></BaseInfo>
 
-      <ErrorBoundary fallbackRender={() => null}>
-        <AllowanceApprove owner={accountFrom} />
-      </ErrorBoundary>
-
       {lastTxResponse && (
         <ModalActions>
           <ModalAction>
@@ -85,13 +80,18 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
           )}
           {onSubmit && (
             <ModalAction>
-              <EthereumAllowance
-                placeholder={<Button type="primary">Allowance</Button>}
-                account={accountFrom}>
-                <Button loading={isSubmitting} type="primary" onClick={submit}>
-                  {isSubmitting ? 'Submitting' : 'Submit'}
-                </Button>
-              </EthereumAllowance>
+              <ErrorBoundary fallbackRender={() => null}>
+                <EthereumAllowance
+                  placeholder={<Button type="primary">Allowance</Button>}
+                  account={accountFrom}>
+                  <Button
+                    loading={isSubmitting}
+                    type="primary"
+                    onClick={submit}>
+                    {isSubmitting ? 'Submitting' : 'Submit'}
+                  </Button>
+                </EthereumAllowance>
+              </ErrorBoundary>
             </ModalAction>
           )}
         </ModalActions>
