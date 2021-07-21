@@ -24,7 +24,7 @@ export const ethereums: Record<number, EthereumNetworkOptions> = {
 export const substrates: Record<string, SubstrateNetworkOptions> = {
   'poc4-dev': {
     endpoint:
-      process.env['PHALA_ENDPOINT'] ?? 'wss://poc4-dev.phala.network/ws',
+      process.env['PHALA_ENDPOINT'] ?? 'wss://kusama-rpc.polkadot.io/ws',
     peerChainIds: {
       42: 0,
     },

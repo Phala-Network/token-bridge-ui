@@ -4,6 +4,7 @@ import { voidFn } from '../../types/normal'
 import Spacer from '../Spacer'
 import Tooltip from '../Tooltip'
 
+/* #region  style */
 const TransactionsHeaderRoot = styled.div`
   display: flex;
   flex-direction: row;
@@ -26,11 +27,14 @@ const Title = styled.div`
   line-height: 22px;
   cursor: pointer;
 `
+/* #endregion */
 
+/* #region  props */
 type Props = ComponentProps<typeof TransactionsHeaderRoot> & {
   active: boolean
   onClickHeader: voidFn
 }
+/* #endregion */
 
 const TransactionsHeader: React.FC<Props> = (props) => {
   const { onClickHeader, active, ...others } = props
