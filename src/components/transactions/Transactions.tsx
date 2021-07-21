@@ -7,61 +7,6 @@ import ClearButton from './ClearButton'
 import TransactionsHeader from './Header'
 import TransactionsList from './List/List'
 
-const TEST_DATA = [
-  {
-    status: 'success',
-    from: {
-      network: 'ethereum',
-      address: '0xo298ofhwoehefo982i9w3fh',
-      amount: 123,
-    },
-    to: {
-      network: 'khala',
-      address: 'ofhwoehefo982i9w3fh',
-      amount: 123,
-    },
-  },
-  // {
-  //   status: 'success',
-  //   from: {
-  //     network: 'ethereum',
-  //     address: '0xo298ofhwoehefo982i9w3fh',
-  //     amount: 123,
-  //   },
-  //   to: {
-  //     network: 'khala',
-  //     address: 'ofhwoehefo982i9w3fh',
-  //     amount: 123,
-  //   },
-  // },
-  // {
-  //   status: 'pending',
-  //   from: {
-  //     network: 'ethereum',
-  //     address: '0xo298ofhwoehefo982i9w3fh',
-  //     amount: 123,
-  //   },
-  //   to: {
-  //     network: 'khala',
-  //     address: 'ofhwoehefo982i9w3fh',
-  //     amount: 123,
-  //   },
-  // },
-  // {
-  //   status: 'pending',
-  //   from: {
-  //     network: 'ethereum',
-  //     address: '0xo298ofhwoehefo982i9w3fh',
-  //     amount: 123,
-  //   },
-  //   to: {
-  //     network: 'khala',
-  //     address: 'ofhwoehefo982i9w3fh',
-  //     amount: 123,
-  //   },
-  // },
-]
-
 const TransactionsRoot = styled.div`
   position: fixed;
   width: 210px;
@@ -90,8 +35,6 @@ const Transactions: React.FC = () => {
   useClickAway(rootRef, () => {
     setActive(false)
   })
-
-  console.log('transactions', transactions)
 
   return (
     <TransactionsRoot ref={rootRef} className={active ? 'active' : ''}>
