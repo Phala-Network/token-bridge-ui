@@ -16,15 +16,15 @@ export const ethereums: Record<number, EthereumNetworkOptions> = {
     erc20ResourceId:
       '0x00000000000000000000000000000063a7e2be78898ba83824b0c0cc8dfb6001',
     peerChainIds: {
-      'poc4-dev': 1,
+      poc5: 1,
     },
   },
 }
 
 export const substrates: Record<string, SubstrateNetworkOptions> = {
-  'poc4-dev': {
+  poc5: {
     endpoint:
-      process.env['PHALA_ENDPOINT'] ?? 'wss://kusama-rpc.polkadot.io/ws',
+      process.env['PHALA_ENDPOINT'] ?? 'wss://poc5-dev.phala.network/ws',
     peerChainIds: {
       42: 0,
     },
