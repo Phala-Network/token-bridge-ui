@@ -7,6 +7,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import transactionsAtom from '../../../atoms/transactions'
 import { useErc20Deposit } from '../../../libs/ethereum/bridge/deposit'
 import { voidFn } from '../../../types/normal'
+import Alert from '../../Alert/Alert'
 import Button from '../../Button'
 import { ModalAction, ModalActions } from '../../Modal'
 import { StepProps } from '../BridgeProcess'
@@ -60,6 +61,11 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
   return (
     <>
       <BaseInfo layout={layout} data={data}></BaseInfo>
+
+      <Alert>
+        Please be patient as the transaction may take a few minutes. You can
+        follow each step of the transaction here once you confirm it!
+      </Alert>
 
       {lastTxResponse && (
         <ModalActions>
