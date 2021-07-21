@@ -25,6 +25,11 @@ const logDebug = console.debug.bind(console, '[Web3Context]')
 const logError = console.error.bind(console, '[Web3Context]')
 const logInfo = console.info.bind(console, '[Web3Context]')
 
+const imported = import('@polkadot/extension-dapp').catch((error) => {
+  logError('Failed to import @polkadot/extension-dapp:', error)
+  throw error
+})
+
 export const Web3Provider = ({
   children,
   originName,
@@ -38,11 +43,6 @@ export const Web3Provider = ({
     if (readystate === 'ready') {
       return
     }
-
-    const imported = import('@polkadot/extension-dapp').catch((error) => {
-      logError('Failed to import @polkadot/extension-dapp:', error)
-      throw error
-    })
 
     imported
       .then(({ web3Enable, isWeb3Injected }) => {
@@ -69,11 +69,6 @@ export const Web3Provider = ({
   })
 
   useEffect(() => {
-    const imported = import('@polkadot/extension-dapp').catch((error) => {
-      logError('Failed to import @polkadot/extension-dapp:', error)
-      throw error
-    })
-
     const unsub = imported
       .then(async ({ web3AccountsSubscribe }) => {
         const unsub = await web3AccountsSubscribe(
@@ -102,7 +97,7 @@ export const Web3Provider = ({
          */
         logError('Failed to subscribe to account injection updates:', error)
 
-        return () => {} // return a dummy unsub func to useEffect unload
+        return () => null // return a dummy unsub func to useEffect unload
       })
 
     imported

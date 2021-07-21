@@ -1,17 +1,15 @@
-import React, { useState, useMemo } from 'react'
-import { useWeb3 } from '../../libs/polkadot/hooks/useWeb3'
-import SelectAccountModal from '../SelectAccountModal'
 import { useAtom } from 'jotai'
+import React, { useState } from 'react'
+import styled, { useTheme } from 'styled-components'
 import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
+import { useBalance } from '../../hooks/useBalance'
+import PolkadotAccountModal from '../PolkadotAccountModal'
 import Ticket, {
   DefaultStatus,
   DefaultStatusIcon,
   DefaultStatusName,
   TicketName as _TicketName,
 } from '../Ticket'
-import { useTheme } from 'styled-components'
-import styled from 'styled-components'
-import { useBalance } from '../../hooks/useBalance'
 import logo from './logo.png'
 
 const TicketName = styled(_TicketName)`
@@ -20,24 +18,13 @@ const TicketName = styled(_TicketName)`
   letter-spacing: 0.07em;
 `
 
-type Props = {}
-
-const index: React.FC<Props> = () => {
-  const { accounts } = useWeb3()
-  const [polkadotAccount, setPolkadotAccount] = useAtom(polkadotAccountAtom)
+const index: React.FC = () => {
+  const [polkadotAccount] = useAtom(polkadotAccountAtom)
   const theme = useTheme()
   const [selectAccountModalViable, setSelectAccountModalViable] = useState(
     false
   )
   const balance = useBalance(polkadotAccount?.address)
-  const polkadotAccounts = useMemo(
-    () =>
-      accounts.map((item) => ({
-        name: item.meta?.name || 'Account',
-        address: item.address,
-      })),
-    [accounts]
-  )
 
   const balanceDisplay = !balance
     ? '. . .'
@@ -46,8 +33,6 @@ const index: React.FC<Props> = () => {
     : balance.toHuman?.()
 
   const openAccountSelectModal = () => {
-    // todo check browser polkadot extension status
-
     setSelectAccountModalViable(true)
   }
 
@@ -75,10 +60,7 @@ const index: React.FC<Props> = () => {
         />
       )}
 
-      <SelectAccountModal
-        accounts={polkadotAccounts}
-        currentAccount={polkadotAccount}
-        onSelect={(account) => setPolkadotAccount(account)}
+      <PolkadotAccountModal
         onClose={() => setSelectAccountModalViable(false)}
         visible={selectAccountModalViable}
       />
