@@ -14,11 +14,13 @@ export type Readystate = 'disabled' | 'enabling' | 'ready' | 'failed'
 interface IWeb3Context {
   accounts: InjectedAccountWithMeta[]
   readystate: Readystate
+  enabled: boolean
 }
 
 const Web3Context = createContext<IWeb3Context>({
   accounts: [],
   readystate: 'disabled',
+  enabled: false,
 })
 
 const logDebug = console.debug.bind(console, '[Web3Context]')
@@ -36,6 +38,7 @@ export const Web3Provider = ({
 }: PropsWithChildren<{ originName: string }>): ReactElement => {
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([])
   const [readystate, setReadystate] = useState<Readystate>('disabled')
+  const [enabled, setEnabled] = useState<boolean>(false)
 
   const { api } = useApiPromise()
 
@@ -53,6 +56,7 @@ export const Web3Provider = ({
         web3Enable(originName)
           .then((extensions) => {
             setReadystate('ready')
+            extensions.length > 0 && setEnabled(true)
             logInfo(
               'Injected extensions:',
               extensions.map((ext) => `${ext.name} (${ext.version})`).join(', ')
@@ -117,12 +121,12 @@ export const Web3Provider = ({
       })
 
     return () => {
-      unsub.then((unsub) => unsub()).catch(() => {})
+      unsub.then((unsub) => unsub()).catch(() => null)
     }
   }, [api, readystate])
 
   return (
-    <Web3Context.Provider value={{ accounts, readystate }}>
+    <Web3Context.Provider value={{ accounts, readystate, enabled }}>
       {children}
     </Web3Context.Provider>
   )

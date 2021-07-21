@@ -2,6 +2,7 @@ import { useAtom } from 'jotai'
 import React, { useMemo } from 'react'
 import polkadotAccountAtom from '../atoms/polkadotAccountAtom'
 import { useWeb3 } from '../libs/polkadot/hooks/useWeb3'
+import AlertModal from './AlertModal'
 import PolkadotInstallModal from './PolkadotInstallModal'
 import SelectAccountModal from './SelectAccountModal'
 
@@ -15,7 +16,7 @@ export function web3IsInjected(): boolean {
 }
 
 const PolkadotAccountModal: React.FC<Props> = (props) => {
-  const { accounts } = useWeb3()
+  const { accounts, enabled } = useWeb3()
   const [polkadotAccount, setPolkadotAccount] = useAtom(polkadotAccountAtom)
   const polkadotAccounts = useMemo(
     () =>
@@ -28,6 +29,24 @@ const PolkadotAccountModal: React.FC<Props> = (props) => {
 
   if (!web3IsInjected()) {
     return <PolkadotInstallModal {...props}></PolkadotInstallModal>
+  }
+
+  if (!enabled) {
+    return (
+      <AlertModal
+        content="Please allow access in the Polkadot extension."
+        {...props}
+      />
+    )
+  }
+
+  if (polkadotAccounts.length === 0) {
+    return (
+      <AlertModal
+        content="No account found, please add account in your wallet extension or unlock it."
+        {...props}
+      />
+    )
   }
 
   return (
