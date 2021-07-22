@@ -1,12 +1,14 @@
-import React from 'react'
+import * as Sentry from '@sentry/react'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { toast } from 'react-toastify'
 import styled from 'styled-components'
 import Button from '../../../Button'
+import ErrorText from '../../../ErrorText'
 import Input from '../../../Input'
 import Modal, { ModalAction, ModalActions, ModalProps } from '../../../Modal'
 import Spacer from '../../../Spacer'
 import Textarea from '../../../Textarea'
-import * as Sentry from '@sentry/react'
-import axios from 'axios'
 
 const Description = styled.p`
   font-family: Lato;
@@ -21,12 +23,43 @@ const Description = styled.p`
   margin-bottom: 25px;
 `
 
-const FeedbackModal: React.FC<ModalProps> = (props) => {
-  const [name, setName] = React.useState('')
-  const [email, setEmail] = React.useState('')
-  const [comments, setComments] = React.useState('')
+function validateEmail(email: string) {
+  const re = /\S+@\S+\.\S+/
+  return re.test(email)
+}
 
-  const submit = () => {
+const FeedbackModal: React.FC<ModalProps> = (props) => {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [comments, setComments] = useState('')
+  const [error, setError] = useState('')
+
+  const submit = async () => {
+    let error = ''
+
+    if (!name) {
+      error = 'Please input your name'
+    }
+
+    if (!email) {
+      error = 'Please input your email'
+    }
+
+    if (!validateEmail(email)) {
+      error = 'Please check your email format'
+    }
+
+    if (!comments) {
+      error = 'Please input your comments'
+    }
+
+    if (error) {
+      setError(error)
+      return
+    } else {
+      setError('')
+    }
+
     const eventId = Sentry.captureMessage('feedback')
     const bodyFormData = new FormData()
 
@@ -34,16 +67,24 @@ const FeedbackModal: React.FC<ModalProps> = (props) => {
     bodyFormData.append('email', email)
     bodyFormData.append('comments', comments)
 
-    axios({
-      method: 'post',
-      url: 'https://sentry.io/api/embed/error-page/',
-      data: bodyFormData,
-      params: {
-        eventId,
-        dsn:
-          'https://b32f244e1b1849728fc0d19954a209cb@o812739.ingest.sentry.io/5805680',
-      },
-    })
+    try {
+      await axios({
+        method: 'post',
+        url: 'https://sentry.io/api/embed/error-page/',
+        data: bodyFormData,
+        params: {
+          eventId,
+          dsn:
+            'https://b32f244e1b1849728fc0d19954a209cb@o812739.ingest.sentry.io/5805680',
+        },
+      })
+    } catch (e) {
+      console.error(e)
+    }
+
+    toast('Success: send feedback')
+
+    props.onClose?.()
   }
 
   return (
@@ -85,6 +126,8 @@ const FeedbackModal: React.FC<ModalProps> = (props) => {
           </Button>
         </ModalAction>
       </ModalActions>
+
+      <ErrorText style={{ textAlign: 'right' }}>{error}</ErrorText>
     </Modal>
   )
 }
