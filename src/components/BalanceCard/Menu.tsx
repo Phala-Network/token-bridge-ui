@@ -1,3 +1,4 @@
+import { navigate } from 'gatsby'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import BridgeModal from '../BridgeModal'
@@ -85,7 +86,8 @@ const Menu: React.FC<Props> = (props) => {
           </Button>
         )}
         {!disableBridge && (
-          <Button onClick={() => setVisibleBridge(true)} active={active}>
+          // TODO: specify bridge target in url query
+          <Button onClick={() => navigate('/')} active={active}>
             <span>Bridge</span>
             <ButtonBottomBorder active={active}></ButtonBottomBorder>
           </Button>
