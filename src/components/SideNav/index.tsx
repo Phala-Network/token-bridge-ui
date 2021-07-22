@@ -7,8 +7,6 @@ import Link from './Link'
 import Logo from './Logo'
 import bg from './sidebar.jpg'
 
-type Props = {}
-
 const SideNavWrap = styled.div`
   background-image: url(${bg});
   background-size: 100% auto;
@@ -51,7 +49,7 @@ const ExternalLink = styled.a`
   }
 `
 
-const SideNav: React.FC<Props> = (props) => {
+const SideNav: React.FC = () => {
   return (
     <SideNavWrap>
       <Header>
@@ -66,12 +64,12 @@ const SideNav: React.FC<Props> = (props) => {
       </Header>
 
       <Footer>
-        <ExternalLink target="__blank" href="https://polkadot.js.org/">
-          Polkadot.js
-        </ExternalLink>
-        <ExternalLink>Minersboard</ExternalLink>
         <ExternalLink target="__blank" href="https://phala.network">
           Phala.network
+        </ExternalLink>
+
+        <ExternalLink target="__blank" href="https://wiki.phala.network">
+          Wiki.phala.network
         </ExternalLink>
 
         <Spacer></Spacer>
