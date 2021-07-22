@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai'
 import React, { useMemo } from 'react'
 import ethereumAccountAtom from '../atoms/ethereumAccountAtom'
+import useSSR from '../hooks/useSSR'
 import { useEthers } from '../libs/ethereum/contexts/useEthers'
 import { useAccountsQuery } from '../libs/ethereum/queries/useAccountsQuery'
 import { Account, voidFn } from '../types/normal'
@@ -25,6 +26,9 @@ const EthereumAccountModal: React.FC<Props> = (props) => {
       })),
     [accounts]
   )
+  const { isServer } = useSSR()
+
+  if (isServer) return null
 
   if (window && !window?.web3?.currentProvider?.isMetaMask) {
     return <EthereumInstallModal {...props}></EthereumInstallModal>

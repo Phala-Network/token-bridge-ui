@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai'
 import React, { useMemo } from 'react'
 import polkadotAccountAtom from '../atoms/polkadotAccountAtom'
+import useSSR from '../hooks/useSSR'
 import { useWeb3 } from '../libs/polkadot/hooks/useWeb3'
 import AlertModal from './AlertModal'
 import PolkadotInstallModal from './PolkadotInstallModal'
@@ -12,11 +13,14 @@ type Props = {
 }
 
 export function web3IsInjected(): boolean {
+  if (typeof window === undefined) return false
+
   return window?.injectedWeb3 && Object.keys(window?.injectedWeb3).length !== 0
 }
 
 const PolkadotAccountModal: React.FC<Props> = (props) => {
   const { accounts, enabled } = useWeb3()
+  const { isServer } = useSSR()
   const [polkadotAccount, setPolkadotAccount] = useAtom(polkadotAccountAtom)
   const polkadotAccounts = useMemo(
     () =>
@@ -26,6 +30,8 @@ const PolkadotAccountModal: React.FC<Props> = (props) => {
       })),
     [accounts]
   )
+
+  if (isServer) return null
 
   if (!web3IsInjected()) {
     return <PolkadotInstallModal {...props}></PolkadotInstallModal>
