@@ -21,7 +21,7 @@ const Wrap = styled.div<{ active: boolean }>`
   flex-direction: column;
   align-items: flex-start;
   /* cursor: pointer; */
-  transition: all 0.2s linear;
+  transition: transform 0.2s linear;
   box-sizing: border-box;
 
   ${(props) =>
