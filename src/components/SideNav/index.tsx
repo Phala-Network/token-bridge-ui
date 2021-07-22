@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import Spacer from '../Spacer'
 import Icons from './Icons'
-import LangSwitch from './LangSwitch'
 import Link from './Link'
 import Logo from './Logo'
 import bg from './sidebar.jpg'
@@ -77,8 +76,6 @@ const SideNav: React.FC = () => {
         <Icons></Icons>
 
         <Spacer></Spacer>
-
-        <LangSwitch></LangSwitch>
       </Footer>
     </SideNavWrap>
   )
