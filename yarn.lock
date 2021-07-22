@@ -10102,13 +10102,6 @@ gatsby-plugin-styled-components@^4.7.1:
   dependencies:
     "@babel/runtime" "^7.14.6"
 
-gatsby-plugin-styled-jsx@^4.7.1:
-  version "4.10.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-styled-jsx/-/gatsby-plugin-styled-jsx-4.10.0.tgz#ed602aa00ef7ca8d17d093e6191729b3122d9d0e"
-  integrity sha512-Id31/OG9gYzS+4LwYy+f1YZ6o7fYr9QdPBPxanD3+Ror0hglt5e4xWcwdaczEM4neGoIPLsYpETcSfvg7Y2MHw==
-  dependencies:
-    "@babel/runtime" "^7.14.6"
-
 gatsby-plugin-typescript@^3.10.0, gatsby-plugin-typescript@^3.7.1:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-typescript/-/gatsby-plugin-typescript-3.10.0.tgz#921e103bc3fd11b899e3091b9aa432542dad8948"

@@ -45,17 +45,18 @@ const MobilePolkadotTicket: React.FC = () => {
     (e) => {
       const index = e.target.value
       const account = accounts[Number(index)]
-      if (account) {
-        setPolkadotAccount({
-          name: account.meta.name || 'Account',
-          address: account.address,
-        })
-      } else {
-        setPolkadotAccount()
-      }
+      setPolkadotAccount(
+        account
+          ? {
+              name: account.meta.name || 'Account',
+              address: account.address,
+            }
+          : undefined
+      )
     },
     [accounts]
   )
+
   return (
     <Wrapper>
       {polkadotAccount ? (
@@ -70,7 +71,7 @@ const MobilePolkadotTicket: React.FC = () => {
       <AccountSelector onChange={onChange}>
         {!polkadotAccount && <option value=""></option>}
         {accounts.map(({ meta: { name = 'Account' }, address }, index) => (
-          <option key={address} value={index}>
+          <option key={`${name}-${address}`} value={index}>
             {name} | {abridgeString(address)}
           </option>
         ))}

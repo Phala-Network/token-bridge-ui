@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import MobilePolkadotTicker from './MobilePolkadotTicket'
 import PhalaIcon from '../../icons/phala_icon.svg'
 import background from './mobile_nav_background.png'
+import useSSR from '../../hooks/useSSR'
 
 const Wrapper = styled.div`
   display: none;
@@ -22,10 +23,11 @@ const Wrapper = styled.div`
 `
 
 const MobileNav: React.FC = () => {
+  const { isBrowser } = useSSR()
   return (
     <Wrapper>
       <PhalaIcon></PhalaIcon>
-      <MobilePolkadotTicker></MobilePolkadotTicker>
+      {isBrowser && <MobilePolkadotTicker></MobilePolkadotTicker>}
     </Wrapper>
   )
 }
