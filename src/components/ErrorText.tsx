@@ -6,9 +6,6 @@ const ErrorText = styled.p`
   font-weight: bold;
   font-size: 12px;
   line-height: 14px;
-  display: flex;
-  align-items: center;
-  text-align: center;
   color: #eb5757;
   padding: 0;
   margin: 6px 0 0 0;
