@@ -14,7 +14,6 @@ const Wrapper = styled.div<{
   border: 3px solid transparent;
   border-color: ${(props) => (props.active ? '#494949' : 'transparent')};
 
-  &:hover,
   &:active {
     border-color: #494949;
   }
@@ -29,6 +28,7 @@ const Wrapper = styled.div<{
     width: 100%;
     font-weight: bold;
     color: #202020;
+    resize: none;
 
     &::placeholder {
       color: #bbbbbb;
