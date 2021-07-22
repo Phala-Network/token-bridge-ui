@@ -1,6 +1,6 @@
+import RcInputNumber from 'rc-input-number'
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
-import RcInputNumber from 'rc-input-number'
 import useClickAway from '../hooks/useClickAway'
 
 type InputType = {
@@ -38,7 +38,6 @@ const Wrapper = styled.div<{
   border: 3px solid transparent;
   border-color: ${(props) => (props.active ? '#494949' : 'transparent')};
 
-  &:hover,
   &:active {
     border-color: #494949;
   }
@@ -86,7 +85,7 @@ const Input: React.FC<InputProps> = (props) => {
     width = 60,
     textAlign = 'left',
     type = 'text',
-    onChange = () => {},
+    onChange = () => null,
     ...others
   } = props
 
