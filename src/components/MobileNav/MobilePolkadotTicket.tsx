@@ -8,17 +8,16 @@ import abridgeString from '../../utils/abridgeString'
 
 const Wrapper = styled.div`
   position: relative;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
   font-family: PT Mono;
-  color: ${(props) => props.theme.colors.khala};
 `
 
 const Account = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 10px;
   font-weight: bold;
   letter-spacing: 0.07em;
+  color: ${(props) => props.theme.colors.khala};
 `
 
 const ConnectButton = styled.div`
@@ -30,6 +29,7 @@ const ConnectButton = styled.div`
 `
 
 const AccountSelector = styled.select`
+  cursor: pointer;
   position: absolute;
   top: 0;
   left: 0;
@@ -59,12 +59,10 @@ const MobilePolkadotTicket: React.FC = () => {
   return (
     <Wrapper>
       {polkadotAccount ? (
-        <>
-          <KhalaIcon></KhalaIcon>
-          <Account>
-            {polkadotAccount.name} | {abridgeString(polkadotAccount.address)}
-          </Account>
-        </>
+        <Account>
+          <KhalaIcon />
+          {polkadotAccount.name} | {abridgeString(polkadotAccount.address)}
+        </Account>
       ) : (
         <ConnectButton>Connect Wallet</ConnectButton>
       )}
