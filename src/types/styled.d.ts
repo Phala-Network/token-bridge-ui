@@ -6,5 +6,10 @@ declare module 'styled-components' {
       phala: string
       khala: string
     }
+    size: {
+      xs: string
+      sm: string
+      lg: string
+    }
   }
 }

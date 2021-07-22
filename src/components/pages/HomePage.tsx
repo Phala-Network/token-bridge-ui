@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useAtom } from 'jotai'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 import ComingSoonBox from '../ComingSoonBox'
@@ -7,7 +8,10 @@ import { BlackHeader } from '../BalanceCard/Header'
 import Category from '../Category'
 import BaseLayout from '../BaseLayout'
 import KhalaIcon from '../../icons/khala.svg'
-import EthereumIcon from '../../icons/ethereum.svg'
+// import EthereumIcon from '../../icons/ethereum.svg'
+import usePHAPrice from '../../hooks/usePHAPrice'
+import { useBalance } from '../../hooks/useBalance'
+import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
 
 type Props = {}
 
@@ -20,18 +24,45 @@ const ContentWrapper = styled.div`
   border-left: 1px solid #cccccc;
   min-height: 100vh;
   box-sizing: border-box;
+
+  ${(props) => props.theme.size.sm} {
+    padding-top: 0;
+    margin-left: 0;
+    border-left: none;
+    min-height: initial;
+  }
 `
 
 const HomePage: React.FC<Props> = () => {
+  const PHAPrice = usePHAPrice()
+  const [polkadotAccount] = useAtom(polkadotAccountAtom)
+  const polkadotAccountAddress = polkadotAccount?.address
+  const polkadotAccountBalance = useBalance(polkadotAccountAddress)
+
+  // NOTE: copied from InputDataStep.tsx
+  const polkadotAccountBalanceNumber = useMemo<number>(
+    () =>
+      polkadotAccountBalance
+        ? polkadotAccountBalance!.toNumber() / 10 ** 12
+        : 0,
+    [polkadotAccountBalance]
+  )
+
   return (
     <BaseLayout>
       <Helmet>
-        <title>Wallet</title>
+        <title>Phala App</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
       </Helmet>
       <ContentWrapper>
-        <Category title="Phala" description={'Total: 372.6 PHA '}>
+        <Category
+          title="Phala"
+          description={`Total: ${polkadotAccountBalanceNumber} PHA `}>
           {/* FIXME: balance can be preset with name and icon */}
-          <BalanceCard
+          {/* <BalanceCard
             themeType="white"
             header={
               <BlackHeader>
@@ -39,9 +70,11 @@ const HomePage: React.FC<Props> = () => {
                 Ethereum
               </BlackHeader>
             }
-            balance={0}
+            balance={ethereumAccountBalanceNumber}
             disableTransfer
-            disableConvert></BalanceCard>
+            disableBridge
+            disableConvert
+            dollar={ethereumAccountBalanceNumber * PHAPrice}></BalanceCard> */}
           <BalanceCard
             themeType="white"
             header={
@@ -50,9 +83,11 @@ const HomePage: React.FC<Props> = () => {
                 Khala
               </BlackHeader>
             }
-            balance={0}
+            balance={polkadotAccountBalanceNumber}
             disableTransfer
-            disableConvert></BalanceCard>
+            disableBridge
+            disableConvert
+            dollar={polkadotAccountBalanceNumber * PHAPrice}></BalanceCard>
         </Category>
         {COMING_SOON_CATEGORIES.map((category) => (
           <Category title={category} key={category}>
