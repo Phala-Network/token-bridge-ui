@@ -14,8 +14,12 @@ import logoImage from './logo.png'
 
 const TicketName = styled(_TicketName)`
   background: #c5cdf2;
-  font-size: 8px;
   letter-spacing: 0;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 8px;
+  color: #000000;
 `
 
 const index: React.FC = () => {

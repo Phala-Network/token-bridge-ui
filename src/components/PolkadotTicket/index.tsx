@@ -13,9 +13,14 @@ import Ticket, {
 import logo from './logo.png'
 
 const TicketName = styled(_TicketName)`
-  color: black;
   background: ${(props) => props.theme.colors.khala};
-  letter-spacing: 0.07em;
+  letter-spacing: 0;
+
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 8px;
+  color: #000000;
 `
 
 const index: React.FC = () => {
