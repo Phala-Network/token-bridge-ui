@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-type Props = {}
+type Props = {
+  data: any[]
+}
 
 const Root = styled.div`
   padding-left: 30px;
@@ -26,11 +28,11 @@ const ProgressItem = styled.div`
 const DATA = [
   {
     text: 'Transaction Send',
-    status: 'success',
+    status: 'none',
   },
   {
     text: 'Ethereum Confirmed',
-    status: 'success',
+    status: 'none',
   },
   {
     text: 'Relayer Confirmed',
@@ -43,7 +45,7 @@ const DATA = [
 ]
 
 const Progress: React.FC<Props> = (props) => {
-  const data = DATA
+  const data = props.data || DATA
 
   return (
     <Root>

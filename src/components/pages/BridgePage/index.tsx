@@ -7,10 +7,8 @@ import BaseLayout from '../../BaseLayout'
 import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
 import SubmitStep from '../../bridge/SubmitStep'
 import Modal from '../../Modal'
-import TransactionsButton from '../../transactions/TransactionsButton'
+import Transactions from '../../transactions/Transactions'
 import WhiteCard from '../../WhiteCard'
-
-type Props = {}
 
 const RightContent = styled.div`
   display: grid;
@@ -19,7 +17,7 @@ const RightContent = styled.div`
   width: 100%;
 `
 
-const BridgePage: React.FC<Props> = () => {
+const BridgePage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [submitData, setSubmitData] = useState<InputDataStepResult>()
   useSentry()
@@ -40,7 +38,6 @@ const BridgePage: React.FC<Props> = () => {
       </Helmet>
       <RightContent>
         <Announcement></Announcement>
-
         <WhiteCard>
           <InputDataStep layout={'inline'} onNext={showSubmitModal} />
 
@@ -53,7 +50,7 @@ const BridgePage: React.FC<Props> = () => {
           </Modal>
         </WhiteCard>
 
-        <TransactionsButton></TransactionsButton>
+        <Transactions></Transactions>
       </RightContent>
     </BaseLayout>
   )

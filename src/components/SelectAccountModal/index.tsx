@@ -7,7 +7,7 @@ import Center from '../Center'
 import Modal from '../Modal'
 import AccountOption from './AccountOption'
 
-type Props = {
+export type SelectAccountModalProps = {
   visible: boolean
   onClose: () => void
   accounts: Account[]
@@ -26,7 +26,7 @@ const Content = styled.div`
   ${scrollbar}
 `
 
-const SelectAccountModal: React.FC<Props> = (props) => {
+const SelectAccountModal: React.FC<SelectAccountModalProps> = (props) => {
   const { visible, currentAccount, accounts, onClose, onSelect } = props
 
   return (

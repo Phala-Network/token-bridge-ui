@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import React, { useMemo } from 'react'
 import { ethereums } from '../../config'
 import { useEthers } from '../../libs/ethereum/contexts/useEthers'

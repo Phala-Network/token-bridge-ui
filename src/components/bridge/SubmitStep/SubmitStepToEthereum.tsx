@@ -1,19 +1,21 @@
-import React, { useMemo, useState } from 'react'
-import Button from '../../Button'
-import { ModalAction, ModalActions } from '../../Modal'
-import { voidFn } from '../../../types/normal'
-import { StepProps } from '../BridgeProcess'
-import { InputDataStepResult } from '../InputDataStep'
+import { ExtrinsicStatus, Hash } from '@polkadot/types/interfaces'
+import { Decimal } from 'decimal.js'
+import { getAddress } from 'ethers/lib/utils'
+import { useAtom } from 'jotai'
+import React, { useEffect, useMemo, useState } from 'react'
+import transactionsAtom from '../../../atoms/transactions'
 import { useTransferSubmit } from '../../../libs/polkadot/extrinsics/bridgeTransfer'
 import { useApiPromise } from '../../../libs/polkadot/hooks/useApiPromise'
 import { useDecimalJsTokenDecimalMultiplier } from '../../../libs/polkadot/useTokenDecimals'
-import { Decimal } from 'decimal.js'
 import { decimalToBalance } from '../../../libs/polkadot/utils/balances'
-import { getAddress } from 'ethers/lib/utils'
-import { ExtrinsicStatus, Hash } from '@polkadot/types/interfaces'
-import BaseInfo from './BaseInfo'
+import { voidFn } from '../../../types/normal'
 import Alert from '../../Alert/Alert'
+import Button from '../../Button'
+import { ModalAction, ModalActions } from '../../Modal'
 import Spacer from '../../Spacer'
+import { StepProps } from '../BridgeProcess'
+import { InputDataStepResult } from '../InputDataStep'
+import BaseInfo from './BaseInfo'
 import Progress from './Progress'
 
 type Props = {
@@ -27,13 +29,45 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
   const { from, to, amount: amountFromPrevStep } = data || {}
   const { account: accountFrom } = from || {}
   const { account: accountTo } = to || {}
-
+  const [transactions, setTransactions] = useAtom(transactionsAtom)
   const { api } = useApiPromise()
   const decimals = useDecimalJsTokenDecimalMultiplier(api)
   const transferSubmit = useTransferSubmit(42)
   const [submittedHash, setSubmittedHash] = useState<Hash>()
   const [isSubmitting, setSubmitting] = useState<boolean>(false)
   const [extrinsicStatus, setExtrinsicStatus] = useState<ExtrinsicStatus[]>([])
+  const [progressIndex, setProgressIndex] = useState(-1)
+  const [progress, setProgress] = useState<{ status: string; text: string }[]>(
+    []
+  )
+
+  useEffect(() => {
+    const p = [
+      {
+        text: 'Transaction Send',
+        status: 'success',
+      },
+      {
+        text: 'Ethereum Confirmed',
+        status: 'success',
+      },
+      {
+        text: 'Relayer Confirmed',
+        status: 'none',
+      },
+      {
+        text: 'Khala Confirmed',
+        status: 'none',
+      },
+    ].map((item, index) => {
+      return {
+        ...item,
+        status: index <= progressIndex ? 'success' : 'none',
+      }
+    })
+
+    setProgress(p)
+  }, [progressIndex])
 
   const amount = useMemo(() => {
     if (!amountFromPrevStep || !api || !decimals) return
@@ -56,12 +90,23 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
         accountToAddress,
         accountFrom,
         (status) => {
-          console.log('status', status)
+          if (status.isReady) {
+            setProgressIndex(0)
+          } else if (status.isBroadcast) {
+            setProgressIndex(1)
+          } else if (status.isInBlock) {
+            setProgressIndex(2)
+          } else if (status.isFinalized) {
+            setProgressIndex(3)
+          }
+
           setExtrinsicStatus([...extrinsicStatus, status])
         }
       )
 
       setSubmittedHash(hash)
+
+      setTransactions([{ ...data, hash }, ...transactions])
     } catch (e) {
       console.error(e)
     } finally {
@@ -73,17 +118,13 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
     <>
       <BaseInfo layout={layout} data={data}></BaseInfo>
 
-      {extrinsicStatus.map((status) => (
-        <div>{status.type}</div>
-      ))}
-
       <Spacer></Spacer>
 
       <Alert>
-        {/* Please be patient as the transaction may take a few minutes. You can
-        follow each step of the transaction here once you confirm it! */}
+        {progressIndex === -1 &&
+          'Please be patient as the transaction may take a few minutes. You can follow each step of the transaction here once you confirm it!'}
 
-        <Progress></Progress>
+        {progressIndex >= 0 && <Progress data={progress}></Progress>}
       </Alert>
 
       {submittedHash && (

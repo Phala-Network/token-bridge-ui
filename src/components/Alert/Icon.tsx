@@ -1,4 +1,6 @@
-export default function Icon() {
+import { ReactElement } from 'react'
+
+export default function Icon(): ReactElement {
   return (
     <svg
       width="20"

@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import React, { useMemo, cloneElement } from 'react'
+import React, { cloneElement, FC, useMemo } from 'react'
 import { ethereums } from '../../config'
 import { useEthers } from '../../libs/ethereum/contexts/useEthers'
 import { useErc20Contract } from '../../libs/ethereum/erc20/useErc20Contract'
@@ -11,7 +11,7 @@ type Props = {
   children: React.ReactElement
 }
 
-const EthereumAllowance = (props: Props) => {
+const EthereumAllowance: FC<Props> = (props: Props) => {
   const { account, placeholder, children } = props
   const { data: allowance } = useErc20AssetHandlerAllowanceQuery(account)
   const { contract } = useErc20Contract()

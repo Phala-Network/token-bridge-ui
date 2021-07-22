@@ -1,5 +1,6 @@
 import React, { ComponentProps } from 'react'
 import styled from 'styled-components'
+import useSSR from '../hooks/useSSR'
 import toFixed from '../utils/toFixed'
 
 const Label = styled.span`
@@ -39,6 +40,9 @@ type Props = {
 
 const InputExternalInfo: React.FC<Props> = (props) => {
   const { label, value, type, ...others } = props
+  const { isServer } = useSSR()
+
+  if (isServer) return null
 
   return (
     <div {...others}>
