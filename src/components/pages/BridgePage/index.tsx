@@ -34,7 +34,7 @@ const BridgePage: React.FC = () => {
   return (
     <BaseLayout>
       <Helmet>
-        <title>Bridge</title>
+        <title>Phala App</title>
       </Helmet>
       <RightContent>
         <Announcement></Announcement>
