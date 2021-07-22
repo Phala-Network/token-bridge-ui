@@ -2,7 +2,9 @@ import { useAtom } from 'jotai'
 import React, { useMemo } from 'react'
 import polkadotAccountAtom from '../atoms/polkadotAccountAtom'
 import useSSR from '../hooks/useSSR'
+import { useApiPromise } from '../libs/polkadot/hooks/useApiPromise'
 import { useWeb3 } from '../libs/polkadot/hooks/useWeb3'
+import { useAddressNormalizer } from '../libs/polkadot/useAddressNormalizer'
 import AlertModal from './AlertModal'
 import PolkadotInstallModal from './PolkadotInstallModal'
 import SelectAccountModal from './SelectAccountModal'
@@ -20,15 +22,17 @@ export function web3IsInjected(): boolean {
 
 const PolkadotAccountModal: React.FC<Props> = (props) => {
   const { accounts, enabled } = useWeb3()
+  const { api } = useApiPromise()
+  const normalizeAddress = useAddressNormalizer(api)
   const { isServer } = useSSR()
   const [polkadotAccount, setPolkadotAccount] = useAtom(polkadotAccountAtom)
   const polkadotAccounts = useMemo(
     () =>
       accounts.map((item) => ({
         name: item.meta?.name || 'Account',
-        address: item.address,
+        address: normalizeAddress(item.address),
       })),
-    [accounts]
+    [accounts, normalizeAddress]
   )
 
   if (isServer) return null
