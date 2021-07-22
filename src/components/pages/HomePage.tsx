@@ -1,19 +1,18 @@
-import React, { useMemo } from 'react'
+import { Decimal } from 'decimal.js'
 import { useAtom } from 'jotai'
+import React, { useMemo } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
-import ComingSoonBox from '../ComingSoonBox'
-import BalanceCard from '../BalanceCard'
-import { BlackHeader } from '../BalanceCard/Header'
-import Category from '../Category'
-import BaseLayout from '../BaseLayout'
-import KhalaIcon from '../../icons/khala.svg'
+import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
+import { useBalance } from '../../hooks/useBalance'
 // import EthereumIcon from '../../icons/ethereum.svg'
 import usePHAPrice from '../../hooks/usePHAPrice'
-import { useBalance } from '../../hooks/useBalance'
-import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
-
-type Props = {}
+import KhalaIcon from '../../icons/khala.svg'
+import BalanceCard from '../BalanceCard'
+import { BlackHeader } from '../BalanceCard/Header'
+import BaseLayout from '../BaseLayout'
+import Category from '../Category'
+import ComingSoonBox from '../ComingSoonBox'
 
 const COMING_SOON_CATEGORIES: string[] = ['Parachain Assets', 'Bridge Assets']
 
@@ -33,18 +32,18 @@ const ContentWrapper = styled.div`
   }
 `
 
-const HomePage: React.FC<Props> = () => {
+const HomePage: React.FC = () => {
   const PHAPrice = usePHAPrice()
   const [polkadotAccount] = useAtom(polkadotAccountAtom)
   const polkadotAccountAddress = polkadotAccount?.address
   const polkadotAccountBalance = useBalance(polkadotAccountAddress)
 
   // NOTE: copied from InputDataStep.tsx
-  const polkadotAccountBalanceNumber = useMemo<number>(
+  const polkadotAccountBalanceNumber = useMemo(
     () =>
       polkadotAccountBalance
-        ? polkadotAccountBalance!.toNumber() / 10 ** 12
-        : 0,
+        ? new Decimal(polkadotAccountBalance.toString()).div(10 ** 12)
+        : new Decimal(0),
     [polkadotAccountBalance]
   )
 

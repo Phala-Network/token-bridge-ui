@@ -45,7 +45,7 @@ const ExternalLink = styled.a`
   cursor: pointer;
 
   &:hover {
-    color: ${(props) => props.theme.colors.phala};
+    color: white;
   }
 `
 

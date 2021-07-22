@@ -2,7 +2,7 @@ import React from 'react'
 
 const Discord: React.FC = () => {
   return (
-    <a target="__blank" href="https://discord.com/invite/myBmQu5">
+    <a target="__blank" href="https://discord.gg/kpYj9GWjwN">
       <svg
         width="14"
         height="12"

@@ -15,7 +15,7 @@ const IconsWrap = styled.div`
     fill: gray;
 
     &:hover {
-      fill: ${(props) => props.theme.colors.phala};
+      fill: white;
       cursor: pointer;
     }
   }

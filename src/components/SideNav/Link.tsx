@@ -2,7 +2,7 @@ import { Link as GatsbyLink } from 'gatsby-plugin-intl'
 import React from 'react'
 import styled from 'styled-components'
 
-type Props = {} & React.ComponentProps<typeof GatsbyLink>
+type Props = React.ComponentProps<typeof GatsbyLink>
 
 const Wrap = styled(GatsbyLink)`
   font-family: Lato;
