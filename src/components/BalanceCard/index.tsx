@@ -10,6 +10,7 @@ type Props = {
   themeType: 'black' | 'white'
   balance: number
   header: React.ReactNode
+  dollar?: number
 } & MenuProps
 
 const Wrap = styled.div<{ active: boolean }>`
@@ -19,8 +20,7 @@ const Wrap = styled.div<{ active: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-  cursor: pointer;
+  /* cursor: pointer; */
   transition: all 0.2s linear;
   box-sizing: border-box;
 
@@ -42,6 +42,12 @@ const Wrap = styled.div<{ active: boolean }>`
     color: #202020;
     background: #ffffff;
   }
+
+  ${(props) => props.theme.size.sm} {
+    width: 100%;
+    height: 108px;
+    padding: 12px;
+  }
 `
 
 const Balance = styled.div`
@@ -50,7 +56,12 @@ const Balance = styled.div`
   font-weight: normal;
   font-size: 16px;
   line-height: 18px;
-  margin-bottom: 26px;
+  flex: 1;
+  margin-top: 16px;
+  ${(props) => props.theme.size.sm} {
+    margin-top: 7px;
+    line-height: 25px;
+  }
 `
 
 const Background = styled.div`
@@ -59,6 +70,12 @@ const Background = styled.div`
   background-color: #cccccc;
   margin-top: 50px;
   margin-right: 30px;
+  ${(props) => props.theme.size.sm} {
+    margin-top: 18px;
+    margin-right: 0;
+    width: 100%;
+    height: 108px;
+  }
 `
 
 const BalanceCard: React.FC<Props> = (props) => {
@@ -69,6 +86,7 @@ const BalanceCard: React.FC<Props> = (props) => {
     disableTransfer,
     disableBridge,
     disableConvert,
+    dollar = 0,
   } = props
   const [active, setActive] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -80,12 +98,15 @@ const BalanceCard: React.FC<Props> = (props) => {
   return (
     <Background
       ref={ref}
-      onMouseEnter={() => setActive(true)}
-      onMouseLeave={() => setActive(false)}>
+      // onMouseEnter={() => setActive(true)}
+      // onMouseLeave={() => setActive(false)}
+      // NOTE: prevent mouse emulation events from touch events
+      // onTouchEnd={(e) => e.preventDefault()}
+    >
       <Wrap active={active} className={themeType}>
         {header}
         <Balance>{toFixed(balance)}</Balance>
-        <Dollar themeType={themeType}>{toFixed(888.88)}</Dollar>
+        <Dollar themeType={themeType}>{toFixed(dollar, 2)}</Dollar>
         <Menu
           active={active}
           disableTransfer={disableTransfer}

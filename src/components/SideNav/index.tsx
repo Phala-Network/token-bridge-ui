@@ -54,8 +54,8 @@ const SideNav: React.FC = () => {
     <SideNavWrap>
       <Header>
         <Logo></Logo>
-        <Link to="/wallet">Wallet</Link>
-        <Link to="/">Bridge</Link>
+        <Link to="/">Assets</Link>
+        <Link to="/bridge">Bridge</Link>
         {/* <Link to="/darkpool">Darkpool</Link>
         <Link to="/tokens">Tokens</Link>
         <Link to="/transactions">Transactions</Link>
