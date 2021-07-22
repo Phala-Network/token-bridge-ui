@@ -11,7 +11,7 @@ const ErrorText = styled.p`
   text-align: center;
   color: #eb5757;
   padding: 0;
-  margin: 0;
+  margin: 6px 0 0 0;
 `
 
 export default ErrorText

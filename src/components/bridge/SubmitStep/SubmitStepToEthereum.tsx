@@ -2,7 +2,7 @@ import { ExtrinsicStatus, Hash } from '@polkadot/types/interfaces'
 import { Decimal } from 'decimal.js'
 import { getAddress } from 'ethers/lib/utils'
 import { useAtom } from 'jotai'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import transactionsAtom from '../../../atoms/transactions'
 import { useTransferSubmit } from '../../../libs/polkadot/extrinsics/bridgeTransfer'
 import { useApiPromise } from '../../../libs/polkadot/hooks/useApiPromise'
@@ -36,6 +36,38 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
   const [submittedHash, setSubmittedHash] = useState<Hash>()
   const [isSubmitting, setSubmitting] = useState<boolean>(false)
   const [extrinsicStatus, setExtrinsicStatus] = useState<ExtrinsicStatus[]>([])
+  const [progressIndex, setProgressIndex] = useState(-1)
+  const [progress, setProgress] = useState<{ status: string; text: string }[]>(
+    []
+  )
+
+  useEffect(() => {
+    const p = [
+      {
+        text: 'Transaction Send',
+        status: 'success',
+      },
+      {
+        text: 'Ethereum Confirmed',
+        status: 'success',
+      },
+      {
+        text: 'Relayer Confirmed',
+        status: 'none',
+      },
+      {
+        text: 'Khala Confirmed',
+        status: 'none',
+      },
+    ].map((item, index) => {
+      return {
+        ...item,
+        status: index <= progressIndex ? 'success' : 'none',
+      }
+    })
+
+    setProgress(p)
+  }, [progressIndex])
 
   const amount = useMemo(() => {
     if (!amountFromPrevStep || !api || !decimals) return
@@ -58,6 +90,16 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
         accountToAddress,
         accountFrom,
         (status) => {
+          if (status.isReady) {
+            setProgressIndex(0)
+          } else if (status.isBroadcast) {
+            setProgressIndex(1)
+          } else if (status.isInBlock) {
+            setProgressIndex(2)
+          } else if (status.isFinalized) {
+            setProgressIndex(3)
+          }
+
           setExtrinsicStatus([...extrinsicStatus, status])
         }
       )
@@ -79,10 +121,10 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
       <Spacer></Spacer>
 
       <Alert>
-        {/* Please be patient as the transaction may take a few minutes. You can
-        follow each step of the transaction here once you confirm it! */}
+        {progressIndex === -1 &&
+          'Please be patient as the transaction may take a few minutes. You can follow each step of the transaction here once you confirm it!'}
 
-        <Progress></Progress>
+        {progressIndex >= 0 && <Progress data={progress}></Progress>}
       </Alert>
 
       {submittedHash && (

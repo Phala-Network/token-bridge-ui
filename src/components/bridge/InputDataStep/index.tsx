@@ -96,6 +96,10 @@ const InputDataStep: React.FC<Props> = (props) => {
     ? ethereumAccountAddress
     : polkadotAccountAddress
 
+  const maxAmount = isFromEthereum
+    ? ethereumAccountBalanceNumber
+    : polkadotAccountBalanceNumber.toNumber()
+
   function setMyAddress() {
     const address = isFromEthereum
       ? polkadotAccountAddress
@@ -105,11 +109,7 @@ const InputDataStep: React.FC<Props> = (props) => {
   }
 
   function setMax() {
-    setAmountInput(
-      isFromEthereum
-        ? ethereumAccountBalanceNumber
-        : polkadotAccountBalanceNumber.toNumber()
-    )
+    setAmountInput(maxAmount)
   }
 
   const onTradeTypeSelectChange = (value: TradeTypeSelectValue) => {
@@ -130,17 +130,22 @@ const InputDataStep: React.FC<Props> = (props) => {
     setErrorString('')
 
     if (!amountTo) {
-      setErrorString('need enter amount')
+      setErrorString('Need enter amount')
       return
     }
 
     if (!recipient) {
-      setErrorString('need enter recipient')
+      setErrorString('Need enter recipient')
       return
     }
 
     if (!accountFrom) {
-      setErrorString('need login')
+      setErrorString('Need login')
+      return
+    }
+
+    if (new Decimal(amountTo).greaterThan(new Decimal(maxAmount))) {
+      setErrorString('Insufficient balance')
       return
     }
 
