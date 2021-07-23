@@ -2,8 +2,10 @@ import { navigate } from 'gatsby'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import BridgeModal from '../BridgeModal'
+import ClaimModal from '../ClaimModal'
 import ConvertModal from '../ConvertModal'
 import TransferModal from '../TransferModal'
+import ActionArrow from '../../icons/action_arrow.svg'
 
 const MenuWrap = styled.div<{ active: boolean }>`
   position: absolute;
@@ -17,6 +19,11 @@ const MenuWrap = styled.div<{ active: boolean }>`
   opacity: ${(props) => (props.active ? 1 : 0)};
   transition: all 0.15s linear 0.05s;
   box-sizing: border-box;
+  pointer-events: none;
+
+  ${(props) => props.theme.size.sm} {
+    display: none;
+  }
 `
 
 const Buttons = styled.div<{ active: boolean }>`
@@ -29,6 +36,10 @@ const Buttons = styled.div<{ active: boolean }>`
   display: flex;
   align-items: center;
   background-color: #ececec;
+
+  ${(props) => props.theme.size.sm} {
+    display: none;
+  }
 `
 
 const Button = styled.div<{ active: boolean }>`
@@ -40,6 +51,7 @@ const Button = styled.div<{ active: boolean }>`
   color: #202020;
   opacity: ${(props) => (props.active ? 1 : 0)};
   transition: opacity 0.2s linear;
+  cursor: pointer;
 
   & + & {
     margin-left: 12px;
@@ -54,10 +66,38 @@ const ButtonBottomBorder = styled.div<{ active: boolean }>`
   transition: width 0.15s linear 0.05s;
 `
 
+const MobileActions = styled.div`
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  flex-direction: column;
+  justify-content: flex-end;
+  display: none;
+  user-select: none;
+
+  ${({ theme }) => theme.size.sm} {
+    display: flex;
+  }
+`
+
+const MobileAction = styled.div`
+  font-family: Lato;
+  font-weight: bold;
+  font-size: 12px;
+  text-decoration: underline;
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-left: 3px;
+  }
+`
+
 export type MenuProps = {
   disableTransfer?: boolean
   disableBridge?: boolean
   disableConvert?: boolean
+  disableClaim?: boolean
 }
 
 type Props = {
@@ -70,10 +110,12 @@ const Menu: React.FC<Props> = (props) => {
     disableTransfer = false,
     disableBridge = false,
     disableConvert = false,
+    disableClaim = false,
   } = props
   const [visibleBridge, setVisibleBridge] = useState(false)
   const [visibleTransferModal, setVisibleTransferModal] = useState(false)
   const [visibleConvertModal, setVisibleConvertModal] = useState(false)
+  const [claimModalVisible, setClaimModalVisible] = useState(false)
 
   return (
     <>
@@ -98,7 +140,21 @@ const Menu: React.FC<Props> = (props) => {
             <ButtonBottomBorder active={active}></ButtonBottomBorder>
           </Button>
         )}
+        {!disableClaim && (
+          <Button onClick={() => setClaimModalVisible(true)} active={active}>
+            <span>Claim</span>
+            <ButtonBottomBorder active={active}></ButtonBottomBorder>
+          </Button>
+        )}
       </Buttons>
+
+      <MobileActions>
+        {!disableClaim && (
+          <MobileAction onClick={() => setClaimModalVisible(true)}>
+            Claim<ActionArrow></ActionArrow>
+          </MobileAction>
+        )}
+      </MobileActions>
 
       <ConvertModal
         visible={visibleConvertModal}
@@ -111,6 +167,14 @@ const Menu: React.FC<Props> = (props) => {
       <BridgeModal
         visible={visibleBridge}
         onClose={() => setVisibleBridge(false)}></BridgeModal>
+
+      {/* FIXME: hooks running should be prevented when modal is invisible */}
+      {/* FIXME: modal should be load asynchronously */}
+      {claimModalVisible && (
+        <ClaimModal
+          visible={true}
+          onClose={() => setClaimModalVisible(false)}></ClaimModal>
+      )}
     </>
   )
 }

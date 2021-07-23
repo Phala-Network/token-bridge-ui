@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { useAtom } from 'jotai'
 import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
@@ -41,6 +41,15 @@ const AccountSelector = styled.select`
 const MobilePolkadotTicket: React.FC = () => {
   const { accounts } = useWeb3()
   const [polkadotAccount, setPolkadotAccount] = useAtom(polkadotAccountAtom)
+  const activeIndex = useMemo<string>(
+    () =>
+      String(
+        accounts?.findIndex(
+          ({ address }) => address === polkadotAccount?.address
+        ) ?? 0
+      ),
+    [polkadotAccount, accounts]
+  )
   const onChange = useCallback<React.ChangeEventHandler<HTMLSelectElement>>(
     (e) => {
       const index = e.target.value
@@ -57,6 +66,20 @@ const MobilePolkadotTicket: React.FC = () => {
     [accounts]
   )
 
+  // FIXME: move this hook to a separate file
+  useEffect(() => {
+    if (
+      accounts.length &&
+      !accounts?.find(({ address }) => address === polkadotAccount?.address)
+    ) {
+      const account = accounts[0]
+      setPolkadotAccount({
+        name: account.meta.name || 'Account',
+        address: account.address,
+      })
+    }
+  }, [accounts, polkadotAccount])
+
   return (
     <Wrapper>
       {polkadotAccount ? (
@@ -68,7 +91,7 @@ const MobilePolkadotTicket: React.FC = () => {
         <ConnectButton>Connect Wallet</ConnectButton>
       )}
 
-      <AccountSelector onChange={onChange}>
+      <AccountSelector onChange={onChange} value={activeIndex}>
         {!polkadotAccount && <option value=""></option>}
         {accounts.map(({ meta: { name = 'Account' }, address }, index) => (
           <option key={`${name}-${address}`} value={index}>

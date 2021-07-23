@@ -18,25 +18,25 @@ const WrapApp: React.FC = ({ children }) => {
   const client = useRef(new QueryClient())
 
   return (
-    <QueryClientProvider client={client.current}>
-      <EthereumWeb3Provider>
-        <JotaiProvider>
-          <EthersProvider>
-            <NetworkContextProvider defaultNetwork="poc5">
-              <PolkadotWeb3Provider originName="ChainBridge Operator">
-                <ApiPromiseProvider>
-                  <ThemeProvider theme={theme}>
-                    <GlobalStyle></GlobalStyle>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle></GlobalStyle>
+      <QueryClientProvider client={client.current}>
+        <EthereumWeb3Provider>
+          <JotaiProvider>
+            <EthersProvider>
+              <NetworkContextProvider defaultNetwork="khala">
+                <PolkadotWeb3Provider originName="ChainBridge Operator">
+                  <ApiPromiseProvider>
                     {children}
                     <ToastContainer transition={Slide}></ToastContainer>
-                  </ThemeProvider>
-                </ApiPromiseProvider>
-              </PolkadotWeb3Provider>
-            </NetworkContextProvider>
-          </EthersProvider>
-        </JotaiProvider>
-      </EthereumWeb3Provider>
-    </QueryClientProvider>
+                  </ApiPromiseProvider>
+                </PolkadotWeb3Provider>
+              </NetworkContextProvider>
+            </EthersProvider>
+          </JotaiProvider>
+        </EthereumWeb3Provider>
+      </QueryClientProvider>
+    </ThemeProvider>
   )
 }
 

@@ -30,4 +30,12 @@ export const substrates: Record<string, SubstrateNetworkOptions> = {
     },
     typedefs: dev,
   },
+  khala: {
+    endpoint: 'wss://khala-api.phala.network/ws',
+    peerChainIds: {
+      42: 0,
+    },
+    // FIXME: update @phala/typedefs
+    typedefs: {},
+  },
 }

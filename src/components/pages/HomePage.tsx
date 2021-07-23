@@ -39,13 +39,14 @@ const HomePage: React.FC = () => {
   const polkadotAccountBalance = useBalance(polkadotAccountAddress)
 
   // NOTE: copied from InputDataStep.tsx
-  const polkadotAccountBalanceNumber = useMemo(
+  const polkadotAccountBalanceNumber = useMemo<number | undefined>(
     () =>
-      polkadotAccountBalance
-        ? new Decimal(polkadotAccountBalance.toString()).div(10 ** 12)
-        : new Decimal(0),
+      polkadotAccountBalance &&
+      new Decimal(polkadotAccountBalance.toString()).div(10 ** 12).toNumber(),
     [polkadotAccountBalance]
   )
+
+  // const totalBalanceNumber = polkadotAccountBalanceNumber || 0
 
   return (
     <BaseLayout>
@@ -59,7 +60,8 @@ const HomePage: React.FC = () => {
       <ContentWrapper>
         <Category
           title="Phala"
-          description={`Total: ${polkadotAccountBalanceNumber} PHA `}>
+          // description={`Total: ${totalBalanceNumber} PHA`}
+        >
           {/* FIXME: balance can be preset with name and icon */}
           {/* <BalanceCard
             themeType="white"
@@ -79,14 +81,17 @@ const HomePage: React.FC = () => {
             header={
               <BlackHeader>
                 <KhalaIcon width="24" height="24" />
-                Khala
+                K-PHA
               </BlackHeader>
             }
             balance={polkadotAccountBalanceNumber}
             disableTransfer
             disableBridge
             disableConvert
-            dollar={polkadotAccountBalanceNumber * PHAPrice}></BalanceCard>
+            dollar={
+              polkadotAccountBalanceNumber &&
+              polkadotAccountBalanceNumber * PHAPrice
+            }></BalanceCard>
         </Category>
         {COMING_SOON_CATEGORIES.map((category) => (
           <Category title={category} key={category}>

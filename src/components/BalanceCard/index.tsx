@@ -8,7 +8,7 @@ import Menu, { MenuProps } from './Menu'
 
 type Props = {
   themeType: 'black' | 'white'
-  balance: number
+  balance?: number
   header: React.ReactNode
   dollar?: number
 } & MenuProps
@@ -16,7 +16,7 @@ type Props = {
 const Wrap = styled.div<{ active: boolean }>`
   width: 144px;
   height: 128px;
-  padding: 8px 0 8px 8px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -58,6 +58,7 @@ const Balance = styled.div`
   line-height: 18px;
   flex: 1;
   margin-top: 16px;
+  word-break: break-all;
   ${(props) => props.theme.size.sm} {
     margin-top: 7px;
     line-height: 25px;
@@ -81,12 +82,12 @@ const Background = styled.div`
 const BalanceCard: React.FC<Props> = (props) => {
   const {
     themeType,
-    balance = 0,
+    balance,
     header,
     disableTransfer,
     disableBridge,
     disableConvert,
-    dollar = 0,
+    dollar,
   } = props
   const [active, setActive] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -98,15 +99,14 @@ const BalanceCard: React.FC<Props> = (props) => {
   return (
     <Background
       ref={ref}
-      // onMouseEnter={() => setActive(true)}
-      // onMouseLeave={() => setActive(false)}
-      // NOTE: prevent mouse emulation events from touch events
-      // onTouchEnd={(e) => e.preventDefault()}
-    >
+      onMouseEnter={() => setActive(true)}
+      onMouseLeave={() => setActive(false)}>
       <Wrap active={active} className={themeType}>
         {header}
-        <Balance>{toFixed(balance)}</Balance>
-        <Dollar themeType={themeType}>{toFixed(dollar, 2)}</Dollar>
+        <Balance>{balance === undefined ? '-' : toFixed(balance)}</Balance>
+        <Dollar themeType={themeType}>
+          {dollar === undefined ? '-' : toFixed(dollar, 2)}
+        </Dollar>
         <Menu
           active={active}
           disableTransfer={disableTransfer}
