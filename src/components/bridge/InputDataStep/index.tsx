@@ -118,7 +118,6 @@ const InputDataStep: React.FC<Props> = (props) => {
 
   useEffect(() => {
     setRecipient('')
-    setAmountInput(0)
   }, [currentAddress])
 
   const submit = () => {
