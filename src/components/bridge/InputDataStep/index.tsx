@@ -199,22 +199,22 @@ const InputDataStep: React.FC<Props> = (props) => {
         <Spacer />
 
         <FormItem>
-          <Input
-            value={recipient}
-            onChange={setRecipient}
-            size="large"
-            placeholder="Destination Address"
-            after={<InputAction onClick={setMyAddress}>MY ADDRESS</InputAction>}
-          />
-
-          <Spacer y={1.2} />
-
           <InputNumber
             size="large"
             onChange={(value) => setAmountInput(value as number)}
             value={amountInput}
             placeholder="Amount (PHA)"
             after={<InputAction onClick={setMax}>MAX</InputAction>}
+          />
+
+          <Spacer y={1.2} />
+
+          <Input
+            value={recipient}
+            onChange={setRecipient}
+            size="large"
+            placeholder="Destination Address"
+            after={<InputAction onClick={setMyAddress}>MY ADDRESS</InputAction>}
           />
         </FormItem>
       </FormLayout>
