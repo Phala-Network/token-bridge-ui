@@ -25,12 +25,12 @@ const WrapApp: React.FC = ({ children }) => {
           <JotaiProvider>
             <EthersProvider>
               <NetworkContextProvider defaultNetwork="khala">
-                <PolkadotWeb3Provider originName="ChainBridge Operator">
-                  <ApiPromiseProvider>
+                <ApiPromiseProvider>
+                  <PolkadotWeb3Provider originName="ChainBridge Operator">
                     {children}
                     <ToastContainer transition={Slide}></ToastContainer>
-                  </ApiPromiseProvider>
-                </PolkadotWeb3Provider>
+                  </PolkadotWeb3Provider>
+                </ApiPromiseProvider>
               </NetworkContextProvider>
             </EthersProvider>
           </JotaiProvider>
