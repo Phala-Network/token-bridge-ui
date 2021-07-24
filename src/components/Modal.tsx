@@ -30,9 +30,14 @@ const Content = styled.div`
   padding: 24px;
   transition: all 0.1s ease-in-out;
   text-align: left;
+  box-sizing: border-box;
 
   &:hover {
     box-shadow: 16px 16px 0px rgba(0, 0, 0, 0.3);
+  }
+
+  ${({ theme }) => theme.size.sm} {
+    width: 312px;
   }
 `
 
@@ -50,7 +55,9 @@ const Title = styled.div`
 `
 
 export const ModalAction = styled.div`
-  margin-left: 7px;
+  & + & {
+    margin-left: 7px;
+  }
 `
 
 export const ModalActions = styled.div`

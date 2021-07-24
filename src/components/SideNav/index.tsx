@@ -54,7 +54,9 @@ const SideNav: React.FC = () => {
       <Header>
         <Logo></Logo>
         <Link to="/">Assets</Link>
-        <Link to="/bridge">Bridge</Link>
+        {process.env.NODE_ENV === 'development' && (
+          <Link to="/bridge">Bridge</Link>
+        )}
         {/* <Link to="/darkpool">Darkpool</Link>
         <Link to="/tokens">Tokens</Link>
         <Link to="/transactions">Transactions</Link>

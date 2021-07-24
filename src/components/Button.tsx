@@ -1,10 +1,11 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 type ButtonProps = {
   type?: 'normal' | 'primary'
   shape?: 'round' | 'circle'
   loading?: boolean
+  disabled?: boolean
 }
 
 type Props = ButtonProps & React.ComponentProps<typeof ButtonWrap>
@@ -12,7 +13,6 @@ type Props = ButtonProps & React.ComponentProps<typeof ButtonWrap>
 const ButtonWrap = styled.button<ButtonProps>`
   position: relative;
   align-items: center;
-  border: none;
   display: flex;
   font-family: Lato;
   font-size: 16px;
@@ -27,38 +27,33 @@ const ButtonWrap = styled.button<ButtonProps>`
   border-width: 3px;
   border-style: solid;
   border-color: transparent;
-  cursor: pointer;
   border-radius: ${(props) => (props.shape === 'round' ? 56 : 0)}px;
+  color: ${({ disabled }) => (disabled ? 'rgba(32, 32, 32, 0.3)' : '#494949')};
 
-  ${({ loading }) => loading && `color: transparent; `}
+  ${({ disabled }) =>
+    !disabled &&
+    css`
+      &:hover {
+        border-color: #494949;
+      }
+    `}
 
-  &.primary {
-    background: ${(props) => props.theme.colors.phala};
-    color: #494949;
-
-    &:hover {
-      border-color: #494949;
-    }
-
-    &:active {
-      background: #ececec;
-      border-color: transparent;
-    }
-  }
-
-  &.normal {
+  &:active {
     background: #ececec;
-    color: #494949;
-
-    &:hover {
-      border-color: #494949;
-    }
-
-    &:active {
-      background: #ececec;
-      border-color: transparent;
-    }
+    border-color: transparent;
   }
+
+  ${({ type, theme }) => {
+    if (type === 'primary') {
+      return css`
+        background: ${theme.colors.phala};
+      `
+    } else if (type === 'normal') {
+      return css`
+        background: #ececec;
+      `
+    }
+  }}
 `
 
 const Loading = styled.div`
@@ -73,10 +68,21 @@ const Loading = styled.div`
 `
 
 const Button: React.FC<Props> = (props) => {
-  const { loading = false, children, type = 'normal', shape, ...others } = props
+  const {
+    loading = false,
+    children,
+    type = 'normal',
+    shape,
+    disabled,
+    ...others
+  } = props
 
   return (
-    <ButtonWrap disabled={loading} shape={shape} className={type} {...others}>
+    <ButtonWrap
+      type={type}
+      disabled={loading || disabled}
+      shape={shape}
+      {...others}>
       {children}
     </ButtonWrap>
   )
