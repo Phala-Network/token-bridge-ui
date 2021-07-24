@@ -86,8 +86,8 @@ const ClaimModal: React.FC<Props> = ({ visible, onClose }) => {
         </Button>,
       ]}>
       <Text>
-        You still have {vestingLocked || '-'} PHA to receive, now you can
-        receive {vestedClaimable || '-'} PHA
+        You still have {vestingLocked || '-'} PHA to unlock, now you can unlock{' '}
+        {vestedClaimable || '-'} PHA
       </Text>
       {canClaim && (
         <Info>
