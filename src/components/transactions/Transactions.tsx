@@ -36,6 +36,10 @@ const Transactions: React.FC = () => {
     setActive(false)
   })
 
+  if (transactions?.length === 0) {
+    return null
+  }
+
   return (
     <TransactionsRoot ref={rootRef} className={active ? 'active' : ''}>
       <TransactionsHeader
