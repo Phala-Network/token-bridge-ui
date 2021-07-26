@@ -114,6 +114,7 @@ const InputDataStep: React.FC<Props> = (props) => {
 
   const onTradeTypeSelectChange = (value: TradeTypeSelectValue) => {
     setTradeTypeSelectValue(value)
+    setErrorString('')
   }
 
   useEffect(() => {
@@ -200,7 +201,10 @@ const InputDataStep: React.FC<Props> = (props) => {
         <FormItem>
           <InputNumber
             size="large"
-            onChange={(value) => setAmountInput(value as number)}
+            onChange={(value) => {
+              setAmountInput(value as number)
+              setErrorString('')
+            }}
             value={amountInput}
             placeholder="Amount (PHA)"
             after={<InputAction onClick={setMax}>MAX</InputAction>}
@@ -210,7 +214,10 @@ const InputDataStep: React.FC<Props> = (props) => {
 
           <Input
             value={recipient}
-            onChange={setRecipient}
+            onChange={(value) => {
+              setRecipient(value)
+              setErrorString('')
+            }}
             size="large"
             placeholder="Destination Address"
             after={<InputAction onClick={setMyAddress}>MY ADDRESS</InputAction>}
