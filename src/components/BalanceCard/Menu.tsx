@@ -1,5 +1,5 @@
 import { navigate } from 'gatsby'
-import React, { useState } from 'react'
+import { forwardRef, useState } from 'react'
 import styled from 'styled-components'
 import BridgeModal from '../BridgeModal'
 import ClaimModal from '../ClaimModal'
@@ -19,7 +19,6 @@ const MenuWrap = styled.div<{ active: boolean }>`
   opacity: ${(props) => (props.active ? 1 : 0)};
   transition: all 0.15s linear 0.05s;
   box-sizing: border-box;
-  pointer-events: none;
 
   ${(props) => props.theme.size.sm} {
     display: none;
@@ -29,10 +28,9 @@ const MenuWrap = styled.div<{ active: boolean }>`
 const Buttons = styled.div<{ active: boolean }>`
   padding: 0 8px;
   position: absolute;
-  top: -20px;
+  top: -11px;
+  left: 9px;
   max-width: 144px;
-  left: 50%;
-  margin-left: -72px;
   display: flex;
   align-items: center;
   background-color: #ececec;
@@ -104,7 +102,7 @@ type Props = {
   active: boolean
 } & MenuProps
 
-const Menu: React.FC<Props> = (props) => {
+const Menu = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const {
     active,
     disableTransfer = false,
@@ -119,34 +117,39 @@ const Menu: React.FC<Props> = (props) => {
 
   return (
     <>
-      <MenuWrap active={active}></MenuWrap>
-      <Buttons active={active}>
-        {!disableTransfer && (
-          <Button onClick={() => setVisibleTransferModal(true)} active={active}>
-            <span>Transfer</span>
-            <ButtonBottomBorder active={active}></ButtonBottomBorder>
-          </Button>
-        )}
-        {!disableBridge && (
-          // TODO: specify bridge target in url query
-          <Button onClick={() => navigate('/')} active={active}>
-            <span>Bridge</span>
-            <ButtonBottomBorder active={active}></ButtonBottomBorder>
-          </Button>
-        )}
-        {!disableConvert && (
-          <Button onClick={() => setVisibleConvertModal(true)} active={active}>
-            <span>Convert</span>
-            <ButtonBottomBorder active={active}></ButtonBottomBorder>
-          </Button>
-        )}
-        {!disableClaim && (
-          <Button onClick={() => setClaimModalVisible(true)} active={active}>
-            <span>Claim</span>
-            <ButtonBottomBorder active={active}></ButtonBottomBorder>
-          </Button>
-        )}
-      </Buttons>
+      <MenuWrap active={active} ref={ref}>
+        <Buttons active={active}>
+          {!disableTransfer && (
+            <Button
+              onClick={() => setVisibleTransferModal(true)}
+              active={active}>
+              <span>Transfer</span>
+              <ButtonBottomBorder active={active}></ButtonBottomBorder>
+            </Button>
+          )}
+          {!disableBridge && (
+            // TODO: specify bridge target in url query
+            <Button onClick={() => navigate('/')} active={active}>
+              <span>Bridge</span>
+              <ButtonBottomBorder active={active}></ButtonBottomBorder>
+            </Button>
+          )}
+          {!disableConvert && (
+            <Button
+              onClick={() => setVisibleConvertModal(true)}
+              active={active}>
+              <span>Convert</span>
+              <ButtonBottomBorder active={active}></ButtonBottomBorder>
+            </Button>
+          )}
+          {!disableClaim && (
+            <Button onClick={() => setClaimModalVisible(true)} active={active}>
+              <span>Claim</span>
+              <ButtonBottomBorder active={active}></ButtonBottomBorder>
+            </Button>
+          )}
+        </Buttons>
+      </MenuWrap>
 
       <MobileActions>
         {!disableClaim && (
@@ -177,6 +180,6 @@ const Menu: React.FC<Props> = (props) => {
       )}
     </>
   )
-}
+})
 
 export default Menu
