@@ -39,10 +39,10 @@ const HomePage: React.FC = () => {
   const polkadotAccountBalance = useBalance(polkadotAccountAddress)
 
   // NOTE: copied from InputDataStep.tsx
-  const polkadotAccountBalanceNumber = useMemo<number | undefined>(
+  const polkadotAccountBalanceNumber = useMemo<Decimal | undefined>(
     () =>
       polkadotAccountBalance &&
-      new Decimal(polkadotAccountBalance.toString()).div(10 ** 12).toNumber(),
+      new Decimal(polkadotAccountBalance.toString()).div(10 ** 12),
     [polkadotAccountBalance]
   )
 
@@ -88,10 +88,7 @@ const HomePage: React.FC = () => {
             disableTransfer
             disableBridge
             disableConvert
-            dollar={
-              polkadotAccountBalanceNumber &&
-              polkadotAccountBalanceNumber * PHAPrice
-            }></BalanceCard>
+            dollar={polkadotAccountBalanceNumber?.mul(PHAPrice)}></BalanceCard>
         </Category>
         {COMING_SOON_CATEGORIES.map((category) => (
           <Category title={category} key={category}>

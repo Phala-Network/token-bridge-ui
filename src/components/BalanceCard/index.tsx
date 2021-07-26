@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 import styled, { css } from 'styled-components'
-import useClickAway from '../../hooks/useClickAway'
+import Decimal from 'decimal.js'
 import toFixed from '../../utils/toFixed'
 import Dollar from './Dollar'
 import Menu, { MenuProps } from './Menu'
+import { useHoverDirty } from 'react-use'
 
 type Props = {
   themeType: 'black' | 'white'
-  balance?: number
+  balance?: Decimal | number
   header: React.ReactNode
-  dollar?: number
+  dollar?: Decimal | number
 } & MenuProps
 
 const Wrap = styled.div<{ active: boolean }>`
@@ -51,6 +51,7 @@ const Wrap = styled.div<{ active: boolean }>`
 `
 
 const Balance = styled.div`
+  position: relative;
   font-family: PT Mono;
   font-style: normal;
   font-weight: normal;
@@ -89,18 +90,11 @@ const BalanceCard: React.FC<Props> = (props) => {
     disableConvert,
     dollar,
   } = props
-  const [active, setActive] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-
-  useClickAway(ref, () => {
-    setActive(false)
-  })
+  const menuRef = useRef<HTMLDivElement>(null)
+  const active = useHoverDirty(menuRef)
 
   return (
-    <Background
-      ref={ref}
-      onMouseEnter={() => setActive(true)}
-      onMouseLeave={() => setActive(false)}>
+    <Background>
       <Wrap active={active} className={themeType}>
         {header}
         <Balance>{balance === undefined ? '-' : toFixed(balance)}</Balance>
@@ -108,6 +102,7 @@ const BalanceCard: React.FC<Props> = (props) => {
           {dollar === undefined ? '-' : toFixed(dollar, 2)}
         </Dollar>
         <Menu
+          ref={menuRef}
           active={active}
           disableTransfer={disableTransfer}
           disableBridge={disableBridge}
