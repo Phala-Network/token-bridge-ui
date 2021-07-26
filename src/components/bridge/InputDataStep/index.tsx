@@ -100,6 +100,8 @@ const InputDataStep: React.FC<Props> = (props) => {
     ? ethereumAccountBalanceNumber
     : polkadotAccountBalanceNumber.toNumber()
 
+  const isShowMaxButton = maxAmount > 0 && isFromEthereum
+
   function setMyAddress() {
     const address = isFromEthereum
       ? polkadotAccountAddress
@@ -207,7 +209,11 @@ const InputDataStep: React.FC<Props> = (props) => {
             }}
             value={amountInput}
             placeholder="Amount (PHA)"
-            after={<InputAction onClick={setMax}>MAX</InputAction>}
+            after={
+              isShowMaxButton ? (
+                <InputAction onClick={setMax}>MAX</InputAction>
+              ) : null
+            }
           />
 
           <Spacer y={1.2} />
