@@ -1,12 +1,12 @@
 import React from 'react'
+import { voidFn } from '../../../types/normal'
+import Address from '../../Address'
 import AmountInfo from '../../AmountInfo'
 import InfoTitle from '../../InfoTitle'
 import Spacer from '../../Spacer'
-import Address from '../../Address'
-import { voidFn } from '../../../types/normal'
 import { StepProps } from '../BridgeProcess'
-import FormLayout from '../FormLayout'
 import FormItem from '../FormItem'
+import FormLayout from '../FormLayout'
 import { InputDataStepResult } from '../InputDataStep'
 
 type Props = {
@@ -17,7 +17,7 @@ type Props = {
 
 const BaseInfo: React.FC<Props> = (props) => {
   const { layout, data } = props
-  const { from, to, amount: amountFromPrevStep } = data || {}
+  const { from, to, amount } = data || {}
 
   return (
     <FormLayout layout={layout}>
@@ -25,7 +25,7 @@ const BaseInfo: React.FC<Props> = (props) => {
         <InfoTitle>From</InfoTitle>
         <AmountInfo
           network={from?.network}
-          amount={from?.balance.toString()}
+          amount={amount?.toString()}
           type={from?.type}>
           <Address>{from?.account}</Address>
         </AmountInfo>
@@ -37,7 +37,7 @@ const BaseInfo: React.FC<Props> = (props) => {
         <InfoTitle>To</InfoTitle>
         <AmountInfo
           network={to?.network}
-          amount={amountFromPrevStep?.toString()}
+          amount={amount?.toString()}
           type={to?.type}>
           <Address>{to?.account}</Address>
         </AmountInfo>
