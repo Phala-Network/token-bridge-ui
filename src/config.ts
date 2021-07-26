@@ -19,6 +19,10 @@ export const ethereums: Record<number, EthereumNetworkOptions> = {
       poc5: 1,
     },
   },
+  1: {
+    // TODO: add bridge config
+    erc20: '0x6c5bA91642F10282b576d91922Ae6448C9d52f4E',
+  },
 }
 
 export const substrates: Record<string, SubstrateNetworkOptions> = {

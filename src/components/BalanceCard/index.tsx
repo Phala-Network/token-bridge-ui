@@ -88,6 +88,7 @@ const BalanceCard: React.FC<Props> = (props) => {
     disableTransfer,
     disableBridge,
     disableConvert,
+    disableClaim,
     dollar,
   } = props
   const menuRef = useRef<HTMLDivElement>(null)
@@ -106,7 +107,8 @@ const BalanceCard: React.FC<Props> = (props) => {
           active={active}
           disableTransfer={disableTransfer}
           disableBridge={disableBridge}
-          disableConvert={disableConvert}></Menu>
+          disableConvert={disableConvert}
+          disableClaim={disableClaim}></Menu>
       </Wrap>
     </Background>
   )
