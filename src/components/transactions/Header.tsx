@@ -2,7 +2,6 @@ import React, { ComponentProps } from 'react'
 import styled from 'styled-components'
 import { voidFn } from '../../types/normal'
 import Spacer from '../Spacer'
-import Tooltip from '../Tooltip'
 
 /* #region  style */
 const TransactionsHeaderRoot = styled.div`
@@ -13,6 +12,9 @@ const TransactionsHeaderRoot = styled.div`
   padding: 8px 16px;
   background: #ffffff;
   z-index: 1;
+  cursor: pointer;
+  width: fit-content;
+
   &:hover {
     opacity: 0.8;
   }
@@ -25,7 +27,6 @@ const Title = styled.div`
   font-weight: bold;
   font-size: 18px;
   line-height: 22px;
-  cursor: pointer;
 `
 /* #endregion */
 
@@ -40,41 +41,37 @@ const TransactionsHeader: React.FC<Props> = (props) => {
   const { onClickHeader, active, ...others } = props
 
   return (
-    <Tooltip
-      placement="topLeft"
-      overlay={<span>Press here to toggle panel.</span>}>
-      <TransactionsHeaderRoot {...others}>
-        {active ? (
-          <svg
-            width="9"
-            height="10"
-            viewBox="0 0 9 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M0 9.34589L9 9.5L8.84589 0.5H6.88045L6.88045 7.38045L0 7.38045V9.34589Z"
-              fill="black"
-            />
-          </svg>
-        ) : (
-          <svg
-            width="9"
-            height="10"
-            viewBox="0 0 9 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M9 0.654111L0 0.5L0.154109 9.5H2.11955L2.11955 2.61955L9 2.61955V0.654111Z"
-              fill="black"
-            />
-          </svg>
-        )}
+    <TransactionsHeaderRoot onClick={onClickHeader} {...others}>
+      {active ? (
+        <svg
+          width="9"
+          height="10"
+          viewBox="0 0 9 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M0 9.34589L9 9.5L8.84589 0.5H6.88045L6.88045 7.38045L0 7.38045V9.34589Z"
+            fill="black"
+          />
+        </svg>
+      ) : (
+        <svg
+          width="9"
+          height="10"
+          viewBox="0 0 9 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M9 0.654111L0 0.5L0.154109 9.5H2.11955L2.11955 2.61955L9 2.61955V0.654111Z"
+            fill="black"
+          />
+        </svg>
+      )}
 
-        <Spacer x={0.6}></Spacer>
+      <Spacer x={0.6}></Spacer>
 
-        <Title onClick={onClickHeader}>Transactions Panel</Title>
-      </TransactionsHeaderRoot>
-    </Tooltip>
+      <Title>Transactions Panel</Title>
+    </TransactionsHeaderRoot>
   )
 }
 
