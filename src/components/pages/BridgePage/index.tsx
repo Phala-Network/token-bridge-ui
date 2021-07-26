@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
-import useSentry from '../../../hooks/useSentry'
 import Announcement from '../../Announcement'
 import BaseLayout from '../../BaseLayout'
 import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
@@ -20,7 +19,6 @@ const RightContent = styled.div`
 const BridgePage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [submitData, setSubmitData] = useState<InputDataStepResult>()
-  useSentry()
 
   const showSubmitModal = (data: InputDataStepResult) => {
     setModalVisible(true)

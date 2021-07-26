@@ -75,7 +75,7 @@ const FeedbackModal: React.FC<ModalProps> = (props) => {
         params: {
           eventId,
           dsn:
-            'https://b32f244e1b1849728fc0d19954a209cb@o812739.ingest.sentry.io/5805680',
+            'https://ba6cd9ff61544ca6a96f3ca1d90445f2@o812739.ingest.sentry.io/5879132',
         },
       })
     } catch (e) {
