@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import abridgeString from '../../../utils/abridgeString'
 
 export type ItemInfoBlockProps = {
   account: string
@@ -29,8 +30,7 @@ const ItemInfoBlock: React.FC<ItemInfoBlockProps> = (props) => {
   return (
     <ItemInfoBlockRoot>
       <div>
-        <NetworkName>{network}</NetworkName>: {account?.slice(0, 6)}...
-        {account?.slice(-4)}
+        <NetworkName>{network}</NetworkName>: {abridgeString(account)}
       </div>
       <div>
         {amount?.toString()} <B>PHA</B>

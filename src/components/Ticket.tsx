@@ -1,5 +1,6 @@
 import React, { ComponentProps, useEffect } from 'react'
 import styled from 'styled-components'
+import abridgeString from '../utils/abridgeString'
 
 type Props = {
   no?: string
@@ -79,10 +80,7 @@ const Ticket: React.FC<Props> = (props) => {
       <Content>
         {no ? (
           <>
-            <No2>
-              {' '}
-              {no?.slice(0, 4)} . . . {no?.slice(-8)}
-            </No2>
+            <No2> {abridgeString(no)}</No2>
 
             {bottomContent ? (
               <div style={{ marginTop: 4 }}>{bottomContent}</div>
