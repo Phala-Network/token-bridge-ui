@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import ethereumAccountAtom from '../atoms/ethereumAccountAtom'
 import useSSR from '../hooks/useSSR'
 import { useEthers } from '../libs/ethereum/contexts/useEthers'
@@ -19,6 +19,7 @@ const EthereumAccountModal: React.FC<Props> = (props) => {
   const { readystate: readyState } = useEthers()
   const isReady = readyState === 'connected'
   const [ethereumAccount, setEthereumAccount] = useAtom(ethereumAccountAtom)
+  const accountsIsEmpty = accounts.length === 0
   const ethereumAccounts = useMemo(
     () =>
       accounts?.map<Account>((address) => ({
@@ -27,6 +28,17 @@ const EthereumAccountModal: React.FC<Props> = (props) => {
     [accounts]
   )
   const { isServer } = useSSR()
+
+  useEffect(() => {
+    if (accounts.length === 0 || !isReady || accountsIsEmpty) {
+      return
+    }
+
+    setEthereumAccount({
+      name: accounts[0],
+      address: accounts[0],
+    })
+  }, [accounts])
 
   if (isServer) return null
 
@@ -43,7 +55,7 @@ const EthereumAccountModal: React.FC<Props> = (props) => {
     )
   }
 
-  if (ethereumAccounts.length === 0) {
+  if (accountsIsEmpty) {
     return (
       <AlertModal
         content="No account found, please add account in your wallet extension or unlock it."
