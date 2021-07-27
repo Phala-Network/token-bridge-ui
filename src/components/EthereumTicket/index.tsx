@@ -2,12 +2,14 @@ import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import ethereumAccountAtom from '../../atoms/ethereumAccountAtom'
-import BlockStripe from '../BlockStripe'
+import useEthereumAccountBalanceDecimal from '../../hooks/useEthereumAccountBalanceDecimal'
+import BalanceLabel from '../BalanceLabel'
 import EthereumAccountModal from '../EthereumAccountModal'
 import Ticket, {
   DefaultStatus,
   DefaultStatusIcon,
   DefaultStatusName,
+  TicketCurrency,
   TicketName as _TicketName,
 } from '../Ticket'
 import logoImage from './logo.png'
@@ -24,6 +26,7 @@ const TicketName = styled(_TicketName)`
 
 const index: React.FC = () => {
   const [ethereumAccount] = useAtom(ethereumAccountAtom)
+  const ethereumAccountBalanceDecimal = useEthereumAccountBalanceDecimal()
   const [selectAccountModalViable, setSelectAccountModalViable] = useState(
     false
   )
@@ -52,16 +55,10 @@ const index: React.FC = () => {
           no={ethereumAccount?.address}
           name={<TicketName>Ethereum</TicketName>}
           bottomContent={
-            <BlockStripe
-              {...{
-                color: '#ECECEC',
-                backgroundColor: '#202020',
-                blockSize: 4,
-                column: 40,
-                row: 4,
-                random: 0.5,
-              }}
-            />
+            <>
+              <BalanceLabel value={ethereumAccountBalanceDecimal} />
+              <TicketCurrency>PHA</TicketCurrency>
+            </>
           }
         />
       )}

@@ -1,12 +1,10 @@
 import { Decimal } from 'decimal.js'
-import { ethers } from 'ethers'
 import { useAtom } from 'jotai'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ethereumAccountAtom from '../../../atoms/ethereumAccountAtom'
 import polkadotAccountAtom from '../../../atoms/polkadotAccountAtom'
-import { useBalance } from '../../../hooks/useBalance'
+import useEthereumAccountBalanceDecimal from '../../../hooks/useEthereumAccountBalanceDecimal'
 import usePolkadotAccountBalanceDecimal from '../../../hooks/usePolkadotAccountBalanceDecimal'
-import { useErc20BalanceQuery } from '../../../libs/ethereum/queries/useErc20BalanceQuery'
 import { voidFn } from '../../../types/normal'
 import Button from '../../Button'
 import ErrorText from '../../ErrorText'
@@ -53,33 +51,8 @@ const InputDataStep: React.FC<Props> = (props) => {
   const ethereumAccountAddress = ethereumAccount?.address
   const [errorString, setErrorString] = useState('')
 
-  const polkadotAccountBalance = useBalance(polkadotAccountAddress)
-  const { data: ethereumAccountBalance } = useErc20BalanceQuery(
-    ethereumAccountAddress
-  )
-
-  const ethereumAccountBalanceNumber = useMemo(() => {
-    if (ethereumAccountBalance) {
-      return parseFloat(
-        ethers.utils.formatUnits(
-          ethereumAccountBalance as ethers.BigNumberish,
-          18
-        )
-      )
-    } else {
-      return 0
-    }
-  }, [ethereumAccountBalance])
-
+  const ethereumAccountBalanceDecimal = useEthereumAccountBalanceDecimal()
   const polkadotAccountBalanceDecimal = usePolkadotAccountBalanceDecimal()
-
-  const ethereumAccountBalanceString = useMemo(() => {
-    return ethereumAccountBalance !== undefined
-      ? `${ethereumAccountBalanceNumber} PHA`
-      : ethereumAccount !== undefined
-      ? '...'
-      : undefined
-  }, [ethereumAccountBalance])
 
   const [
     tradeTypeSelectValue,
@@ -91,9 +64,11 @@ const InputDataStep: React.FC<Props> = (props) => {
     ? ethereumAccountAddress
     : polkadotAccountAddress
 
-  const maxAmount = isFromEthereum
-    ? ethereumAccountBalanceNumber
-    : polkadotAccountBalanceDecimal.toNumber()
+  const currentBalance = isFromEthereum
+    ? ethereumAccountBalanceDecimal
+    : polkadotAccountBalanceDecimal
+
+  const maxAmount = currentBalance.toNumber()
 
   const isShowMaxButton = maxAmount > 0 && isFromEthereum
 
@@ -154,11 +129,7 @@ const InputDataStep: React.FC<Props> = (props) => {
       from: {
         ...tradeTypeSelectValue.from,
         account: accountFrom,
-        balance: new Decimal(
-          isFromEthereum
-            ? ethereumAccountBalanceNumber
-            : polkadotAccountBalanceDecimal
-        ),
+        balance: currentBalance,
       },
       to: {
         ...tradeTypeSelectValue.to,
@@ -171,21 +142,11 @@ const InputDataStep: React.FC<Props> = (props) => {
   return (
     <>
       <div style={{ height: 26 }}>
-        {!isFromEthereum && polkadotAccountBalance && (
-          <InputExternalInfo
-            style={{ textAlign: 'right' }}
-            label={'Balance'}
-            value={polkadotAccountBalance?.toHuman()}
-          />
-        )}
-
-        {isFromEthereum && ethereumAccountBalanceString && (
-          <InputExternalInfo
-            style={{ textAlign: 'right' }}
-            label={'Balance'}
-            value={ethereumAccountBalanceString}
-          />
-        )}
+        <InputExternalInfo
+          label={'Balance'}
+          type={'PHA'}
+          value={currentBalance}
+        />
       </div>
 
       <FormLayout layout={layout}>

@@ -1,7 +1,8 @@
+import { Decimal } from 'decimal.js'
 import React, { ComponentProps } from 'react'
 import styled from 'styled-components'
 import useSSR from '../hooks/useSSR'
-import toFixed from '../utils/toFixed'
+import BalanceLabel from './BalanceLabel'
 
 const Label = styled.span`
   font-family: Lato;
@@ -34,7 +35,7 @@ const Value = styled.span`
 
 type Props = {
   label?: string
-  value?: number | string
+  value?: number | string | Decimal
   type?: string
 } & ComponentProps<'div'>
 
@@ -45,10 +46,12 @@ const InputExternalInfo: React.FC<Props> = (props) => {
   if (isServer) return null
 
   return (
-    <div {...others}>
+    <div style={{ textAlign: 'right' }} {...others}>
       {label && <Label>{label}: </Label>}
       {value && (
-        <Value>{typeof value === 'number' ? toFixed(value) : value}</Value>
+        <Value>
+          <BalanceLabel value={new Decimal(value)} />
+        </Value>
       )}
       {type && <Type>{type}</Type>}
     </div>

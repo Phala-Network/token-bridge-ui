@@ -1,9 +1,11 @@
-import currency from 'currency.js'
 import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
 import usePolkadotAccountBalanceDecimal from '../../hooks/usePolkadotAccountBalanceDecimal'
+import { useApiPromise } from '../../libs/polkadot/hooks/useApiPromise'
+import { useAddressNormalizer } from '../../libs/polkadot/useAddressNormalizer'
+import BalanceLabel from '../BalanceLabel'
 import PolkadotAccountModal from '../PolkadotAccountModal'
 import Ticket, {
   DefaultStatus,
@@ -26,6 +28,8 @@ const TicketName = styled(_TicketName)`
 `
 
 const index: React.FC = () => {
+  const { api } = useApiPromise()
+  const normalizeAddress = useAddressNormalizer(api)
   const [polkadotAccount] = useAtom(polkadotAccountAtom)
   const theme = useTheme()
   const [selectAccountModalViable, setSelectAccountModalViable] = useState(
@@ -33,12 +37,6 @@ const index: React.FC = () => {
   )
 
   const polkadotAccountBalanceDecimal = usePolkadotAccountBalanceDecimal()
-
-  const balanceDisplay = !polkadotAccountBalanceDecimal
-    ? '. . .'
-    : currency(polkadotAccountBalanceDecimal.toString(), { symbol: '' })
-        .format()
-        .toString()
 
   const openAccountSelectModal = () => {
     setSelectAccountModalViable(true)
@@ -62,11 +60,11 @@ const index: React.FC = () => {
         <Ticket
           onClick={openAccountSelectModal}
           themeColor={theme.colors.khala}
-          no={polkadotAccount?.address}
+          no={normalizeAddress(polkadotAccount?.address)}
           name={<TicketName>Khala</TicketName>}
           bottomContent={
             <>
-              {balanceDisplay}
+              <BalanceLabel value={polkadotAccountBalanceDecimal} />
               <TicketCurrency>PHA</TicketCurrency>
             </>
           }

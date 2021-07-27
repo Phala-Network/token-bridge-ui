@@ -13,7 +13,7 @@ export default function usePolkadotAccountBalanceDecimal(): Decimal {
     () =>
       polkadotAccountBalance
         ? new Decimal(polkadotAccountBalance.toString()).div(10 ** 12)
-        : new Decimal(0),
+        : new Decimal(-1),
     [polkadotAccountBalance]
   )
 
