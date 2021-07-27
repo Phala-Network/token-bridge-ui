@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import styled from 'styled-components'
 import { useAtom } from 'jotai'
+import React, { useCallback, useEffect, useMemo } from 'react'
+import styled from 'styled-components'
 import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
 import KhalaIcon from '../../icons/khala.svg'
 import { useWeb3 } from '../../libs/polkadot/hooks/useWeb3'
