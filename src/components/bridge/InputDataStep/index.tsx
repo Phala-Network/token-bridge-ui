@@ -5,6 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import ethereumAccountAtom from '../../../atoms/ethereumAccountAtom'
 import polkadotAccountAtom from '../../../atoms/polkadotAccountAtom'
 import { useBalance } from '../../../hooks/useBalance'
+import usePolkadotAccountBalanceDecimal from '../../../hooks/usePolkadotAccountBalanceDecimal'
 import { useErc20BalanceQuery } from '../../../libs/ethereum/queries/useErc20BalanceQuery'
 import { voidFn } from '../../../types/normal'
 import Button from '../../Button'
@@ -70,13 +71,7 @@ const InputDataStep: React.FC<Props> = (props) => {
     }
   }, [ethereumAccountBalance])
 
-  const polkadotAccountBalanceNumber = useMemo(
-    () =>
-      polkadotAccountBalance
-        ? new Decimal(polkadotAccountBalance.toString()).div(10 ** 12)
-        : new Decimal(0),
-    [polkadotAccountBalance]
-  )
+  const polkadotAccountBalanceDecimal = usePolkadotAccountBalanceDecimal()
 
   const ethereumAccountBalanceString = useMemo(() => {
     return ethereumAccountBalance !== undefined
@@ -98,7 +93,7 @@ const InputDataStep: React.FC<Props> = (props) => {
 
   const maxAmount = isFromEthereum
     ? ethereumAccountBalanceNumber
-    : polkadotAccountBalanceNumber.toNumber()
+    : polkadotAccountBalanceDecimal.toNumber()
 
   const isShowMaxButton = maxAmount > 0 && isFromEthereum
 
@@ -158,7 +153,7 @@ const InputDataStep: React.FC<Props> = (props) => {
         balance: new Decimal(
           isFromEthereum
             ? ethereumAccountBalanceNumber
-            : polkadotAccountBalanceNumber
+            : polkadotAccountBalanceDecimal
         ),
       },
       to: {

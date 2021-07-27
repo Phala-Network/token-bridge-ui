@@ -1,8 +1,9 @@
+import currency from 'currency.js'
 import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
-import { useBalance } from '../../hooks/useBalance'
+import usePolkadotAccountBalanceDecimal from '../../hooks/usePolkadotAccountBalanceDecimal'
 import PolkadotAccountModal from '../PolkadotAccountModal'
 import Ticket, {
   DefaultStatus,
@@ -29,13 +30,14 @@ const index: React.FC = () => {
   const [selectAccountModalViable, setSelectAccountModalViable] = useState(
     false
   )
-  const balance = useBalance(polkadotAccount?.address)
 
-  const balanceDisplay = !balance
+  const polkadotAccountBalanceDecimal = usePolkadotAccountBalanceDecimal()
+
+  const balanceDisplay = !polkadotAccountBalanceDecimal
     ? '. . .'
-    : balance.toString?.() === '0'
-    ? '0 PHA'
-    : balance.toHuman?.()
+    : currency(polkadotAccountBalanceDecimal.toString(), { symbol: '' })
+        .format()
+        .toString()
 
   const openAccountSelectModal = () => {
     setSelectAccountModalViable(true)
