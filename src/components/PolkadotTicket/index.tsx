@@ -9,6 +9,7 @@ import Ticket, {
   DefaultStatus,
   DefaultStatusIcon,
   DefaultStatusName,
+  TicketCurrency,
   TicketName as _TicketName,
 } from '../Ticket'
 import logo from './logo.png'
@@ -63,7 +64,12 @@ const index: React.FC = () => {
           themeColor={theme.colors.khala}
           no={polkadotAccount?.address}
           name={<TicketName>Khala</TicketName>}
-          bottomContent={balanceDisplay}
+          bottomContent={
+            <>
+              {balanceDisplay}
+              <TicketCurrency>PHA</TicketCurrency>
+            </>
+          }
         />
       )}
 

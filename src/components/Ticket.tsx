@@ -83,7 +83,9 @@ const Ticket: React.FC<Props> = (props) => {
             <No2> {abridgeString(no)}</No2>
 
             {bottomContent ? (
-              <div style={{ marginTop: 4 }}>{bottomContent}</div>
+              <div style={{ marginTop: 4, display: 'flex' }}>
+                {bottomContent}
+              </div>
             ) : null}
           </>
         ) : (
@@ -124,4 +126,17 @@ export const DefaultStatusName = styled.div`
   align-items: center;
   letter-spacing: 0.03em;
   color: #ececec;
+`
+
+export const TicketCurrency = styled.div`
+  background: #000000;
+  border-radius: 2px;
+  color: #ececec;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  justify-content: center;
+  margin-left: 6px;
 `
