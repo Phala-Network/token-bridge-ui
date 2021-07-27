@@ -1,6 +1,6 @@
 import React from 'react'
-import Icon from './Icon'
 import styled from 'styled-components'
+import Icon from './Icon'
 
 const Root = styled.div`
   background: #f3ffd3;
@@ -16,9 +16,7 @@ const Root = styled.div`
   grid-gap: 8px;
 `
 
-export type AlertProps = {}
-
-const Alert: React.FC<AlertProps> = (props) => {
+const Alert: React.FC = (props) => {
   const { children, ...rest } = props
 
   return (
