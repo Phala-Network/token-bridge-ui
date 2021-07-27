@@ -97,6 +97,10 @@ const InputDataStep: React.FC<Props> = (props) => {
 
   const isShowMaxButton = maxAmount > 0 && isFromEthereum
 
+  const isShowRecipient = isFromEthereum
+    ? !!polkadotAccountAddress
+    : !!ethereumAccountAddress
+
   function setMyAddress() {
     const address = isFromEthereum
       ? polkadotAccountAddress
@@ -221,7 +225,11 @@ const InputDataStep: React.FC<Props> = (props) => {
             }}
             size="large"
             placeholder="Destination Address"
-            after={<InputAction onClick={setMyAddress}>MY ADDRESS</InputAction>}
+            after={
+              isShowRecipient ? (
+                <InputAction onClick={setMyAddress}>MY ADDRESS</InputAction>
+              ) : null
+            }
           />
         </FormItem>
       </FormLayout>
