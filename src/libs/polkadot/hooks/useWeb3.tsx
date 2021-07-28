@@ -27,8 +27,7 @@ const logDebug = console.debug.bind(console, '[Web3Context]')
 const logError = console.error.bind(console, '[Web3Context]')
 const logInfo = console.info.bind(console, '[Web3Context]')
 
-const imported =
-  typeof window !== 'undefined' &&
+const importPolkadotExtensionDapp = () =>
   import('@polkadot/extension-dapp').catch((error) => {
     logError('Failed to import @polkadot/extension-dapp:', error)
     throw error
@@ -45,11 +44,7 @@ export const Web3Provider = ({
   const { api } = useApiPromise()
 
   useEffect(() => {
-    if (readystate === 'ready') {
-      return
-    }
-
-    imported
+    importPolkadotExtensionDapp()
       .then(({ web3Enable, isWeb3Injected }) => {
         setReadystate('enabling')
 
@@ -72,10 +67,12 @@ export const Web3Provider = ({
       .catch((reason) => {
         logError('Failed to import @polkadot/extension-dapp:', reason)
       })
-  })
+  }, [originName])
 
   useEffect(() => {
-    const unsub = imported
+    if (!api || readystate !== 'ready') return
+
+    const unsub = importPolkadotExtensionDapp()
       .then(async ({ web3AccountsSubscribe }) => {
         const unsub = await web3AccountsSubscribe(
           (accounts) => {
@@ -85,7 +82,7 @@ export const Web3Provider = ({
               accounts.map((account) => account.address).join(', ')
             )
           },
-          { ss58Format: api?.registry.chainSS58 }
+          { ss58Format: api.registry.chainSS58 }
         )
         logDebug('Subscribed to account injection updates')
         return unsub
@@ -106,7 +103,7 @@ export const Web3Provider = ({
         return () => null // return a dummy unsub func to useEffect unload
       })
 
-    imported
+    importPolkadotExtensionDapp()
       .then(async ({ web3Accounts }) => {
         const accounts = await web3Accounts({
           ss58Format: api?.registry.chainSS58,

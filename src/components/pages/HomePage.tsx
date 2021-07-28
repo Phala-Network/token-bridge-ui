@@ -3,9 +3,14 @@ import { useAtom } from 'jotai'
 import React, { useMemo } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
+import { ethers } from 'ethers'
+import { up } from 'styled-breakpoints'
+import { useBreakpoint } from 'styled-breakpoints/react-styled'
 import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
+import ethereumAccountAtom from '../../atoms/ethereumAccountAtom'
+import { useErc20BalanceQuery } from '../../libs/ethereum/queries/useErc20BalanceQuery'
 import { useBalance } from '../../hooks/useBalance'
-// import EthereumIcon from '../../icons/ethereum.svg'
+import EthereumIcon from '../../icons/ethereum.svg'
 import usePHAPrice from '../../hooks/usePHAPrice'
 import KhalaIcon from '../../icons/khala.svg'
 import BalanceCard from '../BalanceCard'
@@ -13,30 +18,33 @@ import { BlackHeader } from '../BalanceCard/Header'
 import BaseLayout from '../BaseLayout'
 import Category from '../Category'
 import ComingSoonBox from '../ComingSoonBox'
+import toFixed from '../../utils/toFixed'
 
 const COMING_SOON_CATEGORIES: string[] = ['Parachain Assets', 'Bridge Assets']
 
 const ContentWrapper = styled.div`
-  padding-top: 56px;
-  margin-left: 50px;
   flex: 1;
-  border-left: 1px solid #cccccc;
-  min-height: 100vh;
   box-sizing: border-box;
 
-  ${(props) => props.theme.size.sm} {
-    padding-top: 0;
-    margin-left: 0;
-    border-left: none;
-    min-height: initial;
+  ${up('md')} {
+    padding-top: 56px;
+    margin-left: 50px;
+    border-left: 1px solid #cccccc;
+    min-height: 100vh;
   }
 `
 
 const HomePage: React.FC = () => {
+  const md = useBreakpoint(up('md'))
   const PHAPrice = usePHAPrice()
   const [polkadotAccount] = useAtom(polkadotAccountAtom)
+  const [ethereumAccount] = useAtom(ethereumAccountAtom)
   const polkadotAccountAddress = polkadotAccount?.address
+  const ethereumAccountAddress = ethereumAccount?.address
   const polkadotAccountBalance = useBalance(polkadotAccountAddress)
+  const { data: ethereumAccountBalance } = useErc20BalanceQuery(
+    ethereumAccountAddress
+  )
 
   // NOTE: copied from InputDataStep.tsx
   const polkadotAccountBalanceNumber = useMemo<Decimal | undefined>(
@@ -46,7 +54,23 @@ const HomePage: React.FC = () => {
     [polkadotAccountBalance]
   )
 
-  // const totalBalanceNumber = polkadotAccountBalanceNumber || 0
+  // NOTE: copied from InputDataStep.tsx
+  const ethereumAccountBalanceNumber = useMemo<Decimal | undefined>(() => {
+    if (!ethereumAccountBalance) return
+    const value = ethers.utils.formatUnits(
+      ethereumAccountBalance as ethers.BigNumberish,
+      18
+    )
+    if (value) return new Decimal(value)
+  }, [ethereumAccountBalance])
+
+  const totalBalanceNumber = useMemo<Decimal | undefined>(() => {
+    const numbers = [
+      polkadotAccountBalanceNumber,
+      ethereumAccountBalanceNumber,
+    ].filter((v) => v !== undefined) as Decimal[]
+    if (numbers.length) return Decimal.sum(...numbers)
+  }, [polkadotAccountBalanceNumber, ethereumAccountBalanceNumber])
 
   return (
     <BaseLayout>
@@ -60,22 +84,11 @@ const HomePage: React.FC = () => {
       <ContentWrapper>
         <Category
           title="Phala"
-          // description={`Total: ${totalBalanceNumber} PHA`}
-        >
+          description={`Total: ${
+            totalBalanceNumber ? toFixed(totalBalanceNumber, 4) : '-'
+          } PHA`}>
           {/* FIXME: balance can be preset with name and icon */}
-          {/* <BalanceCard
-            themeType="white"
-            header={
-              <BlackHeader>
-                <EthereumIcon width="24" height="24" />
-                Ethereum
-              </BlackHeader>
-            }
-            balance={ethereumAccountBalanceNumber}
-            disableTransfer
-            disableBridge
-            disableConvert
-            dollar={ethereumAccountBalanceNumber * PHAPrice}></BalanceCard> */}
+
           <BalanceCard
             themeType="white"
             header={
@@ -89,6 +102,25 @@ const HomePage: React.FC = () => {
             disableBridge
             disableConvert
             dollar={polkadotAccountBalanceNumber?.mul(PHAPrice)}></BalanceCard>
+
+          {md && (
+            <BalanceCard
+              themeType="white"
+              header={
+                <BlackHeader>
+                  <EthereumIcon width="24" height="24" />
+                  ERC-20 PHA
+                </BlackHeader>
+              }
+              balance={ethereumAccountBalanceNumber}
+              disableTransfer
+              disableBridge
+              disableConvert
+              disableClaim
+              dollar={ethereumAccountBalanceNumber?.mul(
+                PHAPrice
+              )}></BalanceCard>
+          )}
         </Category>
         {COMING_SOON_CATEGORIES.map((category) => (
           <Category title={category} key={category}>

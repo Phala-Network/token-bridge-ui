@@ -1,5 +1,6 @@
 import { navigate } from 'gatsby'
 import { forwardRef, useState } from 'react'
+import { up, down } from 'styled-breakpoints'
 import styled from 'styled-components'
 import BridgeModal from '../BridgeModal'
 import ClaimModal from '../ClaimModal'
@@ -20,7 +21,7 @@ const MenuWrap = styled.div<{ active: boolean }>`
   transition: all 0.15s linear 0.05s;
   box-sizing: border-box;
 
-  ${(props) => props.theme.size.sm} {
+  ${down('sm')} {
     display: none;
   }
 `
@@ -35,7 +36,7 @@ const Buttons = styled.div<{ active: boolean }>`
   align-items: center;
   background-color: #ececec;
 
-  ${(props) => props.theme.size.sm} {
+  ${down('sm')} {
     display: none;
   }
 `
@@ -70,11 +71,11 @@ const MobileActions = styled.div`
   right: 12px;
   flex-direction: column;
   justify-content: flex-end;
-  display: none;
+  display: flex;
   user-select: none;
 
-  ${({ theme }) => theme.size.sm} {
-    display: flex;
+  ${up('md')} {
+    display: none;
   }
 `
 

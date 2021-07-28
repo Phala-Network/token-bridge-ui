@@ -6,10 +6,11 @@ declare module 'styled-components' {
       phala: string
       khala: string
     }
-    size: {
-      xs: string
+    breakpoints?: {
       sm: string
+      md: string
       lg: string
+      xl: string
     }
   }
 }

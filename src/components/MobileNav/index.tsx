@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
+import { up } from 'styled-breakpoints'
 import MobilePolkadotTicker from './MobilePolkadotTicket'
 import PhalaIcon from '../../icons/phala_icon.svg'
 import background from './mobile_nav_background.png'
 import useSSR from '../../hooks/useSSR'
 
 const Wrapper = styled.div`
-  display: none;
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;
@@ -17,8 +18,8 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-right: 8px;
-  ${(props) => props.theme.size.sm} {
-    display: flex;
+  ${up('md')} {
+    display: none;
   }
 `
 
