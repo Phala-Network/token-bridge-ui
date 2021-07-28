@@ -41,6 +41,7 @@ const ActiveOutline: React.FC = () => {
     setTop(activeDomTop - domTop)
   }
 
+  // @limichange: I know this is stupid, but this look works for now.
   useEffect(() => {
     const id = setInterval(() => change(), 100)
 
