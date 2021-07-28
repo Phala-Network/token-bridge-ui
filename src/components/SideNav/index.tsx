@@ -66,11 +66,11 @@ const SideNav: React.FC = () => {
 
       <Footer>
         <ExternalLink target="__blank" href="https://phala.network">
-          Phala.network
+          phala.network
         </ExternalLink>
 
         <ExternalLink target="__blank" href="https://wiki.phala.network">
-          Wiki.phala.network
+          wiki
         </ExternalLink>
 
         <Spacer></Spacer>
