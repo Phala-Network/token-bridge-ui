@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { down } from 'styled-breakpoints'
 
 const ComingSoonBox = styled.div`
   user-select: none;
@@ -12,12 +13,12 @@ const ComingSoonBox = styled.div`
 
   div + div {
     margin-top: 14px;
-    ${(props) => props.theme.size.sm} {
+    ${down('sm')} {
       margin-top: 6px;
     }
   }
 
-  ${(props) => props.theme.size.sm} {
+  ${down('sm')} {
     margin-top: 12px;
     padding: 21px 24px;
   }

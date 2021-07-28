@@ -14,6 +14,7 @@ const Root = styled.div`
   display: grid;
   grid-template-columns: 20px 1fr;
   grid-gap: 8px;
+  align-items: center;
 `
 
 const Alert: React.FC = (props) => {

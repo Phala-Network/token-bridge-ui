@@ -1,6 +1,7 @@
 import React from 'react'
 import { createPortal } from 'react-dom'
 import styled from 'styled-components'
+import { down } from 'styled-breakpoints'
 import usePortal from '../hooks/usePortal'
 import Backdrop from './Backdrop'
 
@@ -36,7 +37,7 @@ const Content = styled.div`
     box-shadow: 16px 16px 0px rgba(0, 0, 0, 0.3);
   }
 
-  ${({ theme }) => theme.size.sm} {
+  ${down('sm')} {
     width: 312px;
   }
 `
