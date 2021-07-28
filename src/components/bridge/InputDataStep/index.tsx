@@ -6,6 +6,7 @@ import polkadotAccountAtom from '../../../atoms/polkadotAccountAtom'
 import useEthereumAccountBalanceDecimal from '../../../hooks/useEthereumAccountBalanceDecimal'
 import usePolkadotAccountBalanceDecimal from '../../../hooks/usePolkadotAccountBalanceDecimal'
 import { voidFn } from '../../../types/normal'
+import validateAddress from '../../../utils/validateAddress'
 import Button from '../../Button'
 import ErrorText from '../../ErrorText'
 import Input from '../../Input'
@@ -112,6 +113,11 @@ const InputDataStep: React.FC<Props> = (props) => {
 
     if (!recipient) {
       setErrorString('Need enter recipient')
+      return
+    }
+
+    if (!validateAddress(recipient)) {
+      setErrorString('Need enter the correct recipient')
       return
     }
 
