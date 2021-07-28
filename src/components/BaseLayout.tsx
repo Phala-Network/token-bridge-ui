@@ -1,10 +1,8 @@
 import React from 'react'
-import SideNav from './SideNav'
 import styled from 'styled-components'
-import Tickets from './Tickets'
 import MobileNav from './MobileNav'
-
-type Props = {}
+import SideNav from './SideNav'
+import Tickets from './Tickets'
 
 const HomePageWrap = styled.div`
   padding-left: 230px;
@@ -22,7 +20,7 @@ const Sider = styled.div`
   }
 `
 
-const BaseLayout: React.FC<Props> = (props) => {
+const BaseLayout: React.FC = (props) => {
   const { children } = props
 
   return (

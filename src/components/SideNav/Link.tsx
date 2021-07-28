@@ -1,6 +1,6 @@
-import { Link as GatsbyLink } from 'gatsby-plugin-intl'
 import React from 'react'
 import styled from 'styled-components'
+import GatsbyLink from '../GatsbyLink'
 
 type Props = React.ComponentProps<typeof GatsbyLink>
 
@@ -20,12 +20,15 @@ const Wrap = styled(GatsbyLink)`
   cursor: pointer;
   max-width: 120px;
   text-decoration: none;
+  transition: all 0.2s linear;
+  position: relative;
 
-  &:hover,
+  &:hover {
+    color: #c9c9c9;
+  }
+
   &.active {
     color: ${(props) => props.theme.colors.phala};
-    border: 1px solid ${(props) => props.theme.colors.phala};
-    box-shadow: 4px 4px 0px ${(props) => props.theme.colors.phala};
   }
 `
 

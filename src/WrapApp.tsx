@@ -3,6 +3,7 @@ import React, { useRef } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Slide, ToastContainer } from 'react-toastify'
 import { ThemeProvider } from 'styled-components'
+import BaseLayout from './components/BaseLayout'
 import './fonts.css'
 import GlobalStyle from './GlobalStyle'
 import { EthersProvider } from './libs/ethereum/contexts/useEthers'
@@ -28,7 +29,7 @@ const WrapApp: React.FC = ({ children }) => {
                 defaultNetwork={process.env.GATSBY_DEFAULT_NETWORK ?? 'khala'}>
                 <ApiPromiseProvider>
                   <PolkadotWeb3Provider originName="ChainBridge Operator">
-                    {children}
+                    <BaseLayout>{children}</BaseLayout>
                     <ToastContainer transition={Slide}></ToastContainer>
                   </PolkadotWeb3Provider>
                 </ApiPromiseProvider>

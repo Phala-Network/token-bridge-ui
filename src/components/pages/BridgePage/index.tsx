@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 import Announcement from '../../Announcement'
-import BaseLayout from '../../BaseLayout'
 import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
 import SubmitStep from '../../bridge/SubmitStep'
 import Modal from '../../Modal'
@@ -14,6 +13,7 @@ const RightContent = styled.div`
   grid-gap: 30px;
   padding: 48px;
   width: 100%;
+  box-sizing: border-box;
 `
 
 const BridgePage: React.FC = () => {
@@ -30,7 +30,7 @@ const BridgePage: React.FC = () => {
   }
 
   return (
-    <BaseLayout>
+    <>
       <Helmet>
         <title>Phala App</title>
       </Helmet>
@@ -50,7 +50,7 @@ const BridgePage: React.FC = () => {
 
         <Transactions></Transactions>
       </RightContent>
-    </BaseLayout>
+    </>
   )
 }
 

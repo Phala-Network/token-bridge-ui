@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Spacer from '../Spacer'
 import Icons from './Icons'
-import Link from './Link'
+import Links from './Links'
 import Logo from './Logo'
 import bg from './sidebar.jpg'
 
@@ -53,15 +53,8 @@ const SideNav: React.FC = () => {
     <SideNavWrap>
       <Header>
         <Logo></Logo>
-        <Link to="/">Assets</Link>
-        {process.env.NODE_ENV === 'development' && (
-          <Link to="/bridge">Bridge</Link>
-        )}
-        {/* <Link to="/darkpool">Darkpool</Link>
-        <Link to="/tokens">Tokens</Link>
-        <Link to="/transactions">Transactions</Link>
-        <Link to="/stakepad">Stakepad</Link>
-        <Link to="/crowdloan">KSM Crowdloan</Link> */}
+
+        <Links></Links>
       </Header>
 
       <Footer>

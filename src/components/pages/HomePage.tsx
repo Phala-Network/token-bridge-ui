@@ -10,7 +10,6 @@ import usePHAPrice from '../../hooks/usePHAPrice'
 import KhalaIcon from '../../icons/khala.svg'
 import BalanceCard from '../BalanceCard'
 import { BlackHeader } from '../BalanceCard/Header'
-import BaseLayout from '../BaseLayout'
 import Category from '../Category'
 import ComingSoonBox from '../ComingSoonBox'
 
@@ -49,7 +48,7 @@ const HomePage: React.FC = () => {
   // const totalBalanceNumber = polkadotAccountBalanceNumber || 0
 
   return (
-    <BaseLayout>
+    <>
       <Helmet>
         <title>Phala App</title>
         <meta
@@ -99,7 +98,7 @@ const HomePage: React.FC = () => {
           </Category>
         ))}
       </ContentWrapper>
-    </BaseLayout>
+    </>
   )
 }
 
