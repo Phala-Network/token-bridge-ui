@@ -55,6 +55,8 @@ const InputDataStep: React.FC<Props> = (props) => {
   const ethereumAccountBalanceDecimal = useEthereumAccountBalanceDecimal()
   const polkadotAccountBalanceDecimal = usePolkadotAccountBalanceDecimal()
 
+  const [addressValid, setAddressValid] = useState(false)
+
   const [
     tradeTypeSelectValue,
     setTradeTypeSelectValue,
@@ -76,6 +78,10 @@ const InputDataStep: React.FC<Props> = (props) => {
   const isShowRecipient = isFromEthereum
     ? !!polkadotAccountAddress
     : !!ethereumAccountAddress
+
+  useEffect(() => {
+    setAddressValid(validateAddress(recipient))
+  }, [recipient])
 
   function setMyAddress() {
     const address = isFromEthereum
@@ -193,7 +199,7 @@ const InputDataStep: React.FC<Props> = (props) => {
             size="large"
             placeholder="Destination Address"
             after={
-              isShowRecipient ? (
+              isShowRecipient && !addressValid ? (
                 <InputAction onClick={setMyAddress}>MY ADDRESS</InputAction>
               ) : null
             }
