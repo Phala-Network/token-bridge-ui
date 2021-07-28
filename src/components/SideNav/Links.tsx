@@ -8,9 +8,8 @@ const Links: React.FC = () => {
       <ActiveOutline />
 
       <Link to="/">Assets</Link>
-      {process.env.NODE_ENV === 'development' && (
-        <Link to="/bridge/">Bridge</Link>
-      )}
+      {(process.env.NODE_ENV === 'development' ||
+        process.env.GATSBY_ENV === 'test') && <Link to="/bridge/">Bridge</Link>}
 
       {/* <Link to="/darkpool">Darkpool</Link> */}
       {/* <Link to="/tokens">Tokens</Link> */}
