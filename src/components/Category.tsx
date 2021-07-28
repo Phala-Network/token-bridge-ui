@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
+import { up, down } from 'styled-breakpoints'
 
 const Point = styled.div`
   width: 12px;
   height: 12px;
   background: #202020;
   border: 10px solid #ececec;
-  ${(props) => props.theme.size.sm} {
+  ${down('sm')} {
     display: none;
   }
 `
@@ -14,7 +15,7 @@ const Point = styled.div`
 const CategoryWrap = styled.div`
   position: relative;
   padding: 16px 48px 40px 160px;
-  ${(props) => props.theme.size.sm} {
+  ${down('sm')} {
     padding: 16px 24px;
   }
 `
@@ -30,22 +31,21 @@ const CategoryHeader = styled.div`
   font-size: 10px;
   line-height: 12px;
   color: #202020;
-  ${(props) => props.theme.size.sm} {
+  ${down('sm')} {
     font-size: 14px;
     position: unset;
   }
 `
 
 const Title = styled.div`
-  margin-top: 10px;
-  ${(props) => props.theme.size.sm} {
-    margin-top: 0;
+  ${up('md')} {
+    margin-top: 10px;
   }
 `
 
 const Description = styled.div`
   margin-top: 8px;
-  ${(props) => props.theme.size.sm} {
+  ${down('sm')} {
     font-size: 12px;
   }
 `
@@ -53,9 +53,8 @@ const Description = styled.div`
 const CategoryContent = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-top: -50px;
-  ${(props) => props.theme.size.sm} {
-    margin-top: 0;
+  ${up('md')} {
+    margin-top: -50px;
   }
 `
 

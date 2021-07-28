@@ -1,23 +1,26 @@
 import React from 'react'
 import SideNav from './SideNav'
 import styled from 'styled-components'
+import { up, down } from 'styled-breakpoints'
 import Tickets from './Tickets'
 import MobileNav from './MobileNav'
 
 type Props = {}
 
 const HomePageWrap = styled.div`
-  padding-left: 230px;
-  display: flex;
-  ${(props) => props.theme.size.sm} {
+  ${up('md')} {
+    display: flex;
+    padding-left: 230px;
+  }
+
+  ${down('sm')} {
     display: block;
-    padding-left: 0;
     padding-top: 40px;
   }
 `
 
 const Sider = styled.div`
-  ${(props) => props.theme.size.sm} {
+  ${down('sm')} {
     display: none;
   }
 `

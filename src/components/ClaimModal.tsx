@@ -1,6 +1,8 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { toast } from 'react-toastify'
+import { useAtom } from 'jotai'
+import Alert from './Alert'
 import Modal from './Modal'
 import Button from './Button'
 import useAllBalances from '../hooks/useAllBalances'
@@ -8,8 +10,8 @@ import { useApiPromise } from '../libs/polkadot/hooks/useApiPromise'
 import { useDecimalJsTokenDecimalMultiplier } from '../libs/polkadot/useTokenDecimals'
 import { bnToDecimal } from '../libs/polkadot/utils/balances'
 import { vest } from '../libs/polkadot/extrinsics/vest'
-import { useAtom } from 'jotai'
 import polkadotAccountAtom from '../atoms/polkadotAccountAtom'
+import { BN } from '@polkadot/util'
 
 type Props = {
   visible: boolean
@@ -20,6 +22,7 @@ const Text = styled.div`
   font-family: Lato;
   font-size: 12px;
   color: #878787;
+  margin-bottom: 20px;
 `
 
 const Info = styled.div`
@@ -39,18 +42,17 @@ const ClaimModal: React.FC<Props> = ({ visible, onClose }) => {
   const { api } = useApiPromise()
   const polkadotAccount = useAtom(polkadotAccountAtom)[0]?.address
   const decimals = useDecimalJsTokenDecimalMultiplier(api)
-  const vestingLocked = useMemo<string>(() => {
-    if (allBalances?.vestingLocked && decimals) {
-      return bnToDecimal(allBalances.vestingLocked, decimals).toString()
-    }
-    return ''
-  }, [allBalances, decimals])
-  const vestedClaimable = useMemo<string>(() => {
-    if (allBalances?.vestedClaimable && decimals) {
-      return bnToDecimal(allBalances.vestedClaimable, decimals).toString()
-    }
-    return ''
-  }, [allBalances, decimals])
+  const { vestingLocked, vestedClaimable, vestedBalance } = allBalances || {}
+
+  const format = useCallback<(bn: BN | undefined) => string>(
+    (bn) => {
+      if (bn && decimals) {
+        return bnToDecimal(bn, decimals).toString()
+      }
+      return '-'
+    },
+    [decimals]
+  )
 
   const confirm = useCallback(() => {
     if (api && polkadotAccount) {
@@ -66,7 +68,9 @@ const ClaimModal: React.FC<Props> = ({ visible, onClose }) => {
     }
   }, [api, polkadotAccount, onClose])
 
-  const canClaim = Boolean(vestedClaimable) && vestedClaimable !== '0'
+  // NOTE: Temporarily disable claim
+  const canClaim = false
+  // const canClaim = Boolean(vestedClaimable) && vestedClaimable !== '0'
 
   return (
     <Modal
@@ -86,12 +90,17 @@ const ClaimModal: React.FC<Props> = ({ visible, onClose }) => {
         </Button>,
       ]}>
       <Text>
-        You still have {vestingLocked || '-'} PHA to unlock, now you can unlock{' '}
-        {vestedClaimable || '-'} PHA
+        You have unlocked{' '}
+        {format(vestedClaimable && vestedBalance?.sub(vestedClaimable))} PHA,
+        you still have {format(vestingLocked)} PHA to be unlocked.
       </Text>
+      <Alert>
+        Sorry, the claim module is disabled until Khala enables transfer
+        function.
+      </Alert>
       {canClaim && (
         <Info>
-          <span>Claim now:</span> {vestedClaimable} PHA
+          <span>Claim now:</span> {format(vestedClaimable)} PHA
         </Info>
       )}
     </Modal>

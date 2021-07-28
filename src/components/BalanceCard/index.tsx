@@ -1,5 +1,6 @@
-import React, { useRef } from 'react'
+import React, { useRef, useMemo } from 'react'
 import styled, { css } from 'styled-components'
+import { down } from 'styled-breakpoints'
 import Decimal from 'decimal.js'
 import toFixed from '../../utils/toFixed'
 import Dollar from './Dollar'
@@ -43,7 +44,7 @@ const Wrap = styled.div<{ active: boolean }>`
     background: #ffffff;
   }
 
-  ${(props) => props.theme.size.sm} {
+  ${down('sm')} {
     width: 100%;
     height: 108px;
     padding: 12px;
@@ -60,7 +61,7 @@ const Balance = styled.div`
   flex: 1;
   margin-top: 16px;
   word-break: break-all;
-  ${(props) => props.theme.size.sm} {
+  ${down('sm')} {
     margin-top: 7px;
     line-height: 25px;
   }
@@ -72,7 +73,7 @@ const Background = styled.div`
   background-color: #cccccc;
   margin-top: 50px;
   margin-right: 30px;
-  ${(props) => props.theme.size.sm} {
+  ${down('sm')} {
     margin-top: 18px;
     margin-right: 0;
     width: 100%;
@@ -92,7 +93,16 @@ const BalanceCard: React.FC<Props> = (props) => {
     dollar,
   } = props
   const menuRef = useRef<HTMLDivElement>(null)
-  const active = useHoverDirty(menuRef)
+  const hovered = useHoverDirty(menuRef)
+  const interactive = useMemo<boolean>(
+    () =>
+      [disableBridge, disableTransfer, disableConvert, disableClaim].some(
+        (v) => !v
+      ),
+    [disableBridge, disableTransfer, disableConvert, disableClaim]
+  )
+  // NOTE: if every feature is disabled, the menu will not be active
+  const active = interactive && hovered
 
   return (
     <Background>
