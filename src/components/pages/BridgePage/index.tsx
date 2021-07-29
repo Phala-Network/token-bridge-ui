@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { down } from 'styled-breakpoints'
 import styled from 'styled-components'
 import Announcement from '../../Announcement'
 import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
@@ -14,6 +15,14 @@ const RightContent = styled.div`
   padding: 48px;
   width: 100%;
   box-sizing: border-box;
+
+  ${down('md')} {
+    padding: 20px;
+  }
+
+  ${down('sm')} {
+    padding: 0;
+  }
 `
 
 const BridgePage: React.FC = () => {
@@ -37,7 +46,7 @@ const BridgePage: React.FC = () => {
       <RightContent>
         <Announcement></Announcement>
         <WhiteCard>
-          <InputDataStep layout={'inline'} onNext={showSubmitModal} />
+          <InputDataStep layout={'flex'} onNext={showSubmitModal} />
 
           <Modal visible={modalVisible} title="Bridge Modal">
             <SubmitStep

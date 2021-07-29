@@ -15,9 +15,9 @@ const SubmitStep: React.FC<SubmitStepProps> = (props) => {
   const { data } = props
 
   if (data?.to.network === 'ethereum') {
-    return <SubmitStepToEthereum {...props} />
+    return <SubmitStepToEthereum layout="block" {...props} />
   } else if (data?.to.network === 'khala') {
-    return <SubmitStepToKhala {...props} />
+    return <SubmitStepToKhala layout="block" {...props} />
   } else {
     return null
   }

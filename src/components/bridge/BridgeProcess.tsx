@@ -4,7 +4,7 @@ import ResultStep from './ResultStep'
 import SubmitStep from './SubmitStep'
 
 export type StepProps = {
-  layout?: 'inline' | 'block'
+  layout?: 'flex' | 'block'
 }
 
 type Props = {
