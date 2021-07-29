@@ -21,7 +21,7 @@ const RightContent = styled.div`
   }
 
   ${down('sm')} {
-    padding: 0;
+    padding: 0 0 20px 0;
   }
 `
 
