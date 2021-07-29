@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Wrap = styled.div`
   font-size: 12px;
-  line-height: 14px;
+  height: 14px;
   display: flex;
   align-items: center;
   color: transparent;
@@ -48,11 +48,7 @@ const ActiveOutline: React.FC = () => {
     return () => clearInterval(id)
   }, [])
 
-  return (
-    <Wrap className="ActiveOutline" style={{ top }}>
-      lol
-    </Wrap>
-  )
+  return <Wrap className="ActiveOutline" style={{ top }}></Wrap>
 }
 
 export default ActiveOutline
