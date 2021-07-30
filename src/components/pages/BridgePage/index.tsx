@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { down } from 'styled-breakpoints'
 import styled from 'styled-components'
-import Announcement from '../../Announcement'
 import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
 import SubmitStep from '../../bridge/SubmitStep'
 import Modal from '../../Modal'
@@ -44,7 +43,8 @@ const BridgePage: React.FC = () => {
         <title>Phala App</title>
       </Helmet>
       <RightContent>
-        <Announcement></Announcement>
+        {/* TODO: need a message api */}
+        {/* <Announcement></Announcement> */}
         <WhiteCard>
           <InputDataStep layout={'flex'} onNext={showSubmitModal} />
 
