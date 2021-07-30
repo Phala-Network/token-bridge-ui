@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import TransactionDetailModal from '../TransactionDetailModal'
 import ArrowIcon from './ArrowIcon'
 import ItemInfoBlock, { ItemInfoBlockProps } from './ItemInfoBlock'
 import JumpIcon from './JumpIcon'
@@ -12,13 +13,14 @@ export type TransactionsListItemProps = {
   from: ItemInfoBlockProps
 }
 
-const ItemRoot = styled.a`
+const ItemRoot = styled.div`
   position: relative;
   display: flex;
   align-items: center;
   margin-right: 12px;
   color: black;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover {
     text-decoration: underline;
@@ -37,22 +39,35 @@ const Line = styled.div`
 const TransactionsListItem: React.FC<TransactionsListItemProps> = (props) => {
   const { status, to, from, hash } = props
 
-  const link = ` https://kovan.etherscan.io/tx/${hash}`
+  const [modalVisible, setModalVisible] = useState(false)
+
+  const onSubmit = () => {
+    setModalVisible(false)
+  }
 
   return (
-    <ItemRoot href={link} target="_blank">
-      <Status status={status}></Status>
+    <>
+      <ItemRoot onClick={() => setModalVisible(true)}>
+        <Status status={status}></Status>
 
-      <ItemInfoBlock {...from}></ItemInfoBlock>
+        <ItemInfoBlock {...from}></ItemInfoBlock>
 
-      <ArrowIcon></ArrowIcon>
+        <ArrowIcon></ArrowIcon>
 
-      <ItemInfoBlock {...to}></ItemInfoBlock>
+        <ItemInfoBlock {...to}></ItemInfoBlock>
 
-      <JumpIcon></JumpIcon>
+        <JumpIcon></JumpIcon>
 
-      <Line></Line>
-    </ItemRoot>
+        <Line></Line>
+      </ItemRoot>
+
+      <TransactionDetailModal
+        to={to}
+        hash={hash}
+        from={from}
+        onClose={onSubmit}
+        visible={modalVisible}></TransactionDetailModal>
+    </>
   )
 }
 

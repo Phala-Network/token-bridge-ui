@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import scrollbar from '../../../style/scrollbar'
-import Item, { TransactionsListItemProps } from './Item'
+import TransactionsListItem, {
+  TransactionsListItemProps,
+} from './TransactionsListItem'
 
 type Props = {
   transactions: TransactionsListItemProps[]
@@ -28,7 +30,7 @@ const TransactionsList: React.FC<Props> = (props) => {
   return (
     <TransactionsListRoot>
       {transactions.map((transaction, index) => {
-        return <Item {...transaction} key={index} />
+        return <TransactionsListItem {...transaction} key={index} />
       })}
     </TransactionsListRoot>
   )

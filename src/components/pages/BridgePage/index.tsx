@@ -48,7 +48,7 @@ const BridgePage: React.FC = () => {
         <WhiteCard>
           <InputDataStep layout={'flex'} onNext={showSubmitModal} />
 
-          <Modal visible={modalVisible} title="Bridge Modal">
+          <Modal visible={modalVisible} title="Bridge Confirmation">
             <SubmitStep
               data={submitData}
               onPrev={() => setModalVisible(false)}

@@ -8,6 +8,8 @@ const TransactionStatusRoot = styled.div`
   justify-content: center;
   width: 41px;
   height: 41px;
+  /* TODO: just hide it */
+  opacity: 0;
 `
 
 type Props = {
