@@ -13,15 +13,17 @@ const ItemInfoBlockRoot = styled.div`
   font-weight: normal;
   font-size: 10px;
   line-height: 11px;
-  width: 140px;
 `
 
 const B = styled.b`
   font-weight: bold;
+  font-family: 'Lato';
 `
 
 const NetworkName = styled.span`
   text-transform: capitalize;
+  font-weight: bold;
+  font-family: 'Lato';
 `
 
 const ItemInfoBlock: React.FC<ItemInfoBlockProps> = (props) => {
