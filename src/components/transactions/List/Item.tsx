@@ -7,15 +7,22 @@ import Status from './Status'
 
 export type TransactionsListItemProps = {
   status: string
+  hash: string
   to: ItemInfoBlockProps
   from: ItemInfoBlockProps
 }
 
-const ItemRoot = styled.div`
+const ItemRoot = styled.a`
   position: relative;
   display: flex;
   align-items: center;
   margin-right: 12px;
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 const Line = styled.div`
@@ -28,10 +35,12 @@ const Line = styled.div`
 `
 
 const TransactionsListItem: React.FC<TransactionsListItemProps> = (props) => {
-  const { status, to, from } = props
+  const { status, to, from, hash } = props
+
+  const link = ` https://kovan.etherscan.io/tx/${hash}`
 
   return (
-    <ItemRoot>
+    <ItemRoot href={link} target="_blank">
       <Status status={status}></Status>
 
       <ItemInfoBlock {...from}></ItemInfoBlock>

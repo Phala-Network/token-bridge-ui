@@ -13,6 +13,7 @@ const ItemInfoBlockRoot = styled.div`
   font-weight: normal;
   font-size: 10px;
   line-height: 11px;
+  width: 130px;
 `
 
 const B = styled.b`
@@ -27,10 +28,10 @@ const NetworkName = styled.span`
 `
 
 const ItemInfoBlock: React.FC<ItemInfoBlockProps> = (props) => {
-  const { account, amount, network } = props
+  const { account, amount, network, ...others } = props
 
   return (
-    <ItemInfoBlockRoot>
+    <ItemInfoBlockRoot {...others}>
       <div>
         <NetworkName>{network}</NetworkName>: {abridgeString(account)}
       </div>
