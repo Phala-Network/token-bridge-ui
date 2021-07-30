@@ -21,7 +21,7 @@ const TransactionsRoot = styled.div`
   transition: all 0.2s ease;
 
   &.active {
-    width: 410px;
+    width: 420px;
     height: 191px;
     box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
   }
