@@ -16,30 +16,18 @@ export const ethereums: Record<number, EthereumNetworkOptions> = {
     erc20ResourceId:
       '0x00000000000000000000000000000063a7e2be78898ba83824b0c0cc8dfb6001',
     peerChainIds: {
-      poc5: 1,
+      'poc4-dev': 1,
     },
-  },
-  1: {
-    // TODO: add bridge config
-    erc20: '0x6c5bA91642F10282b576d91922Ae6448C9d52f4E',
   },
 }
 
 export const substrates: Record<string, SubstrateNetworkOptions> = {
-  poc5: {
+  'poc4-dev': {
     endpoint:
-      process.env['PHALA_ENDPOINT'] ?? 'wss://poc5-dev.phala.network/ws',
+      process.env['PHALA_ENDPOINT'] ?? 'wss://poc4-dev.phala.network/ws',
     peerChainIds: {
       42: 0,
     },
     typedefs: dev,
-  },
-  khala: {
-    endpoint: 'wss://khala-api.phala.network/ws',
-    peerChainIds: {
-      42: 0,
-    },
-    // FIXME: update @phala/typedefs
-    typedefs: {},
   },
 }

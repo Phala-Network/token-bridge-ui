@@ -26,7 +26,9 @@ const WrapApp: React.FC = ({ children }) => {
           <JotaiProvider>
             <EthersProvider>
               <NetworkContextProvider
-                defaultNetwork={process.env.GATSBY_DEFAULT_NETWORK ?? 'khala'}>
+                defaultNetwork={
+                  process.env.GATSBY_DEFAULT_NETWORK ?? 'poc4-dev'
+                }>
                 <ApiPromiseProvider>
                   <PolkadotWeb3Provider originName="ChainBridge Operator">
                     <BaseLayout>{children}</BaseLayout>
