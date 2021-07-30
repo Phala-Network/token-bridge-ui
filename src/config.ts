@@ -1,4 +1,4 @@
-import { dev } from '@phala/typedefs'
+import { khalaDev } from '@phala/typedefs'
 import {
   EthereumNetworkOptions,
   SubstrateNetworkOptions,
@@ -28,6 +28,6 @@ export const substrates: Record<string, SubstrateNetworkOptions> = {
     peerChainIds: {
       42: 0,
     },
-    typedefs: dev,
+    typedefs: khalaDev,
   },
 }
