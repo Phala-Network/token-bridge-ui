@@ -3,14 +3,12 @@ import { decodeAddress } from '@polkadot/util-crypto'
 import { ethers } from 'ethers'
 import { useAtom } from 'jotai'
 import React, { useState } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 import transactionsAtom from '../../../atoms/transactions'
 import { useErc20Deposit } from '../../../libs/ethereum/bridge/deposit'
 import { voidFn } from '../../../types/normal'
 import Button from '../../Button'
 import { ModalAction, ModalActions } from '../../Modal'
 import { StepProps } from '../BridgeProcess'
-import EthereumAllowance from '../EthereumAllowance'
 import { InputDataStepResult } from '../InputDataStep'
 import BaseInfo from './BaseInfo'
 
@@ -80,18 +78,9 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
           )}
           {onSubmit && (
             <ModalAction>
-              <ErrorBoundary fallbackRender={() => null}>
-                <EthereumAllowance
-                  placeholder={<Button type="primary">Allowance</Button>}
-                  account={accountFrom}>
-                  <Button
-                    loading={isSubmitting}
-                    type="primary"
-                    onClick={submit}>
-                    {isSubmitting ? 'Submitting' : 'Submit'}
-                  </Button>
-                </EthereumAllowance>
-              </ErrorBoundary>
+              <Button loading={isSubmitting} type="primary" onClick={submit}>
+                {isSubmitting ? 'Submitting' : 'Submit'}
+              </Button>
             </ModalAction>
           )}
         </ModalActions>

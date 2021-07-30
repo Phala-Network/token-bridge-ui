@@ -1,6 +1,7 @@
 import { Decimal } from 'decimal.js'
 import { useAtom } from 'jotai'
 import React, { useEffect, useState } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import ethereumAccountAtom from '../../../atoms/ethereumAccountAtom'
 import polkadotAccountAtom from '../../../atoms/polkadotAccountAtom'
 import useEthereumAccountBalanceDecimal from '../../../hooks/useEthereumAccountBalanceDecimal'
@@ -18,6 +19,7 @@ import Spacer from '../../Spacer'
 import TradeTypeSelect, { TradeTypeSelectValue } from '../../TradeTypeSelect'
 import DEFAULT_VALUE from '../../TradeTypeSelect/DEFAULT_VALUE'
 import { StepProps } from '../BridgeProcess'
+import EthereumAllowance from '../EthereumAllowance'
 import FormItem from '../FormItem'
 import FormLayout from '../FormLayout'
 import ActionButton from './ActionButton'
@@ -215,9 +217,23 @@ const InputDataStep: React.FC<Props> = (props) => {
         )}
 
         <ModalAction>
-          <ActionButton
-            isFromEthereum={isFromEthereum}
-            onClick={submit}></ActionButton>
+          {ethereumAccount && isFromEthereum && (
+            <ErrorBoundary fallbackRender={() => null}>
+              <EthereumAllowance
+                placeholder={<Button type="primary">Allowance</Button>}
+                account={ethereumAccount.address}>
+                <Button type="primary" onClick={submit}>
+                  Next
+                </Button>
+              </EthereumAllowance>
+            </ErrorBoundary>
+          )}
+
+          {!isFromEthereum && (
+            <ActionButton
+              isFromEthereum={isFromEthereum}
+              onClick={submit}></ActionButton>
+          )}
         </ModalAction>
       </ModalActions>
 
