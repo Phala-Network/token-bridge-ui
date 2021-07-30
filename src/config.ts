@@ -16,15 +16,15 @@ export const ethereums: Record<number, EthereumNetworkOptions> = {
     erc20ResourceId:
       '0x00000000000000000000000000000063a7e2be78898ba83824b0c0cc8dfb6001',
     peerChainIds: {
-      'poc4-dev': 1,
+      'khala-dev': 1,
     },
   },
 }
 
 export const substrates: Record<string, SubstrateNetworkOptions> = {
-  'poc4-dev': {
+  'khala-dev': {
     endpoint:
-      process.env['PHALA_ENDPOINT'] ?? 'wss://poc4-dev.phala.network/ws',
+      process.env['PHALA_ENDPOINT'] ?? 'wss://pc-test-2.phala.network/khala/ws',
     peerChainIds: {
       42: 0,
     },
