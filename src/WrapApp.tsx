@@ -27,7 +27,7 @@ const WrapApp: React.FC = ({ children }) => {
                 defaultNetwork={
                   process.env.GATSBY_DEFAULT_NETWORK ?? (isDev() || isTest())
                     ? 'poc4-dev'
-                    : 'khala-dev'
+                    : 'khala'
                 }>
                 <ApiPromiseProvider>
                   <PolkadotWeb3Provider originName="ChainBridge Operator">
