@@ -9,7 +9,9 @@ type Props = {
 }
 
 function trim(value: string): string {
-  if (value[value.length - 1] === '0') {
+  const last = value[value.length - 1]
+
+  if (last === '0' || last === '.') {
     return trim(value.slice(0, -1))
   } else {
     return value

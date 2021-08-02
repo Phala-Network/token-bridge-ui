@@ -1,3 +1,4 @@
+import { down } from 'styled-breakpoints'
 import styled from 'styled-components'
 import scrollbar from '../../../style/scrollbar'
 import TransactionsListItem, {
@@ -16,6 +17,10 @@ const TransactionsListRoot = styled.div`
   overflow-y: auto;
   opacity: 0;
   animation: 0.35s linear 0.15s opacity both;
+
+  ${down('sm')} {
+    margin-right: 0;
+  }
 
   @keyframes opacity {
     to {
