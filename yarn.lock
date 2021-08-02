@@ -2673,10 +2673,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@phala/typedefs@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@phala/typedefs/-/typedefs-0.2.1.tgz#b73e387d4ca7fa73b19765764bd3e6b104f4b2ef"
-  integrity sha512-vBRjVMi1Xwn5xaoBUrPytuTGI/wcXUka6cyva565dQdWGSHCnH7/H0hXaSSd7wAeZZmuCVMUl6OuPXIfH/3fpA==
+"@phala/typedefs@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@phala/typedefs/-/typedefs-0.2.5.tgz#859ee61096319ee002454d7be386334866e9831a"
+  integrity sha512-WCjpuSaxmM9wpQ0bv7CL9KBlBX59M30oPFaQtrbESGWXaZI15ej3ltuD2ftKJ0olfnkjayWO41Y9lmBFt1cMCw==
 
 "@pmmmwh/react-refresh-webpack-plugin@0.4.3", "@pmmmwh/react-refresh-webpack-plugin@^0.4.3":
   version "0.4.3"
