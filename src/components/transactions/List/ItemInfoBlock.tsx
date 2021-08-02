@@ -1,12 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import { TransactionInfoItem } from '../../../types/normal'
 import abridgeString from '../../../utils/abridgeString'
 
-export type ItemInfoBlockProps = {
-  account: string
-  amount: number
-  network: string
-}
+export type ItemInfoBlockProps = TransactionInfoItem
 
 const ItemInfoBlockRoot = styled.div`
   font-family: PT Mono;
@@ -28,12 +25,12 @@ const NetworkName = styled.span`
 `
 
 const ItemInfoBlock: React.FC<ItemInfoBlockProps> = (props) => {
-  const { account, amount, network, ...others } = props
+  const { address, amount, network, ...others } = props
 
   return (
     <ItemInfoBlockRoot {...others}>
       <div>
-        <NetworkName>{network}</NetworkName>: {abridgeString(account)}
+        <NetworkName>{network}</NetworkName>: {abridgeString(address)}
       </div>
       <div>
         {amount?.toString()} <B>PHA</B>

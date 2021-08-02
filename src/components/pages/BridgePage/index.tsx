@@ -3,8 +3,7 @@ import { Helmet } from 'react-helmet'
 import { down } from 'styled-breakpoints'
 import styled from 'styled-components'
 import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
-import SubmitStep from '../../bridge/SubmitStep'
-import Modal from '../../Modal'
+import SubmitStepModal from '../../bridge/SubmitStep/SubmitStepModal'
 import Transactions from '../../transactions/Transactions'
 import WhiteCard from '../../WhiteCard'
 
@@ -29,12 +28,8 @@ const BridgePage: React.FC = () => {
   const [submitData, setSubmitData] = useState<InputDataStepResult>()
 
   const showSubmitModal = (data: InputDataStepResult) => {
-    setModalVisible(true)
     setSubmitData(data)
-  }
-
-  const onSubmit = () => {
-    setModalVisible(false)
+    setModalVisible(true)
   }
 
   return (
@@ -48,13 +43,10 @@ const BridgePage: React.FC = () => {
         <WhiteCard>
           <InputDataStep layout={'flex'} onNext={showSubmitModal} />
 
-          <Modal visible={modalVisible} title="Bridge Confirmation">
-            <SubmitStep
-              data={submitData}
-              onPrev={() => setModalVisible(false)}
-              onSubmit={onSubmit}
-            />
-          </Modal>
+          <SubmitStepModal
+            setModalVisible={setModalVisible}
+            visible={modalVisible}
+            submitData={submitData}></SubmitStepModal>
         </WhiteCard>
 
         <Transactions></Transactions>

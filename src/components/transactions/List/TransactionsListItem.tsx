@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import TransactionDetailModal from '../TransactionDetailModal'
+import { TransactionInfo } from '../../../types/normal'
+import ResultStepModal from '../../bridge/ResultStep/ResultStepModal'
 import ArrowIcon from './ArrowIcon'
-import ItemInfoBlock, { ItemInfoBlockProps } from './ItemInfoBlock'
+import ItemInfoBlock from './ItemInfoBlock'
 import JumpIcon from './JumpIcon'
 import Status from './Status'
 
 export type TransactionsListItemProps = {
   status: string
-  hash: string
-  to: ItemInfoBlockProps
-  from: ItemInfoBlockProps
+  transactionInfo: TransactionInfo
 }
 
 const ItemRoot = styled.div`
@@ -37,7 +36,7 @@ const Line = styled.div`
 `
 
 const TransactionsListItem: React.FC<TransactionsListItemProps> = (props) => {
-  const { status, to, from, hash } = props
+  const { status, transactionInfo } = props
 
   const [modalVisible, setModalVisible] = useState(false)
 
@@ -45,28 +44,28 @@ const TransactionsListItem: React.FC<TransactionsListItemProps> = (props) => {
     setModalVisible(false)
   }
 
+  if (!transactionInfo) return null
+
   return (
     <>
       <ItemRoot onClick={() => setModalVisible(true)}>
         <Status status={status}></Status>
 
-        <ItemInfoBlock {...from}></ItemInfoBlock>
+        <ItemInfoBlock {...transactionInfo.from}></ItemInfoBlock>
 
         <ArrowIcon></ArrowIcon>
 
-        <ItemInfoBlock {...to}></ItemInfoBlock>
+        <ItemInfoBlock {...transactionInfo.to}></ItemInfoBlock>
 
         <JumpIcon></JumpIcon>
 
         <Line></Line>
       </ItemRoot>
 
-      <TransactionDetailModal
-        to={to}
-        hash={hash}
-        from={from}
+      <ResultStepModal
+        transactionInfo={transactionInfo}
         onClose={onSubmit}
-        visible={modalVisible}></TransactionDetailModal>
+        visible={modalVisible}></ResultStepModal>
     </>
   )
 }

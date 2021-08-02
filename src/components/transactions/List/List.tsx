@@ -29,8 +29,14 @@ const TransactionsList: React.FC<Props> = (props) => {
 
   return (
     <TransactionsListRoot>
-      {transactions.map((transaction, index) => {
-        return <TransactionsListItem {...transaction} key={index} />
+      {transactions.map(({ transactionInfo, status }, index) => {
+        return (
+          <TransactionsListItem
+            status={status}
+            transactionInfo={transactionInfo}
+            key={index}
+          />
+        )
       })}
     </TransactionsListRoot>
   )

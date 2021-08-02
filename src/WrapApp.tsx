@@ -11,6 +11,8 @@ import { Web3Provider as PolkadotWeb3Provider } from './libs/polkadot/hooks/useW
 import './ReactToastify.css'
 import theme from './theme'
 import './tooltip.css'
+import { isDev } from './utils/isDev'
+import { isTest } from './utils/isTest'
 
 const WrapApp: React.FC = ({ children }) => {
   const client = useRef(new QueryClient())
@@ -23,7 +25,9 @@ const WrapApp: React.FC = ({ children }) => {
             <EthersProvider>
               <NetworkContextProvider
                 defaultNetwork={
-                  process.env.GATSBY_DEFAULT_NETWORK ?? 'khala-dev'
+                  process.env.GATSBY_DEFAULT_NETWORK ?? (isDev() || isTest())
+                    ? 'poc4-dev'
+                    : 'khala-dev'
                 }>
                 <ApiPromiseProvider>
                   <PolkadotWeb3Provider originName="ChainBridge Operator">

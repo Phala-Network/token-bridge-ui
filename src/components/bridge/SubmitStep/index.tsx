@@ -1,13 +1,14 @@
 import React from 'react'
-import { voidFn } from '../../../types/normal'
+import { TransactionInfo } from '../../../types/normal'
 import { StepProps } from '../BridgeProcess'
 import { InputDataStepResult } from '../InputDataStep'
 import SubmitStepToEthereum from './SubmitStepToEthereum'
 import SubmitStepToKhala from './SubmitStepToKhala'
 
-type SubmitStepProps = {
-  onPrev?: voidFn
-  onSubmit?: voidFn
+export type SubmitStepProps = {
+  onPrev?(): void
+  onSubmit?(): void
+  onSuccess?(data: TransactionInfo): void
   data?: InputDataStepResult
 } & StepProps
 
