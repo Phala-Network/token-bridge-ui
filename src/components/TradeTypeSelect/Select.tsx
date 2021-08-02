@@ -46,8 +46,10 @@ const Value = styled.div`
   position: relative;
   text-transform: capitalize;
 
-  text ${down('sm')} {
-    width: auto;
+  ${down('sm')} {
+    & {
+      width: auto;
+    }
   }
 `
 
