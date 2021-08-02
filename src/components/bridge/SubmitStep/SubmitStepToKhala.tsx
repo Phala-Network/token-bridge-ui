@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import { SubmitStepProps } from '.'
-import transactionsAtom from '../../../atoms/transactions'
+import transactionsInfoAtom from '../../../atoms/transactionsInfoAtom'
 import { useErc20Deposit } from '../../../libs/ethereum/bridge/deposit'
 import Button from '../../Button'
 import { ModalAction, ModalActions } from '../../Modal'
@@ -15,7 +15,7 @@ import BaseInfo from './BaseInfo'
 type Props = SubmitStepProps & StepProps
 
 const SubmitStepToKhala: React.FC<Props> = (props) => {
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  const [transactionsInfo, setTransactionsInfo] = useAtom(transactionsInfoAtom)
   const { onSubmit, onPrev, onSuccess, layout, data } = props
   const { from, to, amount: amountFromPrevStep } = data || {}
   const { account: accountFrom } = from || {}
@@ -49,7 +49,7 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
         hash: response?.hash,
       }
 
-      setTransactions([newTransactionInfo, ...transactions])
+      setTransactionsInfo([newTransactionInfo, ...transactionsInfo])
 
       onSuccess?.(newTransactionInfo)
     } catch (error) {

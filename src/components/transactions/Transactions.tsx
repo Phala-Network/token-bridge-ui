@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai'
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
-import transactionsAtom from '../../atoms/transactions'
+import transactionsInfoAtom from '../../atoms/transactionsInfoAtom'
 import useClickAway from '../../hooks/useClickAway'
 import ClearButton from './ClearButton'
 import TransactionsHeader from './Header'
@@ -30,13 +30,13 @@ const TransactionsRoot = styled.div`
 const Transactions: React.FC = () => {
   const [active, setActive] = useState(false)
   const rootRef = useRef(null)
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  const [transactionsInfo, setTransactionsInfo] = useAtom(transactionsInfoAtom)
 
   useClickAway(rootRef, () => {
     setActive(false)
   })
 
-  if (transactions?.length === 0) {
+  if (transactionsInfo?.length === 0) {
     return null
   }
 
@@ -49,9 +49,11 @@ const Transactions: React.FC = () => {
 
       {active && (
         <>
-          <ClearButton onClick={() => setTransactions([])}>Clear</ClearButton>
+          <ClearButton onClick={() => setTransactionsInfo([])}>
+            Clear
+          </ClearButton>
           <TransactionsList
-            transactions={transactions.map((transactionInfo) => {
+            transactions={transactionsInfo.map((transactionInfo) => {
               return {
                 transactionInfo,
                 status: 'success',
