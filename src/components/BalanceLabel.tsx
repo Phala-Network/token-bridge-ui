@@ -4,19 +4,24 @@ import React from 'react'
 
 type Props = {
   value: Decimal
-  precision: number
+  precision?: number
   type?: string
 }
 
 const BalanceLabel: React.FC<Props> = (props) => {
   const { precision = 4, value, type = '' } = props
+  const zero = new Decimal(0)
 
-  const balanceDisplay =
-    !value || value.lessThan(new Decimal(0))
+  let balanceDisplay =
+    !value || value.lessThan(zero)
       ? '...'
       : currency(value.toString(), { symbol: '', precision })
           .format()
           .toString()
+
+  if (value.equals(zero)) {
+    balanceDisplay = '0'
+  }
 
   const result = `${balanceDisplay} ${type}`.trim()
 
