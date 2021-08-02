@@ -35,7 +35,7 @@ const MobileNav: React.FC = () => {
       <PhalaIcon></PhalaIcon>
       <Links></Links>
       {isBrowser &&
-        (pathname.endsWith('/bridge') ? (
+        (pathname.endsWith('/bridge/') ? (
           <MobileEthereumTicket></MobileEthereumTicket>
         ) : (
           <MobilePolkadotTicker></MobilePolkadotTicker>

@@ -21,7 +21,6 @@ const Content = styled.div`
   margin: 24px 0;
   max-height: 200px;
   overflow-y: auto;
-  overflow-y: auto;
 
   ${scrollbar}
 `

@@ -11,7 +11,9 @@ type Props = {
 
 const Name = styled.div``
 
-const Address = styled.div``
+const Address = styled.div`
+  word-break: break-all;
+`
 
 const AccountOptionWithStyle = styled.div`
   display: flex;
