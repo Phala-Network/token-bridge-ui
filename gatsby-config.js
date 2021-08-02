@@ -9,6 +9,7 @@ module.exports = {
     DEV_SSR: false,
   },
   plugins: [
+    'local-plugin-layout', // Move IntlProvider outside of the layout component
     {
       resolve: `gatsby-plugin-intl`,
       options: {

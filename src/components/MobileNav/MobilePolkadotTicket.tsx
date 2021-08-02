@@ -84,7 +84,7 @@ const MobilePolkadotTicket: React.FC = () => {
     <Wrapper>
       {polkadotAccount ? (
         <Account>
-          <KhalaIcon />
+          <KhalaIcon width="24" height="24" />
           {polkadotAccount.name} | {abridgeString(polkadotAccount.address)}
         </Account>
       ) : (
