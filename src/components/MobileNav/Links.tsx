@@ -1,32 +1,32 @@
 import styled from 'styled-components'
 import { Link as GatsbyLink } from 'gatsby-plugin-intl'
 
-const Link = styled(GatsbyLink).attrs({ activeClassName: 'active' })`
-  font-family: Lato;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 14px;
+const Wrapper = styled.div`
+  flex: 1;
   display: flex;
   align-items: center;
-  color: #868686;
-  padding: 8px 16px;
-  margin: 8px 0;
-  display: block;
-  border: 1px solid transparent;
-  cursor: pointer;
-  max-width: 120px;
-  text-decoration: none;
-  transition: all 0.2s linear;
-  position: relative;
+`
 
-  &:hover {
-    color: #c9c9c9;
-  }
+const Link = styled(GatsbyLink).attrs({ activeClassName: 'active' })`
+  font-family: Lato;
+  font-weight: bold;
+  font-size: 12px;
+  color: #868686;
+  text-decoration: none;
+  margin-left: 16px;
 
   &.active {
     color: ${(props) => props.theme.colors.phala};
   }
 `
 
-export default Link
+const Links: React.FC = () => {
+  return (
+    <Wrapper>
+      <Link to="/">Assets</Link>
+      <Link to="/bridge/">Bridge</Link>
+    </Wrapper>
+  )
+}
+
+export default Links
