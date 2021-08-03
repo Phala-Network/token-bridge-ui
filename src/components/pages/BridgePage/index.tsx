@@ -34,7 +34,11 @@ const BridgePage: React.FC = () => {
   }
 
   useEffect(() => {
-    const vconsole = new VConsole()
+    let vconsole: VConsole
+
+    import('vconsole').then((VConsole) => {
+      vconsole = new VConsole.default()
+    })
 
     return () => {
       vconsole.destroy()
