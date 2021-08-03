@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { down } from 'styled-breakpoints'
 import styled from 'styled-components'
+import VConsole from 'vconsole'
 import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
 import SubmitStepModal from '../../bridge/SubmitStep/SubmitStepModal'
 import Transactions from '../../transactions/Transactions'
@@ -31,6 +32,14 @@ const BridgePage: React.FC = () => {
     setSubmitData(data)
     setModalVisible(true)
   }
+
+  useEffect(() => {
+    const vconsole = new VConsole()
+
+    return () => {
+      vconsole.destroy()
+    }
+  }, [])
 
   return (
     <>
