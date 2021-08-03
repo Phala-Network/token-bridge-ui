@@ -22,14 +22,17 @@ const BalanceLabel: React.FC<Props> = (props) => {
   const { precision = 4, value, type = '' } = props
   const zero = new Decimal(0)
 
-  let balanceDisplay =
-    !value || value.lessThan(zero)
-      ? '...'
-      : currency(value.toString(), { symbol: '', precision })
-          .format()
-          .toString()
+  let balanceDisplay = ''
 
-  balanceDisplay = trim(balanceDisplay)
+  if (!value || value.lessThan(zero)) {
+    balanceDisplay = '...'
+  } else {
+    balanceDisplay = currency(value.toString(), { symbol: '', precision })
+      .format()
+      .toString()
+
+    balanceDisplay = trim(balanceDisplay)
+  }
 
   if (value.equals(zero)) {
     balanceDisplay = '0'

@@ -41,7 +41,7 @@ const BridgePage: React.FC = () => {
     })
 
     return () => {
-      vconsole.destroy()
+      vconsole?.destroy?.()
     }
   }, [])
 
