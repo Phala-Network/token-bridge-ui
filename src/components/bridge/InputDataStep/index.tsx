@@ -2,6 +2,8 @@ import { Decimal } from 'decimal.js'
 import { useAtom } from 'jotai'
 import React, { useEffect, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+import { down } from 'styled-breakpoints'
+import { useBreakpoint } from 'styled-breakpoints/react-styled'
 import ethereumAccountAtom from '../../../atoms/ethereumAccountAtom'
 import polkadotAccountAtom from '../../../atoms/polkadotAccountAtom'
 import useEthereumAccountBalanceDecimal from '../../../hooks/useEthereumAccountBalanceDecimal'
@@ -14,6 +16,7 @@ import Input from '../../Input'
 import InputAction from '../../InputAction'
 import InputExternalInfo from '../../InputExternalInfo'
 import InputNumber from '../../InputNumber'
+import useToast from '../../MobileToast/useToast'
 import { ModalAction, ModalActions } from '../../Modal'
 import Spacer from '../../Spacer'
 import TradeTypeSelect, { TradeTypeSelectValue } from '../../TradeTypeSelect'
@@ -45,6 +48,7 @@ type Props = {
 } & StepProps
 
 const InputDataStep: React.FC<Props> = (props) => {
+  const isMobile = useBreakpoint(down('sm'))
   const { layout, onNext, onCancel } = props
   const [amountInput, setAmountInput] = useState<number>()
   const [recipient, setRecipient] = useState<string>('')
@@ -53,6 +57,7 @@ const InputDataStep: React.FC<Props> = (props) => {
   const [ethereumAccount] = useAtom(ethereumAccountAtom)
   const ethereumAccountAddress = ethereumAccount?.address
   const [errorString, setErrorString] = useState('')
+  const { toast } = useToast()
 
   const ethereumAccountBalanceDecimal = useEthereumAccountBalanceDecimal()
   const polkadotAccountBalanceDecimal = usePolkadotAccountBalanceDecimal()
@@ -111,45 +116,46 @@ const InputDataStep: React.FC<Props> = (props) => {
       ? ethereumAccountAddress
       : polkadotAccountAddress
     const amountTo = amountInput
+    let errorString = ''
 
-    setErrorString('')
+    setErrorString(errorString)
 
     if (!amountTo) {
-      setErrorString('Need enter amount')
-      return
+      errorString = 'Need enter amount'
+    } else if (!recipient) {
+      errorString = 'Need enter recipient'
+    } else if (!validateAddress(recipient)) {
+      errorString = 'Need enter the correct recipient'
+    } else if (!accountFrom) {
+      errorString = 'Need login'
+    } else if (new Decimal(amountTo).greaterThan(new Decimal(maxAmount))) {
+      errorString = 'Insufficient balance'
     }
 
-    if (!recipient) {
-      setErrorString('Need enter recipient')
-      return
-    }
-
-    if (!validateAddress(recipient)) {
-      setErrorString('Need enter the correct recipient')
-      return
-    }
-
-    if (!accountFrom) {
-      setErrorString('Need login')
-      return
-    }
-
-    if (new Decimal(amountTo).greaterThan(new Decimal(maxAmount))) {
-      setErrorString('Insufficient balance')
+    if (errorString) {
+      isMobile
+        ? toast({
+            text: errorString,
+          })
+        : setErrorString(errorString)
       return
     }
 
     onNext({
       from: {
         ...tradeTypeSelectValue.from,
-        account: accountFrom,
+        // NOTE: The code is checked
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        account: accountFrom!,
         balance: currentBalance,
       },
       to: {
         ...tradeTypeSelectValue.to,
         account: recipient,
       },
-      amount: new Decimal(amountTo),
+      // NOTE: The code is checked
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      amount: new Decimal(amountTo!),
     })
   }
 

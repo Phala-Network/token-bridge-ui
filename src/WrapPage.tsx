@@ -1,12 +1,12 @@
 import { Slide, ToastContainer } from 'react-toastify'
-import GlobalStyle from './GlobalStyle'
 import BaseLayout from './components/BaseLayout'
+import GlobalStyle from './GlobalStyle'
 
 const WrapPage: React.FC = ({ children }) => (
   <>
-    <GlobalStyle></GlobalStyle>
+    <GlobalStyle />
     <BaseLayout>{children}</BaseLayout>
-    <ToastContainer transition={Slide}></ToastContainer>
+    <ToastContainer transition={Slide} />
   </>
 )
 

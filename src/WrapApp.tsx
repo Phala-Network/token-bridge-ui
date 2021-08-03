@@ -2,6 +2,7 @@ import { Provider as JotaiProvider } from 'jotai'
 import React, { useRef } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ThemeProvider } from 'styled-components'
+import MobileToastContextProvider from './components/MobileToast/MobileToastContextProvider'
 import './fonts.css'
 import { EthersProvider } from './libs/ethereum/contexts/useEthers'
 import { Web3Provider as EthereumWeb3Provider } from './libs/ethereum/contexts/useWeb3'
@@ -19,25 +20,27 @@ const WrapApp: React.FC = ({ children }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <QueryClientProvider client={client.current}>
-        <EthereumWeb3Provider>
-          <JotaiProvider>
-            <EthersProvider>
-              <NetworkContextProvider
-                defaultNetwork={
-                  process.env.GATSBY_DEFAULT_NETWORK ||
-                  (isDev() || isTest() ? 'poc4-dev' : 'khala')
-                }>
-                <ApiPromiseProvider>
-                  <PolkadotWeb3Provider originName="ChainBridge Operator">
-                    {children}
-                  </PolkadotWeb3Provider>
-                </ApiPromiseProvider>
-              </NetworkContextProvider>
-            </EthersProvider>
-          </JotaiProvider>
-        </EthereumWeb3Provider>
-      </QueryClientProvider>
+      <MobileToastContextProvider>
+        <QueryClientProvider client={client.current}>
+          <EthereumWeb3Provider>
+            <JotaiProvider>
+              <EthersProvider>
+                <NetworkContextProvider
+                  defaultNetwork={
+                    process.env.GATSBY_DEFAULT_NETWORK ||
+                    (isDev() || isTest() ? 'poc4-dev' : 'khala')
+                  }>
+                  <ApiPromiseProvider>
+                    <PolkadotWeb3Provider originName="ChainBridge Operator">
+                      {children}
+                    </PolkadotWeb3Provider>
+                  </ApiPromiseProvider>
+                </NetworkContextProvider>
+              </EthersProvider>
+            </JotaiProvider>
+          </EthereumWeb3Provider>
+        </QueryClientProvider>
+      </MobileToastContextProvider>
     </ThemeProvider>
   )
 }
