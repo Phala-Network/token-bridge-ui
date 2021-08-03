@@ -1,13 +1,13 @@
 import { useAtom } from 'jotai'
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import ConnectButton from './ConnectButton'
-import EmptyAccountModal from './EmptyAccountModal'
-import PolkadotAccountModal from '../PolkadotAccountModal'
 import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
 import KhalaIcon from '../../icons/khala.svg'
 import { useWeb3 } from '../../libs/polkadot/hooks/useWeb3'
 import abridgeString from '../../utils/abridgeString'
+import PolkadotAccountModal from '../PolkadotAccountModal'
+import ConnectButton from './ConnectButton'
+import EmptyAccountModal from './EmptyAccountModal'
 
 const Wrapper = styled.div`
   user-select: none;

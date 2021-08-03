@@ -1,9 +1,6 @@
-import { atomWithStorage } from 'jotai/utils'
+import { atom } from 'jotai'
 import { Account } from '../types/normal'
 
-const ethereumAccountAtom = atomWithStorage<Account | undefined>(
-  'ethereumAccount',
-  undefined
-)
+const ethereumAccountAtom = atom<Account | undefined>(undefined)
 
 export default ethereumAccountAtom
