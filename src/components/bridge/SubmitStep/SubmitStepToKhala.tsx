@@ -6,8 +6,10 @@ import React, { useState } from 'react'
 import { SubmitStepProps } from '.'
 import transactionsInfoAtom from '../../../atoms/transactionsInfoAtom'
 import { useErc20Deposit } from '../../../libs/ethereum/bridge/deposit'
+import Alert from '../../Alert'
 import Button from '../../Button'
 import { ModalAction, ModalActions } from '../../Modal'
+import Spacer from '../../Spacer'
 import { StepProps } from '../BridgeProcess'
 import useTransactionInfo from '../hooks/useTransactionInfo'
 import BaseInfo from './BaseInfo'
@@ -62,6 +64,12 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
   return (
     <>
       <BaseInfo layout={layout} data={transactionInfo} />
+
+      <Spacer></Spacer>
+
+      <Alert>
+        Please be patient as the transaction may take a few minutes.
+      </Alert>
 
       {lastTxResponse && (
         <ModalActions>
