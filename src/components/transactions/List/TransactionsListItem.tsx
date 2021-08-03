@@ -37,7 +37,6 @@ const Line = styled.div`
 
 const TransactionsListItem: React.FC<TransactionsListItemProps> = (props) => {
   const { status, transactionInfo } = props
-
   const [modalVisible, setModalVisible] = useState(false)
 
   const onSubmit = () => {
@@ -49,23 +48,24 @@ const TransactionsListItem: React.FC<TransactionsListItemProps> = (props) => {
   return (
     <>
       <ItemRoot onClick={() => setModalVisible(true)}>
-        <Status status={status}></Status>
+        <Status status={status} />
 
         <ItemInfoBlock {...transactionInfo.from}></ItemInfoBlock>
 
-        <ArrowIcon></ArrowIcon>
+        <ArrowIcon />
 
         <ItemInfoBlock {...transactionInfo.to}></ItemInfoBlock>
 
-        <JumpIcon></JumpIcon>
+        <JumpIcon />
 
-        <Line></Line>
+        <Line />
       </ItemRoot>
 
       <ResultStepModal
         transactionInfo={transactionInfo}
         onClose={onSubmit}
-        visible={modalVisible}></ResultStepModal>
+        visible={modalVisible}
+      />
     </>
   )
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createElement } from 'react'
 import { createPortal } from 'react-dom'
 import { down } from 'styled-breakpoints'
 import styled from 'styled-components'
@@ -96,7 +96,7 @@ const Modal: React.FC<ModalProps> = (props) => {
           {actions && actions?.length > 0 && (
             <ModalActions>
               {actions?.map((item) => {
-                return <ModalAction>{item}</ModalAction>
+                return createElement(ModalAction, null, item)
               })}
             </ModalActions>
           )}

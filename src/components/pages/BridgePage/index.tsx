@@ -46,10 +46,11 @@ const BridgePage: React.FC = () => {
           <SubmitStepModal
             setModalVisible={setModalVisible}
             visible={modalVisible}
-            submitData={submitData}></SubmitStepModal>
+            submitData={submitData}
+          />
         </WhiteCard>
 
-        <Transactions></Transactions>
+        <Transactions />
       </RightContent>
     </>
   )
