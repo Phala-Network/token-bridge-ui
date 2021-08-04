@@ -11,7 +11,7 @@ type Props = {
 function trim(value: string): string {
   const last = value[value.length - 1]
 
-  if (last === '0' || last === '.') {
+  if (last === '0') {
     return trim(value.slice(0, -1))
   } else {
     return value
@@ -32,6 +32,10 @@ const BalanceLabel: React.FC<Props> = (props) => {
       .toString()
 
     balanceDisplay = trim(balanceDisplay)
+
+    if (balanceDisplay[balanceDisplay.length - 1] === '.') {
+      balanceDisplay = trim(balanceDisplay.slice(0, -1))
+    }
   }
 
   if (value.equals(zero)) {
