@@ -25,22 +25,26 @@ const EthereumAllowance: FC<Props> = (props: Props) => {
   console.log('allowanceText', allowanceText)
 
   const startApprove = () => {
-    const network = ethereums[provider?.network.chainId as number]
+    try {
+      const network = ethereums[provider?.network.chainId as number]
 
-    if (
-      contract === undefined ||
-      network === undefined ||
-      signer === undefined
-    ) {
-      return
+      if (
+        contract === undefined ||
+        network === undefined ||
+        signer === undefined
+      ) {
+        return
+      }
+
+      const contractSigned = contract.connect(signer)
+
+      contractSigned.functions['approve']?.(
+        network.erc20AssetHandler,
+        ethers.utils.parseUnits('11451419810', 18)
+      )
+    } catch (e) {
+      console.error(e)
     }
-
-    const contractSigned = contract.connect(signer)
-
-    contractSigned.functions['approve']?.(
-      network.erc20AssetHandler,
-      ethers.utils.parseUnits('11451419810', 18)
-    )
   }
 
   return allowanceText
