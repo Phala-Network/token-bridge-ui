@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { TransactionInfo } from '../../../types/normal'
+import { isDev } from '../../../utils/isDev'
+import { isTest } from '../../../utils/isTest'
 import Alert from '../../Alert'
 import BaseInfo from '../../bridge/SubmitStep/BaseInfo'
 import Spacer from '../../Spacer'
@@ -17,8 +19,13 @@ const Link = styled.a`
 const ResultStepToKhala: React.FC<Props> = (props) => {
   const { transactionInfo } = props
 
-  // const link = `https://kovan.etherscan.io/tx/${transactionInfo.hash}`
-  const link = `https://etherscan.io/tx/${transactionInfo.hash}`
+  let link = ''
+
+  if (isTest() || isDev()) {
+    link = `https://kovan.etherscan.io/tx/${transactionInfo.hash}`
+  } else {
+    link = `https://etherscan.io/tx/${transactionInfo.hash}`
+  }
 
   return (
     <>

@@ -53,6 +53,8 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
 
       setTransactionsInfo([newTransactionInfo, ...transactionsInfo])
 
+      await response?.wait()
+
       onSuccess?.(newTransactionInfo)
     } catch (error) {
       console.error(error)
