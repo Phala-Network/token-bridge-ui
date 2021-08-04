@@ -14,11 +14,20 @@ export const useErc20AssetHandlerAllowanceQuery = (
   const { data: network } = useEthersNetworkQuery()
   const chainId = network?.chainId
 
+  // eslint-disable-next-line no-console
+  console.log('chainId', chainId)
+
+  // eslint-disable-next-line no-console
+  console.log('owner', owner)
+
   return useQuery([Erc20AllowanceQueryKey, instance, owner], async () => {
     const spender =
       typeof chainId === 'number'
         ? ethereums[chainId]?.erc20AssetHandler
         : undefined
+
+    // eslint-disable-next-line no-console
+    console.log('spender', spender)
 
     if (owner === undefined || spender === undefined) {
       return
