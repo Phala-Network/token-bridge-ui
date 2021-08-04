@@ -31,7 +31,7 @@ const WrapApp: React.FC = ({ children }) => {
           <EthereumWeb3Provider>
             <JotaiProvider>
               <EthersProvider>
-                <NetworkContextProvider defaultNetwork={defaultNetwork}>
+                <NetworkContextProvider defaultNetwork={'khala'}>
                   <ApiPromiseProvider>
                     <PolkadotWeb3Provider originName="ChainBridge Operator">
                       {children}
