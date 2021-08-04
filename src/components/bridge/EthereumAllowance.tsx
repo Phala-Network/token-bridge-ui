@@ -47,7 +47,7 @@ const EthereumAllowance: FC<Props> = (props: Props) => {
     }
   }
 
-  return allowanceText
+  return allowanceText && allowanceText !== '0.0'
     ? children
     : cloneElement(placeholder, { onClick: startApprove })
 }
