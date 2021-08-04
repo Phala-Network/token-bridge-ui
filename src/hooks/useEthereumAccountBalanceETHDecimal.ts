@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import ethereumAccountAtom from '../atoms/ethereumAccountAtom'
 import { useEthersNetworkQuery } from '../libs/ethereum/queries/useEthersNetworkQuery'
 
+let flag = 0
+
 export default function useEthereumAccountBalanceETHDecimal(): Decimal {
   const [balanceDecimal, setBalanceDecimal] = useState<Decimal>(new Decimal(-1))
   const [ethereumAccount] = useAtom(ethereumAccountAtom)
@@ -13,7 +15,9 @@ export default function useEthereumAccountBalanceETHDecimal(): Decimal {
   const networkName = network?.name
 
   useEffect(() => {
-    if (!address) return
+    if (!address || !networkName) return
+
+    const promiseFlag = ++flag
 
     ethers
       .getDefaultProvider(networkName)
@@ -21,7 +25,9 @@ export default function useEthereumAccountBalanceETHDecimal(): Decimal {
       .then((balance) => {
         const balanceInEth = ethers.utils.formatEther(balance)
 
-        setBalanceDecimal(new Decimal(balanceInEth))
+        if (promiseFlag >= flag) {
+          setBalanceDecimal(new Decimal(balanceInEth))
+        }
       })
   }, [address, networkName])
 
