@@ -22,6 +22,8 @@ const EthereumAllowance: FC<Props> = (props: Props) => {
     [allowance]
   )
 
+  console.log('allowanceText', allowanceText)
+
   const startApprove = () => {
     const network = ethereums[provider?.network.chainId as number]
 
