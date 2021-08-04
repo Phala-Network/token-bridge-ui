@@ -37,6 +37,9 @@ export const useErc20AssetHandlerAllowanceQuery = (
       owner,
       spender
     )) as BigNumber | BigNumber[] | undefined
+
+    // eslint-disable-next-line no-console
+    console.log('result', result)
     return result instanceof Array ? result[0] : result
   })
 }
