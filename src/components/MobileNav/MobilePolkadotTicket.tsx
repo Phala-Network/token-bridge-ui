@@ -1,69 +1,34 @@
 import { useAtom } from 'jotai'
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import polkadotAccountAtom from '../../atoms/polkadotAccountAtom'
 import KhalaIcon from '../../icons/khala.svg'
 import { useWeb3 } from '../../libs/polkadot/hooks/useWeb3'
 import abridgeString from '../../utils/abridgeString'
+import PolkadotAccountModal from '../PolkadotAccountModal'
+import ConnectButton from './ConnectButton'
+import EmptyAccountModal from './EmptyAccountModal'
 
 const Wrapper = styled.div`
-  position: relative;
-  font-family: PT Mono;
+  user-select: none;
 `
 
 const Account = styled.div`
   display: flex;
   align-items: center;
+  font-family: PT Mono;
   font-size: 10px;
   font-weight: bold;
   letter-spacing: 0.07em;
   color: ${(props) => props.theme.colors.khala};
 `
 
-const ConnectButton = styled.div`
-  font-size: 8px;
-  padding: 7px 8px;
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  border-radius: 2px;
-`
-
-const AccountSelector = styled.select`
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-`
-
 const MobilePolkadotTicket: React.FC = () => {
   const { accounts } = useWeb3()
   const [polkadotAccount, setPolkadotAccount] = useAtom(polkadotAccountAtom)
-  const activeIndex = useMemo<string>(
-    () =>
-      String(
-        accounts?.findIndex(
-          ({ address }) => address === polkadotAccount?.address
-        ) ?? 0
-      ),
-    [polkadotAccount, accounts]
-  )
-  const onChange = useCallback<React.ChangeEventHandler<HTMLSelectElement>>(
-    (e) => {
-      const index = e.target.value
-      const account = accounts[Number(index)]
-      setPolkadotAccount(
-        account
-          ? {
-              name: account.meta.name || 'Account',
-              address: account.address,
-            }
-          : undefined
-      )
-    },
-    [accounts]
+  const [accountModalVisible, setAccountModalVisible] = useState(false)
+  const [emptyAccountModalVisible, setEmptyAccountModalVisible] = useState(
+    false
   )
 
   // FIXME: move this hook to a separate file
@@ -80,25 +45,32 @@ const MobilePolkadotTicket: React.FC = () => {
     }
   }, [accounts, polkadotAccount])
 
+  const onClick = useCallback(() => {
+    if (accounts.length) {
+      setAccountModalVisible(true)
+    } else {
+      setEmptyAccountModalVisible(true)
+    }
+  }, [accounts.length])
+
   return (
     <Wrapper>
       {polkadotAccount ? (
-        <Account>
-          <KhalaIcon />
+        <Account onClick={() => setAccountModalVisible(true)}>
+          <KhalaIcon width="24" height="24" />
           {polkadotAccount.name} | {abridgeString(polkadotAccount.address)}
         </Account>
       ) : (
-        <ConnectButton>Connect Wallet</ConnectButton>
+        <ConnectButton onClick={onClick}></ConnectButton>
       )}
 
-      <AccountSelector onChange={onChange} value={activeIndex}>
-        {!polkadotAccount && <option value=""></option>}
-        {accounts.map(({ meta: { name = 'Account' }, address }, index) => (
-          <option key={`${name}-${address}`} value={index}>
-            {name} | {abridgeString(address)}
-          </option>
-        ))}
-      </AccountSelector>
+      <PolkadotAccountModal
+        visible={accountModalVisible}
+        onClose={() => setAccountModalVisible(false)}></PolkadotAccountModal>
+
+      <EmptyAccountModal
+        visible={emptyAccountModalVisible}
+        onClose={() => setEmptyAccountModalVisible(false)}></EmptyAccountModal>
     </Wrapper>
   )
 }

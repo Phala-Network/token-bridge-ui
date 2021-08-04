@@ -1,16 +1,21 @@
-import React from 'react'
+import { down } from 'styled-breakpoints'
+import styled from 'styled-components'
 import { StepProps } from './BridgeProcess'
 
 type Props = StepProps
 
-const FormLayout: React.FC<Props> = (props) => {
-  const { layout } = props
+const Root = styled.div<{ layout: 'block' | 'flex' | undefined }>`
+  display: ${(props) => props.layout};
 
-  return (
-    <div style={{ display: layout === 'inline' ? 'flex' : 'block' }}>
-      {props.children}
-    </div>
-  )
+  ${down('lg')} {
+    display: block;
+  }
+`
+
+const FormLayout: React.FC<Props> = (props) => {
+  const { layout = 'flex' } = props
+
+  return <Root layout={layout}>{props.children}</Root>
 }
 
 export default FormLayout

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { down } from 'styled-breakpoints'
 import styled from 'styled-components'
 import scrollbar from '../../style/scrollbar'
 import Backdrop from '../Backdrop'
@@ -43,6 +44,13 @@ const Value = styled.div`
   align-items: center;
   width: 120px;
   position: relative;
+  text-transform: capitalize;
+
+  ${down('sm')} {
+    & {
+      width: auto;
+    }
+  }
 `
 
 const SelectItem = styled.div`

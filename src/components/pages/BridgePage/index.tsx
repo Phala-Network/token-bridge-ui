@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { down } from 'styled-breakpoints'
 import styled from 'styled-components'
-import Announcement from '../../Announcement'
 import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
-import SubmitStep from '../../bridge/SubmitStep'
-import Modal from '../../Modal'
+import SubmitStepModal from '../../bridge/SubmitStep/SubmitStepModal'
 import Transactions from '../../transactions/Transactions'
 import WhiteCard from '../../WhiteCard'
 
@@ -14,6 +13,14 @@ const RightContent = styled.div`
   padding: 48px;
   width: 100%;
   box-sizing: border-box;
+
+  ${down('md')} {
+    padding: 20px;
+  }
+
+  ${down('sm')} {
+    padding: 0 0 20px 0;
+  }
 `
 
 const BridgePage: React.FC = () => {
@@ -21,12 +28,8 @@ const BridgePage: React.FC = () => {
   const [submitData, setSubmitData] = useState<InputDataStepResult>()
 
   const showSubmitModal = (data: InputDataStepResult) => {
-    setModalVisible(true)
     setSubmitData(data)
-  }
-
-  const onSubmit = () => {
-    setModalVisible(false)
+    setModalVisible(true)
   }
 
   return (
@@ -35,20 +38,19 @@ const BridgePage: React.FC = () => {
         <title>Phala App</title>
       </Helmet>
       <RightContent>
-        <Announcement></Announcement>
+        {/* TODO: need a message api */}
+        {/* <Announcement></Announcement> */}
         <WhiteCard>
-          <InputDataStep layout={'inline'} onNext={showSubmitModal} />
+          <InputDataStep layout={'flex'} onNext={showSubmitModal} />
 
-          <Modal visible={modalVisible} title="Bridge Modal">
-            <SubmitStep
-              data={submitData}
-              onPrev={() => setModalVisible(false)}
-              onSubmit={onSubmit}
-            />
-          </Modal>
+          <SubmitStepModal
+            setModalVisible={setModalVisible}
+            visible={modalVisible}
+            submitData={submitData}
+          />
         </WhiteCard>
 
-        <Transactions></Transactions>
+        <Transactions />
       </RightContent>
     </>
   )

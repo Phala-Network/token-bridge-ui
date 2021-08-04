@@ -53,7 +53,7 @@ type Props = {
   visible?: boolean
 }
 
-const Backdrop2: React.FC<Props> = ({
+const Backdrop: React.FC<Props> = ({
   children,
   onClick,
   visible = false,
@@ -96,4 +96,4 @@ const Backdrop2: React.FC<Props> = ({
   )
 }
 
-export default Backdrop2
+export default Backdrop

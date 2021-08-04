@@ -3,33 +3,29 @@ import { Decimal } from 'decimal.js'
 import { getAddress } from 'ethers/lib/utils'
 import { useAtom } from 'jotai'
 import React, { useEffect, useMemo, useState } from 'react'
-import transactionsAtom from '../../../atoms/transactions'
+import { SubmitStepProps } from '.'
+import transactionsInfoAtom from '../../../atoms/transactionsInfoAtom'
 import { useTransferSubmit } from '../../../libs/polkadot/extrinsics/bridgeTransfer'
 import { useApiPromise } from '../../../libs/polkadot/hooks/useApiPromise'
 import { useDecimalJsTokenDecimalMultiplier } from '../../../libs/polkadot/useTokenDecimals'
 import { decimalToBalance } from '../../../libs/polkadot/utils/balances'
-import { voidFn } from '../../../types/normal'
 import Alert from '../../Alert/Alert'
 import Button from '../../Button'
 import { ModalAction, ModalActions } from '../../Modal'
 import Spacer from '../../Spacer'
 import { StepProps } from '../BridgeProcess'
-import { InputDataStepResult } from '../InputDataStep'
+import useTransactionInfo from '../hooks/useTransactionInfo'
 import BaseInfo from './BaseInfo'
 import Progress from './Progress'
 
-type Props = {
-  onPrev?: voidFn
-  onSubmit?: voidFn
-  data?: InputDataStepResult
-} & StepProps
+type Props = SubmitStepProps & StepProps
 
 const SubmitStepToEthereum: React.FC<Props> = (props) => {
-  const { onSubmit, onPrev, layout, data } = props
+  const { onSubmit, onPrev, onSuccess, layout, data } = props
   const { from, to, amount: amountFromPrevStep } = data || {}
   const { account: accountFrom } = from || {}
   const { account: accountTo } = to || {}
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  const [transactionsInfo, setTransactionsInfo] = useAtom(transactionsInfoAtom)
   const { api } = useApiPromise()
   const decimals = useDecimalJsTokenDecimalMultiplier(api)
   const transferSubmit = useTransferSubmit(42)
@@ -37,6 +33,7 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
   const [isSubmitting, setSubmitting] = useState<boolean>(false)
   const [extrinsicStatus, setExtrinsicStatus] = useState<ExtrinsicStatus[]>([])
   const [progressIndex, setProgressIndex] = useState(-1)
+  const { transactionInfo } = useTransactionInfo(data)
   const [progress, setProgress] = useState<{ status: string; text: string }[]>(
     []
   )
@@ -106,7 +103,14 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
 
       setSubmittedHash(hash)
 
-      setTransactions([{ ...data, hash }, ...transactions])
+      const newTransactionInfo = {
+        ...transactionInfo,
+        hash: hash?.toString(),
+      }
+
+      setTransactionsInfo([newTransactionInfo, ...transactionsInfo])
+
+      onSuccess?.(newTransactionInfo)
     } catch (e) {
       console.error(e)
     } finally {
@@ -116,7 +120,7 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
 
   return (
     <>
-      <BaseInfo layout={layout} data={data}></BaseInfo>
+      <BaseInfo layout={layout} data={transactionInfo} />
 
       <Spacer></Spacer>
 
@@ -144,7 +148,7 @@ const SubmitStepToEthereum: React.FC<Props> = (props) => {
               <Button onClick={onPrev}>Back</Button>
             </ModalAction>
           )}
-          {onSubmit && (
+          {(onSubmit || onSuccess) && (
             <ModalAction>
               <Button loading={isSubmitting} type="primary" onClick={submit}>
                 {isSubmitting ? 'Submitting' : 'Submit'}

@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { createElement } from 'react'
 import { createPortal } from 'react-dom'
-import styled from 'styled-components'
 import { down } from 'styled-breakpoints'
+import styled from 'styled-components'
 import usePortal from '../hooks/usePortal'
 import Backdrop from './Backdrop'
 
@@ -38,7 +38,12 @@ const Content = styled.div`
   }
 
   ${down('sm')} {
-    width: 312px;
+    width: calc(100vw - 30px);
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.4);
+    }
   }
 `
 
@@ -91,7 +96,7 @@ const Modal: React.FC<ModalProps> = (props) => {
           {actions && actions?.length > 0 && (
             <ModalActions>
               {actions?.map((item) => {
-                return <ModalAction>{item}</ModalAction>
+                return createElement(ModalAction, null, item)
               })}
             </ModalActions>
           )}

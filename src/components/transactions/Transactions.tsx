@@ -1,8 +1,10 @@
 import { useAtom } from 'jotai'
 import React, { useRef, useState } from 'react'
+import { down } from 'styled-breakpoints'
 import styled from 'styled-components'
-import transactionsAtom from '../../atoms/transactions'
+import transactionsInfoAtom from '../../atoms/transactionsInfoAtom'
 import useClickAway from '../../hooks/useClickAway'
+import Backdrop from '../Backdrop'
 import ClearButton from './ClearButton'
 import TransactionsHeader from './Header'
 import TransactionsList from './List/List'
@@ -17,58 +19,65 @@ const TransactionsRoot = styled.div`
   background: #ffffff;
   border: 1px solid #000000;
   box-sizing: border-box;
-  z-index: 2;
+  z-index: 1000;
   transition: all 0.2s ease;
 
+  ${down('sm')} {
+    right: 0;
+    bottom: 0;
+    border: none;
+  }
+
   &.active {
-    width: 410px;
+    width: 420px;
     height: 191px;
     box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
+
+    ${down('sm')} {
+      width: 100vw;
+    }
   }
 `
 
 const Transactions: React.FC = () => {
   const [active, setActive] = useState(false)
   const rootRef = useRef(null)
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
+  const [transactionsInfo, setTransactionsInfo] = useAtom(transactionsInfoAtom)
 
   useClickAway(rootRef, () => {
     setActive(false)
   })
 
-  if (transactions?.length === 0) {
+  if (transactionsInfo?.length === 0) {
     return null
   }
 
   return (
-    <TransactionsRoot ref={rootRef} className={active ? 'active' : ''}>
-      <TransactionsHeader
-        active={active}
-        onClickHeader={() => setActive((prev) => !prev)}
-      />
+    <>
+      <Backdrop visible={active} />
+      <TransactionsRoot ref={rootRef} className={active ? 'active' : ''}>
+        <TransactionsHeader
+          active={active}
+          onClickHeader={() => setActive((prev) => !prev)}
+        />
 
-      {active && (
-        <>
-          <ClearButton onClick={() => setTransactions([])}>Clear</ClearButton>
-          <TransactionsList
-            transactions={transactions.map((item) => {
-              return {
-                ...item,
-                from: {
-                  ...item.from,
-                  amount: item.from.balance,
-                },
-                to: {
-                  ...item.to,
-                  amount: item.amount,
-                },
-                status: 'success',
-              }
-            })}
-          />
-        </>
-      )}
-    </TransactionsRoot>
+        {active && (
+          <>
+            <ClearButton onClick={() => setTransactionsInfo([])}>
+              Clear
+            </ClearButton>
+            <TransactionsList
+              transactions={transactionsInfo.map((transactionInfo) => {
+                return {
+                  transactionInfo,
+                  status: 'success',
+                }
+              })}
+            />
+          </>
+        )}
+      </TransactionsRoot>
+    </>
   )
 }
 

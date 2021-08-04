@@ -1,4 +1,6 @@
 import React from 'react'
+import { isDev } from '../../utils/isDev'
+import { isTest } from '../../utils/isTest'
 import ActiveOutline from './ActiveOutline'
 import Link from './Link'
 
@@ -8,9 +10,7 @@ const Links: React.FC = () => {
       <ActiveOutline />
 
       <Link to="/">Assets</Link>
-      {process.env.NODE_ENV === 'development' && (
-        <Link to="/bridge/">Bridge</Link>
-      )}
+      {(isDev() || isTest()) && <Link to="/bridge/">Bridge</Link>}
 
       {/* <Link to="/darkpool">Darkpool</Link> */}
       {/* <Link to="/tokens">Tokens</Link> */}

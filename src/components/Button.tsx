@@ -62,9 +62,11 @@ const Loading = styled.div`
   top: 0;
   bottom: 0;
   right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-image: url('/loading.gif');
+  background-repeat: no-repeat;
+  background-size: auto 70%;
+  background-position: center center;
+  background-color: #d1ff52;
 `
 
 const Button: React.FC<Props> = (props) => {
@@ -84,6 +86,8 @@ const Button: React.FC<Props> = (props) => {
       shape={shape}
       {...others}>
       {children}
+
+      {loading && <Loading></Loading>}
     </ButtonWrap>
   )
 }

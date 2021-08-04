@@ -1,5 +1,4 @@
-import React from 'react'
-import { ComponentProps } from 'react'
+import React, { ComponentProps } from 'react'
 import styled from 'styled-components'
 import toFixed from '../utils/toFixed'
 import Tag from './Tag'
@@ -31,6 +30,7 @@ const Type = styled.div`
   display: flex;
   align-items: center;
   color: #494949;
+  text-transform: capitalize;
 `
 
 const Divider = styled.div`

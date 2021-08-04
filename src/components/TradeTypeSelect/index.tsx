@@ -1,4 +1,5 @@
 import React from 'react'
+import Spacer from '../Spacer'
 import DEFAULT_VALUE from './DEFAULT_VALUE'
 import ExchangeIcon from './ExchangeIcon'
 import Form from './Form'
@@ -43,6 +44,7 @@ const index: React.FC<TradeTypeSelectProps> = (props) => {
     <div {...others}>
       <Form disableSelect={disableSelect} value={value?.from}></Form>
       <ExchangeIcon onClick={exchange}></ExchangeIcon>
+      <Spacer></Spacer>
       <To disableSelect={disableSelect} value={value?.to}></To>
     </div>
   )

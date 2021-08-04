@@ -2,7 +2,7 @@ import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import ethereumAccountAtom from '../../atoms/ethereumAccountAtom'
-import useEthereumAccountBalanceDecimal from '../../hooks/useEthereumAccountBalanceDecimal'
+import useEthereumAccountBalanceETHDecimal from '../../hooks/useEthereumAccountBalanceETHDecimal'
 import BalanceLabel from '../BalanceLabel'
 import EthereumAccountModal from '../EthereumAccountModal'
 import Ticket, {
@@ -24,9 +24,9 @@ const TicketName = styled(_TicketName)`
   color: #000000;
 `
 
-const index: React.FC = () => {
+const EthereumTicket: React.FC = () => {
   const [ethereumAccount] = useAtom(ethereumAccountAtom)
-  const ethereumAccountBalanceDecimal = useEthereumAccountBalanceDecimal()
+  const ethereumAccountBalanceETHDecimal = useEthereumAccountBalanceETHDecimal()
   const [selectAccountModalViable, setSelectAccountModalViable] = useState(
     false
   )
@@ -56,8 +56,8 @@ const index: React.FC = () => {
           name={<TicketName>Ethereum</TicketName>}
           bottomContent={
             <>
-              <BalanceLabel value={ethereumAccountBalanceDecimal} />
-              <TicketCurrency>PHA</TicketCurrency>
+              <BalanceLabel value={ethereumAccountBalanceETHDecimal} />
+              <TicketCurrency>ETH</TicketCurrency>
             </>
           }
         />
@@ -71,4 +71,4 @@ const index: React.FC = () => {
   )
 }
 
-export default index
+export default EthereumTicket

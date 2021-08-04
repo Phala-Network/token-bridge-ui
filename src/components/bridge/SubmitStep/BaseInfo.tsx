@@ -1,5 +1,5 @@
 import React from 'react'
-import { voidFn } from '../../../types/normal'
+import { TransactionInfo } from '../../../types/normal'
 import Address from '../../Address'
 import AmountInfo from '../../AmountInfo'
 import InfoTitle from '../../InfoTitle'
@@ -7,17 +7,16 @@ import Spacer from '../../Spacer'
 import { StepProps } from '../BridgeProcess'
 import FormItem from '../FormItem'
 import FormLayout from '../FormLayout'
-import { InputDataStepResult } from '../InputDataStep'
 
 type Props = {
-  onPrev?: voidFn
-  onSubmit?: voidFn
-  data?: InputDataStepResult
+  onPrev?(): void
+  onSubmit?(): void
+  data?: TransactionInfo
 } & StepProps
 
 const BaseInfo: React.FC<Props> = (props) => {
   const { layout, data } = props
-  const { from, to, amount } = data || {}
+  const { from, to } = data || {}
 
   return (
     <FormLayout layout={layout}>
@@ -25,9 +24,9 @@ const BaseInfo: React.FC<Props> = (props) => {
         <InfoTitle>From</InfoTitle>
         <AmountInfo
           network={from?.network}
-          amount={amount?.toString()}
+          amount={from?.amount?.toString()}
           type={from?.type}>
-          <Address>{from?.account}</Address>
+          <Address>{from?.address}</Address>
         </AmountInfo>
       </FormItem>
 
@@ -37,9 +36,9 @@ const BaseInfo: React.FC<Props> = (props) => {
         <InfoTitle>To</InfoTitle>
         <AmountInfo
           network={to?.network}
-          amount={amount?.toString()}
+          amount={to?.amount?.toString()}
           type={to?.type}>
-          <Address>{to?.account}</Address>
+          <Address>{to?.address}</Address>
         </AmountInfo>
       </FormItem>
     </FormLayout>

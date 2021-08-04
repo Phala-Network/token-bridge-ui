@@ -3,26 +3,22 @@ import { decodeAddress } from '@polkadot/util-crypto'
 import { ethers } from 'ethers'
 import { useAtom } from 'jotai'
 import React, { useState } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
-import transactionsAtom from '../../../atoms/transactions'
+import { SubmitStepProps } from '.'
+import transactionsInfoAtom from '../../../atoms/transactionsInfoAtom'
 import { useErc20Deposit } from '../../../libs/ethereum/bridge/deposit'
-import { voidFn } from '../../../types/normal'
+import Alert from '../../Alert'
 import Button from '../../Button'
 import { ModalAction, ModalActions } from '../../Modal'
+import Spacer from '../../Spacer'
 import { StepProps } from '../BridgeProcess'
-import EthereumAllowance from '../EthereumAllowance'
-import { InputDataStepResult } from '../InputDataStep'
+import useTransactionInfo from '../hooks/useTransactionInfo'
 import BaseInfo from './BaseInfo'
 
-type Props = {
-  onPrev?: voidFn
-  onSubmit?: voidFn
-  data?: InputDataStepResult
-} & StepProps
+type Props = SubmitStepProps & StepProps
 
 const SubmitStepToKhala: React.FC<Props> = (props) => {
-  const [transactions, setTransactions] = useAtom(transactionsAtom)
-  const { onSubmit, onPrev, layout, data } = props
+  const [transactionsInfo, setTransactionsInfo] = useAtom(transactionsInfoAtom)
+  const { onSubmit, onPrev, onSuccess, layout, data } = props
   const { from, to, amount: amountFromPrevStep } = data || {}
   const { account: accountFrom } = from || {}
   const { account: accountTo } = to || {}
@@ -32,6 +28,7 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
     setTxResponse,
   ] = useState<ethers.providers.TransactionResponse>()
   const [isSubmitting, setSubmitting] = useState<boolean>(false)
+  const { transactionInfo } = useTransactionInfo(data)
 
   const submit = async () => {
     setTxResponse(undefined)
@@ -49,7 +46,14 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
 
       setTxResponse(response)
 
-      setTransactions([{ ...data, hash: response?.hash }, ...transactions])
+      const newTransactionInfo = {
+        ...transactionInfo,
+        hash: response?.hash,
+      }
+
+      setTransactionsInfo([newTransactionInfo, ...transactionsInfo])
+
+      onSuccess?.(newTransactionInfo)
     } catch (error) {
       console.error(error)
     } finally {
@@ -59,7 +63,13 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
 
   return (
     <>
-      <BaseInfo layout={layout} data={data}></BaseInfo>
+      <BaseInfo layout={layout} data={transactionInfo} />
+
+      <Spacer></Spacer>
+
+      <Alert>
+        Please be patient as the transaction may take a few minutes.
+      </Alert>
 
       {lastTxResponse && (
         <ModalActions>
@@ -78,20 +88,11 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
               <Button onClick={onPrev}>Back</Button>
             </ModalAction>
           )}
-          {onSubmit && (
+          {(onSubmit || onSuccess) && (
             <ModalAction>
-              <ErrorBoundary fallbackRender={() => null}>
-                <EthereumAllowance
-                  placeholder={<Button type="primary">Allowance</Button>}
-                  account={accountFrom}>
-                  <Button
-                    loading={isSubmitting}
-                    type="primary"
-                    onClick={submit}>
-                    {isSubmitting ? 'Submitting' : 'Submit'}
-                  </Button>
-                </EthereumAllowance>
-              </ErrorBoundary>
+              <Button loading={isSubmitting} type="primary" onClick={submit}>
+                {isSubmitting ? 'Submitting' : 'Submit'}
+              </Button>
             </ModalAction>
           )}
         </ModalActions>
