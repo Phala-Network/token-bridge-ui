@@ -7,19 +7,27 @@ import { useEthersNetworkQuery } from './useEthersNetworkQuery'
 
 const Erc20AllowanceQueryKey = uuidv4()
 
-export const useErc20AssetHandlerAllowanceQuery = (owner?: string): UseQueryResult<BigNumber> => {
-    const { contract, instance } = useErc20Contract()
-    const { data: network } = useEthersNetworkQuery()
-    const chainId = network?.chainId
+export const useErc20AssetHandlerAllowanceQuery = (
+  owner?: string
+): UseQueryResult<BigNumber> => {
+  const { contract, instance } = useErc20Contract()
+  const { data: network } = useEthersNetworkQuery()
+  const chainId = network?.chainId
 
-    return useQuery([Erc20AllowanceQueryKey, instance, owner], async () => {
-        const spender = typeof chainId === 'number' ? ethereums[chainId]?.erc20AssetHandler : undefined
+  return useQuery([Erc20AllowanceQueryKey, instance, owner], async () => {
+    const spender =
+      typeof chainId === 'number'
+        ? ethereums[chainId]?.erc20AssetHandler
+        : undefined
 
-        if (owner === undefined || spender === undefined) {
-            return
-        }
+    if (owner === undefined || spender === undefined) {
+      return
+    }
 
-        const result = (await contract?.functions['allowance']?.(owner, spender)) as BigNumber | BigNumber[] | undefined
-        return result instanceof Array ? result[0] : result
-    })
+    const result = (await contract?.functions['allowance']?.(
+      owner,
+      spender
+    )) as BigNumber | BigNumber[] | undefined
+    return result instanceof Array ? result[0] : result
+  })
 }
