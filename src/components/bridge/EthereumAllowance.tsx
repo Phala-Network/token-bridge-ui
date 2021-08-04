@@ -28,7 +28,7 @@ const EthereumAllowance: FC<Props> = (props: Props) => {
   // eslint-disable-next-line no-console
   console.log('allowanceText', allowanceText)
 
-  const startApprove = () => {
+  const startApprove = async () => {
     try {
       const network = ethereums[provider?.network.chainId as number]
 
@@ -42,7 +42,7 @@ const EthereumAllowance: FC<Props> = (props: Props) => {
 
       const contractSigned = contract.connect(signer)
 
-      contractSigned.functions['approve']?.(
+      await contractSigned.functions['approve']?.(
         network.erc20AssetHandler,
         ethers.utils.parseUnits('11451419810', 18)
       )
