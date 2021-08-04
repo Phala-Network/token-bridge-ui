@@ -17,11 +17,15 @@ const EthereumAllowance: FC<Props> = (props: Props) => {
   const { contract } = useErc20Contract()
   const { provider, signer } = useEthers()
 
+  // eslint-disable-next-line no-console
+  console.log('allowance', allowance)
+
   const allowanceText = useMemo(
     () => allowance !== undefined && ethers.utils.formatUnits(allowance, 18),
     [allowance]
   )
 
+  // eslint-disable-next-line no-console
   console.log('allowanceText', allowanceText)
 
   const startApprove = () => {
