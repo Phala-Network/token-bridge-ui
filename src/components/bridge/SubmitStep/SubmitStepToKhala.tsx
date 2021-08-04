@@ -2,10 +2,15 @@ import { u8aToHex } from '@polkadot/util'
 import { decodeAddress } from '@polkadot/util-crypto'
 import { ethers } from 'ethers'
 import { useAtom } from 'jotai'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { SubmitStepProps } from '.'
 import transactionsInfoAtom from '../../../atoms/transactionsInfoAtom'
 import { useErc20Deposit } from '../../../libs/ethereum/bridge/deposit'
+import { useTransactionReceiptQuery } from '../../../libs/ethereum/queries/useTransactionReceiptQuery'
+import { TransactionInfoItem } from '../../../types/normal'
+import { isDev } from '../../../utils/isDev'
+import { isTest } from '../../../utils/isTest'
 import Alert from '../../Alert'
 import Button from '../../Button'
 import { ModalAction, ModalActions } from '../../Modal'
@@ -14,24 +19,44 @@ import { StepProps } from '../BridgeProcess'
 import useTransactionInfo from '../hooks/useTransactionInfo'
 import BaseInfo from './BaseInfo'
 
+const Link = styled.a`
+  text-decoration: underline;
+  color: black;
+`
+
 type Props = SubmitStepProps & StepProps
 
 const SubmitStepToKhala: React.FC<Props> = (props) => {
+  const [transactionsInfoSuccess, setTransactionsInfoSuccess] = useState(false)
   const [transactionsInfo, setTransactionsInfo] = useAtom(transactionsInfoAtom)
   const { onSubmit, onPrev, onSuccess, layout, data } = props
   const { from, to, amount: amountFromPrevStep } = data || {}
   const { account: accountFrom } = from || {}
   const { account: accountTo } = to || {}
   const submitDeposit = useErc20Deposit(accountFrom)
-  const [
-    lastTxResponse,
-    setTxResponse,
-  ] = useState<ethers.providers.TransactionResponse>()
   const [isSubmitting, setSubmitting] = useState<boolean>(false)
   const { transactionInfo } = useTransactionInfo(data)
+  const [currentTransactionInfo, setCurrentTransactionInfo] = useState<{
+    hash: string | undefined
+    from: TransactionInfoItem
+    to: TransactionInfoItem
+  }>()
+  const {
+    isLoading: isReceiptLoading,
+    data: receipt,
+  } = useTransactionReceiptQuery(currentTransactionInfo?.hash)
+
+  let link = ''
+
+  if (currentTransactionInfo?.hash) {
+    if (isTest() || isDev()) {
+      link = `https://kovan.etherscan.io/tx/${currentTransactionInfo.hash}`
+    } else {
+      link = `https://etherscan.io/tx/${currentTransactionInfo.hash}`
+    }
+  }
 
   const submit = async () => {
-    setTxResponse(undefined)
     setSubmitting(true)
 
     const recipient = u8aToHex(decodeAddress(accountTo))
@@ -44,24 +69,25 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
 
       const response = await submitDeposit?.(amount, recipient)
 
-      setTxResponse(response)
-
       const newTransactionInfo = {
         ...transactionInfo,
         hash: response?.hash,
       }
 
+      setCurrentTransactionInfo(newTransactionInfo)
+
       setTransactionsInfo([newTransactionInfo, ...transactionsInfo])
-
-      await response?.wait()
-
-      onSuccess?.(newTransactionInfo)
     } catch (error) {
       console.error(error)
-    } finally {
-      setSubmitting(false)
     }
   }
+
+  useEffect(() => {
+    if (receipt && receipt?.confirmations > 0) {
+      setTransactionsInfoSuccess(true)
+      setSubmitting(false)
+    }
+  }, [receipt, setSubmitting, setTransactionsInfoSuccess])
 
   return (
     <>
@@ -69,11 +95,23 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
 
       <Spacer></Spacer>
 
-      <Alert>
-        Please be patient as the transaction may take a few minutes.
-      </Alert>
+      {link ? (
+        <Alert>
+          <div>
+            <Link href={link} target="_blank">
+              Ethereum transaction
+            </Link>{' '}
+            is broadcasting, please check your Khala’s PHA balance later. It may
+            take 2~10 minutes.
+          </div>
+        </Alert>
+      ) : (
+        <Alert>
+          Please be patient as the transaction may take a few minutes.
+        </Alert>
+      )}
 
-      {lastTxResponse && (
+      {transactionsInfoSuccess && (
         <ModalActions>
           <ModalAction>
             <Button type="primary" onClick={onPrev}>
@@ -83,9 +121,9 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
         </ModalActions>
       )}
 
-      {!lastTxResponse && (
+      {!transactionsInfoSuccess && (
         <ModalActions>
-          {onPrev && !isSubmitting && (
+          {onPrev && !isSubmitting && !isReceiptLoading && (
             <ModalAction>
               <Button onClick={onPrev}>Back</Button>
             </ModalAction>
