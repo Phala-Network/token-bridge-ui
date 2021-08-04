@@ -38,7 +38,7 @@ export const substrates: Record<string, SubstrateNetworkOptions> = {
   },
   khala: {
     endpoint:
-      process.env['PHALA_ENDPOINT'] ?? 'wss://pc-test-2.phala.network/khala/ws',
+      process.env['PHALA_ENDPOINT'] ?? 'wss://khala-api.phala.network/ws',
     peerChainIds: {
       1: 0,
     },
