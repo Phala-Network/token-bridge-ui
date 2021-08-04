@@ -49,7 +49,7 @@ const EthereumAccountModal: React.FC<Props> = (props) => {
   if (!isReady) {
     return (
       <AlertModal
-        content="Please allow access in the Polkadot extension."
+        content="Please allow access in the MetaMask extension."
         {...props}
       />
     )
