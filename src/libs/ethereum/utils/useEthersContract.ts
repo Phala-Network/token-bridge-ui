@@ -3,15 +3,15 @@ import { useMemo } from 'react'
 import { useEthers } from '../contexts/useEthers'
 
 export const useEthersContract = (
-    contractInterface: ethers.ContractInterface,
-    addressOrName?: string
+  contractInterface: ethers.ContractInterface,
+  addressOrName?: string
 ): Contract | undefined => {
-    const { provider } = useEthers()
+  const { provider } = useEthers()
 
-    return useMemo(() => {
-        if (provider === undefined || addressOrName === undefined) {
-            return undefined
-        }
-        return new ethers.Contract(addressOrName, contractInterface, provider)
-    }, [addressOrName, contractInterface, provider])
+  return useMemo(() => {
+    if (provider === undefined || addressOrName === undefined) {
+      return undefined
+    }
+    return new ethers.Contract(addressOrName, contractInterface, provider)
+  }, [addressOrName, contractInterface, provider])
 }

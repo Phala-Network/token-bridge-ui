@@ -9,34 +9,38 @@ import { useTransactionReceiptQuery } from './useTransactionReceiptQuery'
 const DepositNonceQueryKey = uuidv4()
 
 export const useDepositNonceQuery = (hash?: string): UseQueryResult<number> => {
-    const { contract: bridge } = useBridgeContract()
-    const { options: ethereum } = useEthereumNetworkOptions()
+  const { contract: bridge } = useBridgeContract()
+  const { options: ethereum } = useEthereumNetworkOptions()
 
-    const { data: receipt } = useTransactionReceiptQuery(hash)
+  const { data: receipt } = useTransactionReceiptQuery(hash)
 
-    const depositEventFilter = useMemo(() => {
-        return bridge?.filters['Deposit']?.(null, null, null).topics?.[0]
-    }, [bridge?.filters])
+  const depositEventFilter = useMemo(() => {
+    return bridge?.filters['Deposit']?.(null, null, null).topics?.[0]
+  }, [bridge?.filters])
 
-    return useQuery([DepositNonceQueryKey, receipt, depositEventFilter], () => {
-        if (ethereum === undefined || receipt === undefined) {
-            return
-        }
+  return useQuery([DepositNonceQueryKey, receipt, depositEventFilter], () => {
+    if (ethereum === undefined || receipt === undefined) {
+      return
+    }
 
-        const nonces = receipt.logs
-            .filter((log) => log.address === ethereum.bridge && log.topics[0] === depositEventFilter)
-            .map((log) => BigNumber.from(log.topics[3]).toNumber())
+    const nonces = receipt.logs
+      .filter(
+        (log) =>
+          log.address === ethereum.bridge &&
+          log.topics[0] === depositEventFilter
+      )
+      .map((log) => BigNumber.from(log.topics[3]).toNumber())
 
-        if (nonces === undefined || nonces.length === 0) {
-            // no deposit event found, probably not a bridge transfer
-            return undefined
-        }
+    if (nonces === undefined || nonces.length === 0) {
+      // no deposit event found, probably not a bridge transfer
+      return undefined
+    }
 
-        if (nonces.length !== 1) {
-            // one transaction has exact one deposit event
-            throw new Error('Unexpected multiple deposit events in one transaction')
-        }
+    if (nonces.length !== 1) {
+      // one transaction has exact one deposit event
+      throw new Error('Unexpected multiple deposit events in one transaction')
+    }
 
-        return nonces[0]
-    })
+    return nonces[0]
+  })
 }
