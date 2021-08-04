@@ -17,7 +17,8 @@ const Link = styled.a`
 const ResultStepToKhala: React.FC<Props> = (props) => {
   const { transactionInfo } = props
 
-  const link = `https://kovan.etherscan.io/tx/${transactionInfo.hash}`
+  // const link = `https://kovan.etherscan.io/tx/${transactionInfo.hash}`
+  const link = `https://etherscan.io/tx/${transactionInfo.hash}`
 
   return (
     <>
