@@ -17,6 +17,12 @@ import { isTest } from './utils/isTest'
 
 const WrapApp: React.FC = ({ children }) => {
   const client = useRef(new QueryClient())
+  const defaultNetwork =
+    process.env.GATSBY_DEFAULT_NETWORK ||
+    (isDev() || isTest() ? 'poc4-dev' : 'khala')
+
+  // eslint-disable-next-line no-console
+  console.info('defaultNetwork', defaultNetwork)
 
   return (
     <ThemeProvider theme={theme}>
@@ -25,11 +31,7 @@ const WrapApp: React.FC = ({ children }) => {
           <EthereumWeb3Provider>
             <JotaiProvider>
               <EthersProvider>
-                <NetworkContextProvider
-                  defaultNetwork={
-                    process.env.GATSBY_DEFAULT_NETWORK ||
-                    (isDev() || isTest() ? 'poc4-dev' : 'khala')
-                  }>
+                <NetworkContextProvider defaultNetwork={defaultNetwork}>
                   <ApiPromiseProvider>
                     <PolkadotWeb3Provider originName="ChainBridge Operator">
                       {children}
