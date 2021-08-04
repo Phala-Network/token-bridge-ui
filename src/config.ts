@@ -16,9 +16,9 @@ export const ethereums: Record<number, EthereumNetworkOptions> = {
     },
   },
   1: {
-    bridge: '0xf88337a0db6e24Dff0fCD7F92ab0655B97A68d38',
+    bridge: '0xC84456ecA286194A201F844993C220150Cf22C63',
     erc20: '0x6c5ba91642f10282b576d91922ae6448c9d52f4e',
-    erc20AssetHandler: '0x510EED5833f9aCf5b7a66Ef391eA5118b84b86f2',
+    erc20AssetHandler: '0x6eD3bc069Cf4F87DE05c04C352E8356492EC6eFE',
     erc20ResourceId:
       '0x00000000000000000000000000000063a7e2be78898ba83824b0c0cc8dfb6001',
     peerChainIds: {
