@@ -17,6 +17,7 @@ export const useErc20BalanceQuery = (account?: string): UseQueryResult => {
       | BigNumber
       | BigNumber[]
       | undefined
+
     return result instanceof Array ? result[0] : result
   })
 }
