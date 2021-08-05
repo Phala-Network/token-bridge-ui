@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { SubmitStepProps } from '.'
 import transactionsInfoAtom from '../../../atoms/transactionsInfoAtom'
 import { useErc20Deposit } from '../../../libs/ethereum/bridge/deposit'
+import { useErc20BalanceQuery } from '../../../libs/ethereum/queries/useErc20BalanceQuery'
 import { useTransactionReceiptQuery } from '../../../libs/ethereum/queries/useTransactionReceiptQuery'
 import { TransactionInfoItem } from '../../../types/normal'
 import { isDev } from '../../../utils/isDev'
@@ -45,6 +46,7 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
     isLoading: isReceiptLoading,
     data: receipt,
   } = useTransactionReceiptQuery(currentTransactionInfo?.hash)
+  const { refetch } = useErc20BalanceQuery(accountFrom)
 
   let link = ''
 
@@ -84,10 +86,11 @@ const SubmitStepToKhala: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (receipt && receipt?.confirmations > 0) {
+      refetch()
       setTransactionsInfoSuccess(true)
       setSubmitting(false)
     }
-  }, [receipt, setSubmitting, setTransactionsInfoSuccess])
+  }, [receipt, setSubmitting, setTransactionsInfoSuccess, refetch])
 
   return (
     <>
