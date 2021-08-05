@@ -207,7 +207,7 @@ const InputDataStep: React.FC<Props> = (props) => {
             size="large"
             placeholder="Destination Address"
             after={
-              isShowRecipient && !addressValid ? (
+              isShowRecipient && !addressValid && !isMobile ? (
                 <InputAction onClick={setMyAddress}>MY ADDRESS</InputAction>
               ) : null
             }
