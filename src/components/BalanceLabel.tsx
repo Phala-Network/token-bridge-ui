@@ -27,14 +27,17 @@ const BalanceLabel: React.FC<Props> = (props) => {
   if (!value || value.lessThan(zero)) {
     balanceDisplay = '...'
   } else {
+    // 1,000.0000
     balanceDisplay = currency(value.toString(), { symbol: '', precision })
       .format()
       .toString()
 
+    // 1,000.
     balanceDisplay = trim(balanceDisplay)
 
+    // 1,000
     if (balanceDisplay[balanceDisplay.length - 1] === '.') {
-      balanceDisplay = trim(balanceDisplay.slice(0, -1))
+      balanceDisplay = balanceDisplay.slice(0, -1)
     }
   }
 
