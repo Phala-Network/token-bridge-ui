@@ -60,7 +60,7 @@ const EthereumAllowance: FC<Props> = (props: Props) => {
     }
   }
 
-  return transactionsInfoSuccess
+  return (allowanceText && allowanceText !== '0.0') || transactionsInfoSuccess
     ? children
     : cloneElement(placeholder, {
         onClick: startApprove,
