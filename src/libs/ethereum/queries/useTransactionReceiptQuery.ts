@@ -14,7 +14,7 @@ export const useTransactionReceiptQuery = (
     [TransactionReceiptQueryKey, hash, provider?.network?.chainId],
     async () => {
       {
-        if (hash !== undefined) {
+        if (hash !== undefined && hash !== null && hash !== '') {
           const result = await provider?.getTransactionReceipt(hash)
           // TODO: refetch more frequently while not confirmed yet
           return result
@@ -22,6 +22,9 @@ export const useTransactionReceiptQuery = (
 
         return undefined
       }
+    },
+    {
+      refetchInterval: 5000,
     }
   )
 }
