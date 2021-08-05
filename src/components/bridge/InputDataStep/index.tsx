@@ -226,7 +226,7 @@ const InputDataStep: React.FC<Props> = (props) => {
           {ethereumAccount && isFromEthereum && (
             <ErrorBoundary fallbackRender={() => null}>
               <EthereumAllowance
-                placeholder={<Button type="primary">Allowance</Button>}
+                placeholder={<Button type="primary">Approve</Button>}
                 account={ethereumAccount.address}>
                 <Button type="primary" onClick={submit}>
                   Next
