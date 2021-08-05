@@ -7,8 +7,8 @@ type Props = {
   disableSelect: boolean
 }
 
-const Form: React.FC<Props> = (props) => {
-  return <Block {...props} title="Form" />
+const From: React.FC<Props> = (props) => {
+  return <Block {...props} title="From" />
 }
 
-export default Form
+export default From
