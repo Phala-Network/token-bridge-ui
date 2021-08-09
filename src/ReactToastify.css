@@ -1,14 +1,23 @@
+.Toastify__toast h1 {
+  margin: 0;
+  font-size: 18px;
+}
+.Toastify__toast p {
+  margin: 0;
+  font-size: 12px;
+  margin-top: 2px;
+  color: #878787;
+}
 .Toastify__toast-container {
   z-index: 9999;
   transform: translate3d(0, 0, 9999px);
   position: fixed;
   padding: 4px;
-  width: 320px;
+  width: 330px;
   box-sizing: border-box;
   color: #fff;
   font-size: 18px;
   font-family: Lato;
-  font-weight: bold;
 }
 .Toastify__toast-container--top-left {
   top: 1em;

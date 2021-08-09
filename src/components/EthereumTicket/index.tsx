@@ -1,7 +1,9 @@
 import { useAtom } from 'jotai'
 import React, { useState } from 'react'
+import { toast } from 'react-toastify'
 import styled from 'styled-components'
 import ethereumAccountAtom from '../../atoms/ethereumAccountAtom'
+import { useCheckEthereumNetwork } from '../../hooks/useCheckEthereumNetwork'
 import useEthereumAccountBalanceETHDecimal from '../../hooks/useEthereumAccountBalanceETHDecimal'
 import BalanceLabel from '../BalanceLabel'
 import EthereumAccountModal from '../EthereumAccountModal'
@@ -26,18 +28,30 @@ const TicketName = styled(_TicketName)`
 
 const EthereumTicket: React.FC = () => {
   const [ethereumAccount] = useAtom(ethereumAccountAtom)
-  const ethereumAccountBalanceETHDecimal = useEthereumAccountBalanceETHDecimal()
+  const {
+    value: ethereumAccountBalanceETHDecimal,
+  } = useEthereumAccountBalanceETHDecimal()
   const [selectAccountModalViable, setSelectAccountModalViable] = useState(
     false
   )
+  const isTheCurrentNetworkCorrect = useCheckEthereumNetwork()
 
   const openAccountSelectModal = () => {
-    setSelectAccountModalViable(true)
+    if (isTheCurrentNetworkCorrect) {
+      setSelectAccountModalViable(true)
+    } else {
+      toast(
+        <div>
+          <h1>Wrong Network</h1>
+          <p>Please connect to the Ethereum Mainnet.</p>
+        </div>
+      )
+    }
   }
 
   return (
     <>
-      {!ethereumAccount ? (
+      {!ethereumAccount || !isTheCurrentNetworkCorrect ? (
         <Ticket
           onClick={openAccountSelectModal}
           cover={

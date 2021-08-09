@@ -8,16 +8,28 @@ import { useEthersNetworkQuery } from '../libs/ethereum/queries/useEthersNetwork
 
 let flag = 0
 
-export default function useEthereumAccountBalanceETHDecimal(): Decimal {
+export default function useEthereumAccountBalanceETHDecimal(): {
+  value: Decimal
+  error: Error | null | undefined
+} {
   const [balanceDecimal, setBalanceDecimal] = useState<Decimal>(new Decimal(-1))
   const [ethereumAccount] = useAtom(ethereumAccountAtom)
   const { data: network } = useEthersNetworkQuery()
+  const [error, setError] = useState<Error | null | undefined>()
   const address = ethereumAccount?.address
+
+  const handleError = (error: Error) => {
+    console.error(error)
+    setError(error)
+    captureException(error)
+  }
 
   useEffect(() => {
     if (!address || !network) return
 
     const promiseFlag = ++flag
+
+    setError(null)
 
     try {
       ethers
@@ -31,16 +43,15 @@ export default function useEthereumAccountBalanceETHDecimal(): Decimal {
           }
         })
         .catch((error) => {
-          console.error(error)
-
-          captureException(error)
+          handleError(error)
         })
     } catch (error) {
-      console.error(error)
-
-      captureException(error)
+      handleError(error)
     }
   }, [address, network])
 
-  return balanceDecimal
+  return {
+    error,
+    value: balanceDecimal,
+  }
 }
