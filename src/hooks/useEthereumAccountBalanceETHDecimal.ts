@@ -1,3 +1,4 @@
+import { captureException } from '@sentry/react'
 import { Decimal } from 'decimal.js'
 import { ethers } from 'ethers'
 import { useAtom } from 'jotai'
@@ -12,24 +13,34 @@ export default function useEthereumAccountBalanceETHDecimal(): Decimal {
   const [ethereumAccount] = useAtom(ethereumAccountAtom)
   const { data: network } = useEthersNetworkQuery()
   const address = ethereumAccount?.address
-  const networkName = network?.name
 
   useEffect(() => {
-    if (!address || !networkName) return
+    if (!address || !network) return
 
     const promiseFlag = ++flag
 
-    ethers
-      .getDefaultProvider(networkName)
-      .getBalance(address)
-      .then((balance) => {
-        const balanceInEth = ethers.utils.formatEther(balance)
+    try {
+      ethers
+        .getDefaultProvider(network)
+        .getBalance(address)
+        .then((balance) => {
+          const balanceInEth = ethers.utils.formatEther(balance)
 
-        if (promiseFlag >= flag) {
-          setBalanceDecimal(new Decimal(balanceInEth))
-        }
-      })
-  }, [address, networkName])
+          if (promiseFlag >= flag) {
+            setBalanceDecimal(new Decimal(balanceInEth))
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+
+          captureException(error)
+        })
+    } catch (error) {
+      console.error(error)
+
+      captureException(error)
+    }
+  }, [address, network])
 
   return balanceDecimal
 }
