@@ -64,17 +64,17 @@ const ApproveDialog: React.FC<Props> = (props) => {
   }, [receipt, onClose])
 
   return (
-    <Modal visible={visible} title="Approve">
+    <Modal visible={visible} title="Approve PHA">
       <Content>
         In order for the bridge to move your ERC2O tokens to Khala Network, it
         first needs your approval. This is only required once per ERC2O token!
       </Content>
 
       <ModalActions>
-        <ModalAction>
+        <ModalAction full>
           <Button onClick={onClose}>Reject</Button>
         </ModalAction>
-        <ModalAction>
+        <ModalAction full>
           <Button loading={isSubmitting} type="primary" onClick={startApprove}>
             Confirm
           </Button>
