@@ -69,6 +69,7 @@ const ApproveDialog: React.FC<Props> = (props) => {
         In order for the bridge to move your ERC2O tokens to Khala Network, it
         first needs your approval. This is only required once per ERC2O token!
       </Content>
+
       <ModalActions>
         <ModalAction>
           <Button onClick={onClose}>Reject</Button>
