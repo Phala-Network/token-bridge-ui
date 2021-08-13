@@ -115,53 +115,51 @@ const InputDataStep: React.FC<Props> = (props) => {
   }, [currentAddress])
 
   const submit = () => {
-    setModalVisible(true)
+    const accountFrom = isFromEthereum
+      ? ethereumAccountAddress
+      : polkadotAccountAddress
+    const amountTo = amountInput
+    let errorString = ''
 
-    // const accountFrom = isFromEthereum
-    //   ? ethereumAccountAddress
-    //   : polkadotAccountAddress
-    // const amountTo = amountInput
-    // let errorString = ''
+    setErrorString(errorString)
 
-    // setErrorString(errorString)
+    if (!amountTo) {
+      errorString = 'Need enter amount'
+    } else if (!recipient) {
+      errorString = 'Need enter recipient'
+    } else if (!validateAddress(recipient)) {
+      errorString = 'Need enter the correct recipient'
+    } else if (!accountFrom) {
+      errorString = 'Need login'
+    } else if (new Decimal(amountTo).greaterThan(new Decimal(maxAmount))) {
+      errorString = 'Insufficient balance'
+    }
 
-    // if (!amountTo) {
-    //   errorString = 'Need enter amount'
-    // } else if (!recipient) {
-    //   errorString = 'Need enter recipient'
-    // } else if (!validateAddress(recipient)) {
-    //   errorString = 'Need enter the correct recipient'
-    // } else if (!accountFrom) {
-    //   errorString = 'Need login'
-    // } else if (new Decimal(amountTo).greaterThan(new Decimal(maxAmount))) {
-    //   errorString = 'Insufficient balance'
-    // }
+    if (errorString) {
+      isMobile
+        ? toast({
+            text: errorString,
+          })
+        : setErrorString(errorString)
+      return
+    }
 
-    // if (errorString) {
-    //   isMobile
-    //     ? toast({
-    //         text: errorString,
-    //       })
-    //     : setErrorString(errorString)
-    //   return
-    // }
-
-    // onNext({
-    //   from: {
-    //     ...tradeTypeSelectValue.from,
-    //     // NOTE: The code is checked
-    //     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    //     account: accountFrom!,
-    //     balance: currentBalance,
-    //   },
-    //   to: {
-    //     ...tradeTypeSelectValue.to,
-    //     account: recipient,
-    //   },
-    //   // NOTE: The code is checked
-    //   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    //   amount: new Decimal(amountTo!),
-    // })
+    onNext({
+      from: {
+        ...tradeTypeSelectValue.from,
+        // NOTE: The code is checked
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        account: accountFrom!,
+        balance: currentBalance,
+      },
+      to: {
+        ...tradeTypeSelectValue.to,
+        account: recipient,
+      },
+      // NOTE: The code is checked
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      amount: new Decimal(amountTo!),
+    })
   }
 
   return (
