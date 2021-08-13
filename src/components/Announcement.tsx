@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 type Props = any
 
-const Link = styled.a`
+export const AnnouncementLink = styled.a`
   text-decoration-line: underline;
   color: #03b8ff;
 
@@ -52,11 +52,9 @@ const CloseIcon = styled.div`
   }
 `
 
-const Announcement: React.FC<Props> = () => {
+const Announcement: React.FC<Props> = (props) => {
   const [closed, setClosed] = useState(false)
-  const link = 'https://phala.network'
-  const text =
-    'CPU time, on-chain storage, network bandwidth, off-chain storage, and more resources. Phala provides a wide-ranged infrastructure including cross-chain confidential widgets, and trustless general-purpose computing platform. All these features are accessible with PHA. To be a Gatekeeper one must stake a certain amount of PHA. The stake would be fined and took if he betrayed Gatekeeper rules.'
+  const link = ''
 
   if (closed) return null
 
@@ -82,11 +80,11 @@ const Announcement: React.FC<Props> = () => {
         </svg>
       </NotificationIcon>
       <Content>
-        {text}{' '}
+        {props.children}{' '}
         {link && (
-          <Link target="_blank" href={link}>
+          <AnnouncementLink target="_blank" href={link}>
             see more
-          </Link>
+          </AnnouncementLink>
         )}
       </Content>
       <CloseIcon onClick={close}>
