@@ -40,7 +40,7 @@ const BridgePage: React.FC = () => {
       </Helmet>
       <RightContent>
         <Announcement>
-          Technical upgrade and maintenance, temporarily unavailable.You can
+          Technical upgrade and maintenance, temporarily unavailable. You can
           contact us on{' '}
           <AnnouncementLink
             target="_blank"
