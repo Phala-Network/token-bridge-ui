@@ -10,6 +10,8 @@ import useEthereumAccountBalanceDecimal from '../../../hooks/useEthereumAccountB
 import usePolkadotAccountBalanceDecimal from '../../../hooks/usePolkadotAccountBalanceDecimal'
 import { voidFn } from '../../../types/normal'
 import validateAddress from '../../../utils/validateAddress'
+import AlertModal from '../../AlertModal'
+import { AnnouncementLink } from '../../Announcement'
 import Button from '../../Button'
 import ErrorText from '../../ErrorText'
 import Input from '../../Input'
@@ -48,6 +50,7 @@ type Props = {
 } & StepProps
 
 const InputDataStep: React.FC<Props> = (props) => {
+  const [modalVisible, setModalVisible] = useState(false)
   const isMobile = useBreakpoint(down('sm'))
   const { layout, onNext, onCancel } = props
   const [amountInput, setAmountInput] = useState<number>()
@@ -112,55 +115,74 @@ const InputDataStep: React.FC<Props> = (props) => {
   }, [currentAddress])
 
   const submit = () => {
-    const accountFrom = isFromEthereum
-      ? ethereumAccountAddress
-      : polkadotAccountAddress
-    const amountTo = amountInput
-    let errorString = ''
+    setModalVisible(true)
 
-    setErrorString(errorString)
+    // const accountFrom = isFromEthereum
+    //   ? ethereumAccountAddress
+    //   : polkadotAccountAddress
+    // const amountTo = amountInput
+    // let errorString = ''
 
-    if (!amountTo) {
-      errorString = 'Need enter amount'
-    } else if (!recipient) {
-      errorString = 'Need enter recipient'
-    } else if (!validateAddress(recipient)) {
-      errorString = 'Need enter the correct recipient'
-    } else if (!accountFrom) {
-      errorString = 'Need login'
-    } else if (new Decimal(amountTo).greaterThan(new Decimal(maxAmount))) {
-      errorString = 'Insufficient balance'
-    }
+    // setErrorString(errorString)
 
-    if (errorString) {
-      isMobile
-        ? toast({
-            text: errorString,
-          })
-        : setErrorString(errorString)
-      return
-    }
+    // if (!amountTo) {
+    //   errorString = 'Need enter amount'
+    // } else if (!recipient) {
+    //   errorString = 'Need enter recipient'
+    // } else if (!validateAddress(recipient)) {
+    //   errorString = 'Need enter the correct recipient'
+    // } else if (!accountFrom) {
+    //   errorString = 'Need login'
+    // } else if (new Decimal(amountTo).greaterThan(new Decimal(maxAmount))) {
+    //   errorString = 'Insufficient balance'
+    // }
 
-    onNext({
-      from: {
-        ...tradeTypeSelectValue.from,
-        // NOTE: The code is checked
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        account: accountFrom!,
-        balance: currentBalance,
-      },
-      to: {
-        ...tradeTypeSelectValue.to,
-        account: recipient,
-      },
-      // NOTE: The code is checked
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      amount: new Decimal(amountTo!),
-    })
+    // if (errorString) {
+    //   isMobile
+    //     ? toast({
+    //         text: errorString,
+    //       })
+    //     : setErrorString(errorString)
+    //   return
+    // }
+
+    // onNext({
+    //   from: {
+    //     ...tradeTypeSelectValue.from,
+    //     // NOTE: The code is checked
+    //     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    //     account: accountFrom!,
+    //     balance: currentBalance,
+    //   },
+    //   to: {
+    //     ...tradeTypeSelectValue.to,
+    //     account: recipient,
+    //   },
+    //   // NOTE: The code is checked
+    //   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    //   amount: new Decimal(amountTo!),
+    // })
   }
 
   return (
     <>
+      <AlertModal
+        content={
+          <div>
+            Technical upgrade and maintenance, temporarily unavailable. You can
+            contact us on{' '}
+            <AnnouncementLink
+              target="_blank"
+              href="https://discord.com/invite/kpYj9GWjwN">
+              Discord
+            </AnnouncementLink>
+            .
+          </div>
+        }
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
+
       <div style={{ height: 26 }}>
         <InputExternalInfo
           label={'Balance'}

@@ -1,7 +1,8 @@
 import { ethers } from 'ethers'
 import React, { cloneElement, FC, useMemo, useState } from 'react'
 import { useErc20AssetHandlerAllowanceQuery } from '../../../libs/ethereum/queries/useErc20AllowanceQuery'
-import ApproveDialog from './ApproveDialog'
+import AlertModal from '../../AlertModal'
+import { AnnouncementLink } from '../../Announcement'
 
 type Props = {
   account?: string
@@ -26,9 +27,26 @@ const EthereumAllowance: FC<Props> = (props: Props) => {
       {cloneElement(placeholder, {
         onClick: () => setModalVisible(true),
       })}
-      <ApproveDialog
+      {/* <ApproveDialog
         visible={modalVisible}
-        onClose={() => setModalVisible(false)}></ApproveDialog>
+        onClose={() => setModalVisible(false)}></ApproveDialog> */}
+
+      <AlertModal
+        content={
+          <div>
+            Technical upgrade and maintenance, temporarily unavailable. You can
+            contact us on{' '}
+            <AnnouncementLink
+              target="_blank"
+              href="https://discord.com/invite/kpYj9GWjwN">
+              Discord
+            </AnnouncementLink>
+            .
+          </div>
+        }
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
     </>
   )
 }
