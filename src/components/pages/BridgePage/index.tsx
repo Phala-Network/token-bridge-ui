@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { down } from 'styled-breakpoints'
 import styled from 'styled-components'
+import Announcement, { AnnouncementLink } from '../../Announcement'
 import InputDataStep, { InputDataStepResult } from '../../bridge/InputDataStep'
 import SubmitStepModal from '../../bridge/SubmitStep/SubmitStepModal'
 import Transactions from '../../transactions/Transactions'
@@ -38,8 +39,16 @@ const BridgePage: React.FC = () => {
         <title>Phala App</title>
       </Helmet>
       <RightContent>
-        {/* TODO: need a message api */}
-        {/* <Announcement></Announcement> */}
+        <Announcement>
+          Technical upgrade and maintenance, temporarily unavailable.You can
+          contact us on{' '}
+          <AnnouncementLink
+            target="_blank"
+            href="https://discord.com/invite/kpYj9GWjwN">
+            Discord
+          </AnnouncementLink>
+          .
+        </Announcement>
         <WhiteCard>
           <InputDataStep layout={'flex'} onNext={showSubmitModal} />
 
